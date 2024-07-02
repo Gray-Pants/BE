@@ -1,3 +1,17 @@
 spring:
   application:
     name: Gray-Pants
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    defer-datasource-initialization: true
+    datasource:
+      url: jdbc:h2:mem:testdb
+      username: sa
+    h2:
+      console:
+        enabled: true
+  profiles:
+    include: oauth
