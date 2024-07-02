@@ -1,4 +1,4 @@
-package src.main.java.com.poku.graypants.domain.product.persistence;
+package com.poku.graypants.domain.product.persistence;
 /**
  * @author HAYEON
  */
@@ -29,6 +29,7 @@ public class Alert {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User users;
+
 
     //@ManyToOne
     //@JoinColumn(name = "store_id")

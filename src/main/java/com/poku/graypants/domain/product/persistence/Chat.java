@@ -15,15 +15,15 @@ public class Chat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int chatId;
 
-    @Column(nullable = false, length = 1000)
+    @Column(name = "chat_message", nullable = false, length = 1000)
     private String chatMessage;
 
-    @Column(nullable = false)
+    @Column(name = "created_at", nullable = false)
     private LocalDate createdAt;
 
-    @Column(nullable = false)
-    private int receverID;
+    //받는 사람??
 
-    @Column(nullable = false)
-    private int storeId;
+    //@ManyToOne
+    //@JoinColumn(name = "store_id")
+    //private Store store;
 }

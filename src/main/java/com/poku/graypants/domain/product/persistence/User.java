@@ -1,7 +1,8 @@
-package src.main.java.com.poku.graypants.domain.product.persistence;
+package com.poku.graypants.domain.product.persistence;
 /**
  * @author HAYEON
  */
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import java.time.LocalDate;
@@ -25,6 +26,7 @@ public class User {
     @Column(name = "social_login_type", nullable = false, length = 50)
     private String socialLoginType;
 
+    //Enum
     @Column(name = "grade", nullable = false, length = 50)
     private String grade;
 

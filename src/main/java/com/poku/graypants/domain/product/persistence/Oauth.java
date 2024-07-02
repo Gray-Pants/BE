@@ -1,4 +1,4 @@
-package src.main.java.com.poku.graypants.domain.product.persistence;
+package com.poku.graypants.domain.product.persistence;
 /**
  * @author HAYEON
  */
