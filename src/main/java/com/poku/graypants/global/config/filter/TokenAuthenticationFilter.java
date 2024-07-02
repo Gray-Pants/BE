@@ -27,7 +27,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             Authentication authentication = tokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-        doFilterInternal(request, response, filterChain);
+        filterChain.doFilter(request, response);
     }
 
     private String getAccessToken(final String authorizationHeader) {
