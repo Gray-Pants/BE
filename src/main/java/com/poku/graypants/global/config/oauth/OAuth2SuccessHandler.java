@@ -27,7 +27,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final JwtProvider tokenProvider;
     private final UserRepository userRepository;
     private final OAuth2AuthorizationRequestBasedOnCookieRepository authorizationRequestRepository;
-    private final UserService userService;
 
     /**
      * OAuth2 로그인 성공 시 처리하는 메소드
