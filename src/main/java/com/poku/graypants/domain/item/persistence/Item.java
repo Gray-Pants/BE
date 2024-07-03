@@ -1,8 +1,9 @@
-package com.poku.graypants.domain.product.persistence;
+package com.poku.graypants.domain.item.persistence;
 
+import com.poku.graypants.domain.order.persistence.OrderItem;
+import com.poku.graypants.domain.store.persistence.Store;
 import jakarta.persistence.*;
 import lombok.*;
-import org.apache.logging.log4j.util.Lazy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 

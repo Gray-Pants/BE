@@ -1,4 +1,4 @@
-package com.poku.graypants.domain.product.persistence;
+package com.poku.graypants.domain.item.persistence;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
