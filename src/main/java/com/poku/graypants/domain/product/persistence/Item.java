@@ -1,10 +1,7 @@
 package com.poku.graypants.domain.product.persistence;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.apache.logging.log4j.util.Lazy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -14,7 +11,7 @@ import java.time.LocalDateTime;
 import static jakarta.persistence.FetchType.*;
 
 @Entity
-@Getter @Setter
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Item {
 
@@ -55,5 +52,13 @@ public class Item {
     @JoinColumn(name = "category_id")
     private Category category;
 
-
+    @Builder
+    public Item(String itemName, int itemPrice, String itemDescImg, int stock, Store store, Category category) {
+        this.itemName = itemName;
+        this.itemPrice = itemPrice;
+        this.itemDescImg = itemDescImg;
+        this.stock = stock;
+        this.store = store;
+        this.category = category;
+    }
 }

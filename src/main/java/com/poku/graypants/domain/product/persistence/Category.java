@@ -2,6 +2,7 @@ package com.poku.graypants.domain.product.persistence;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,4 +32,12 @@ public class Category {
 
     @OneToMany(fetch = LAZY, mappedBy = "parent")
     private List<Category> children;
+
+    @Builder
+    public Category(List<Item> item, String categoryName, Category parent, List<Category> children) {
+        this.item = item;
+        this.categoryName = categoryName;
+        this.parent = parent;
+        this.children = children;
+    }
 }
