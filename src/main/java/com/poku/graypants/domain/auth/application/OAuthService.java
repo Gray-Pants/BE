@@ -1,4 +1,4 @@
-package com.poku.graypants.domain.application;
+package com.poku.graypants.domain.auth.application;
 
 import com.poku.graypants.domain.auth.persistence.OAuth;
 import com.poku.graypants.domain.auth.persistence.OAuthRepository;

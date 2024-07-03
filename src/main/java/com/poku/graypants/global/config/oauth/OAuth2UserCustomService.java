@@ -1,6 +1,6 @@
 package com.poku.graypants.global.config.oauth;
 
-import com.poku.graypants.domain.application.OAuthService;
+import com.poku.graypants.domain.auth.application.OAuthService;
 import com.poku.graypants.domain.auth.persistence.OAuth;
 import com.poku.graypants.domain.user.persistence.User;
 import com.poku.graypants.global.config.oauth.info.OAuth2UserInfo;
