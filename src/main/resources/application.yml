@@ -14,4 +14,4 @@ spring:
     console:
       enabled: true
   profiles:
-    include: oauth
+    include: oauth, mail
