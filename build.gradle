@@ -35,6 +35,10 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    implementation 'javax.validation:validation-api:2.0.1.Final'
+    implementation 'org.hibernate.validator:hibernate-validator:6.0.13.Final'
+    implementation 'org.glassfish:jakarta.el:3.0.3'  // 필요한 경우 추가
 }
 
 tasks.named('test') {
