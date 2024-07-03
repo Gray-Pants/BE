@@ -1,5 +1,7 @@
-package com.poku.graypants.domain.product.persistence;
+package com.poku.graypants.domain.store.persistence;
 
+import com.poku.graypants.domain.item.persistence.Item;
+import com.poku.graypants.domain.order.persistence.OrderItem;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
