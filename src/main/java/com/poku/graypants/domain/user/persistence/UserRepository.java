@@ -2,10 +2,12 @@ package com.poku.graypants.domain.user.persistence;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * UserRepository User 엔티티의 JPA Repository
  */
+@Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
@@ -15,6 +17,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return Optional<User>
      */
     Optional<User> findByEmail(String email);
-
-    Optional<User> findByOauth2Id(String oauthId);
 }
