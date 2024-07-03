@@ -7,6 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static jakarta.persistence.FetchType.*;
 
@@ -52,6 +53,13 @@ public class Item {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @OneToMany(mappedBy = "item")
+    private List<OrderItem> orderItems;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "item_photo")
+    private ItemPhoto itemPhoto;
+
     @Builder
     public Item(String itemName, int itemPrice, String itemDescImg, int stock, Store store, Category category) {
         this.itemName = itemName;
@@ -61,4 +69,5 @@ public class Item {
         this.store = store;
         this.category = category;
     }
+
 }

@@ -20,9 +20,6 @@ public class Store {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long storeId;
 
-    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = LAZY)
-    private List<Item> itemList = new ArrayList<>();
-
     @Column(name = "store_name", length = 50, nullable = false, unique = true)
     private String storeName;
 
@@ -37,6 +34,12 @@ public class Store {
 
     @LastModifiedDate
     private LocalDateTime updated_at;
+
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = LAZY)
+    private List<Item> itemList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = LAZY)
+    private List<OrderItem> orderItemList = new ArrayList<>();
 
     @Builder
     public Store(List<Item> itemList, String storeName, String storeEmail, String storePassword) {
