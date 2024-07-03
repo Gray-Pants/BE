@@ -15,11 +15,11 @@ public class OAuth2UserInfoFactory {
      * @return OAuth2MemberInfo
      */
     public static OAuth2UserInfo createOAuth2MemberInfo(String oAuthType, Map<String, Object> attributes) {
-        if (oAuthType.equals("kakao")) {
-            return new KakaoUserInfo(attributes);
-        } else if (oAuthType.equals("google")) {
-            return new GoogleUserInfo(attributes);
-        }
-        throw new IllegalArgumentException("지원하지 않는 OAuth2 공급자입니다.");
+        return switch (oAuthType) {
+            case "kakao" -> new KakaoUserInfo(attributes);
+            case "google" -> new GoogleUserInfo(attributes);
+            case "naver" -> new NaverUserInfo((Map<String, Object>) attributes.get("response"));
+            default -> throw new IllegalArgumentException("지원하지 않는 OAuth2 공급자입니다.");
+        };
     }
 }
