@@ -1,11 +1,13 @@
-package com.poku.graypants.domain.product.persistence;
+package com.poku.graypants.domain.order.persistence;
 
+import com.poku.graypants.domain.item.persistence.Item;
+import com.poku.graypants.domain.store.persistence.Store;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.core.annotation.Order;
+
 
 import static jakarta.persistence.FetchType.*;
 
@@ -45,7 +47,6 @@ public class OrderItem {
     private Store store;
 
     @Builder
-
     public OrderItem(int orderItemPrice, int orderItemQuantity, OrderItemStatus orderItemStatus, String orderItemAddr, String orderItemPhone, Order order, Item item, Store store) {
         this.orderItemPrice = orderItemPrice;
         this.orderItemQuantity = orderItemQuantity;
