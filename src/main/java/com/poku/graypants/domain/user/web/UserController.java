@@ -18,8 +18,6 @@ public class UserController {
 
     @GetMapping("/me")
     public ResponseEntity<ApiResult<User>> me(Authentication authentication){
-
-        System.out.println(authentication.getDetails());
         return new ResponseEntity<>(success((User)authentication.getPrincipal()), HttpStatus.OK);
     }
 }
