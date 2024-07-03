@@ -17,11 +17,10 @@ import static jakarta.persistence.FetchType.*;
 public class Store {
 
     @Id
-    @GeneratedValue
-    private long storeId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long storeId;
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = LAZY)
-    @JoinColumn(name = "item_id")
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = LAZY)
     private List<Item> itemList = new ArrayList<>();
 
     @Column(name = "store_name", length = 50, nullable = false, unique = true)

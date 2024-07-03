@@ -19,7 +19,7 @@ import static jakarta.persistence.FetchType.*;
 public class Item {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id", nullable = false, unique = true)
     private long Id;
 
@@ -51,7 +51,7 @@ public class Item {
     @JoinColumn(name = "store_id")
     private Store store;
 
-    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 

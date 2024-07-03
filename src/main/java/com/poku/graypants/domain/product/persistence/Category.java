@@ -15,21 +15,20 @@ import static jakarta.persistence.FetchType.*;
 public class Category {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id",unique = true, nullable = false)
-    private long categoryId;
+    private Long categoryId;
 
-    @OneToOne(mappedBy = "item", fetch = LAZY)
-    private Item item;
+    @OneToMany(mappedBy = "category", fetch = LAZY)
+    private List<Item> item;
 
     @Column(name = "category_name", length = 50, nullable = false, unique = true)
     private String categoryName;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "parent_id")
     private Category parent;
 
     @OneToMany(fetch = LAZY, mappedBy = "parent")
-    @JoinColumn(name = "upper_category_id2")
-    private List<Category> category;
+    private List<Category> children;
 }
