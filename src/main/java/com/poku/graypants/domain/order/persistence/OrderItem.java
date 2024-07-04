@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import static jakarta.persistence.FetchType.*;
 
 @Entity
+@Table(name = "ORDER_ITEMS")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItem {

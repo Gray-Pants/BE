@@ -11,6 +11,7 @@ import java.util.List;
 import static jakarta.persistence.FetchType.*;
 
 @Entity
+@Table(name = "CATEGORIES")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Category {

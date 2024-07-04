@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import static jakarta.persistence.FetchType.*;
 
 @Entity
+@Table(name = "ITEM_PHOTOS")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ItemPhoto {

@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import static jakarta.persistence.FetchType.*;
 
 @Entity
+@Table(name = "CART_ITEMS")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CartItem {
