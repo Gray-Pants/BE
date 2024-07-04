@@ -5,7 +5,10 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public enum ExceptionStatus {
-    PRODUCT_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "Product Not Found");
+
+
+    RANDOM_NUMBER_GENERATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, 500, "Random Number Generate Failed"),
+    ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "Product Not Found");
 
 
     private final int status;
