@@ -1,5 +1,7 @@
 package com.poku.graypants.domain.item.persistence;
 
+import com.poku.graypants.domain.item.application.dto.ItemRequestDto;
+import com.poku.graypants.domain.item.application.dto.ItemUpdateDto;
 import com.poku.graypants.domain.cart.persistence.CartItem;
 import com.poku.graypants.domain.order.persistence.OrderItem;
 import com.poku.graypants.domain.store.persistence.Store;
@@ -52,28 +54,37 @@ public class Item {
     @JoinColumn(name = "store_id")
     private Store store;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", fetch = LAZY)
     private List<OrderItem> orderItems;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "item_photo")
-    private ItemPhoto itemPhoto;
+    @OneToMany(mappedBy = "item" ,fetch = LAZY)
+    private List<ItemPhoto> itemPhotos;
 
     @OneToMany(mappedBy = "item")
     private List<CartItem> cartItems;
 
     @Builder
-    public Item(String itemName, int itemPrice, String itemDescImg, int stock, Store store, Category category) {
+    public Item(String itemName, int itemPrice, String itemDescImg, int stock, Store store, Category category, List<ItemPhoto> itemPhotos) {
         this.itemName = itemName;
         this.itemPrice = itemPrice;
         this.itemDescImg = itemDescImg;
         this.stock = stock;
         this.store = store;
         this.category = category;
+        this.itemPhotos = itemPhotos;
+    }
+
+    public Item updateItem(ItemUpdateDto dto) {
+        this.itemName = dto.getItemName();
+        this.itemPrice = dto.getItemPrice();
+        //this.itemPhotos = dto.getItemPhotosDto();
+        this.itemDescImg = dto.getItemDescImg();
+        this.stock = dto.getStock();
+        this.category = dto.getCategory();
+
+        return this;
     }
 
 }
