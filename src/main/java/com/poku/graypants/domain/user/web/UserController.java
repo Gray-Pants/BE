@@ -30,18 +30,4 @@ public class UserController {
     }
 
 
-    @PostMapping("/emails/verification-requests")
-    public ResponseEntity sendMessage(@RequestParam("email") String email) {
-        userService.sendCodeToEmail(email);
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @GetMapping("/emails/verifications")
-    public ResponseEntity verificationEmail(@RequestParam("email") String email,
-                                            @RequestParam("code") String authCode) {
-        if(userService.verifiedCode(email, authCode))
-            return new ResponseEntity<>(success("인증 성공"), HttpStatus.OK);
-        return new ResponseEntity<>(error("인증 실패"), HttpStatus.FORBIDDEN);
-    }
 }
