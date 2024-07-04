@@ -1,5 +1,6 @@
 package com.poku.graypants.domain.item.persistence;
 
+import com.poku.graypants.domain.cart.CartItem;
 import com.poku.graypants.domain.order.persistence.OrderItem;
 import com.poku.graypants.domain.store.persistence.Store;
 import jakarta.persistence.*;
@@ -60,6 +61,9 @@ public class Item {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "item_photo")
     private ItemPhoto itemPhoto;
+
+    @OneToMany(mappedBy = "item")
+    private List<CartItem> cartItems;
 
     @Builder
     public Item(String itemName, int itemPrice, String itemDescImg, int stock, Store store, Category category) {
