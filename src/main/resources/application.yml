@@ -15,3 +15,7 @@ spring:
       enabled: true
   profiles:
     include: oauth, mail
+  data:
+    redis:
+      host: localhost
+      port: 6379
