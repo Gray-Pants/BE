@@ -1,6 +1,6 @@
 package com.poku.graypants.domain.item.persistence;
 
-import com.poku.graypants.domain.cart.CartItem;
+import com.poku.graypants.domain.cart.persistence.CartItem;
 import com.poku.graypants.domain.order.persistence.OrderItem;
 import com.poku.graypants.domain.store.persistence.Store;
 import jakarta.persistence.*;

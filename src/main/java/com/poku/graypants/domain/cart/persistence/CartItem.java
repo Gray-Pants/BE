@@ -1,4 +1,4 @@
-package com.poku.graypants.domain.cart;
+package com.poku.graypants.domain.cart.persistence;
 
 import com.poku.graypants.domain.item.persistence.Item;
 import jakarta.persistence.*;
