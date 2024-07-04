@@ -4,6 +4,8 @@ import com.poku.graypants.domain.item.application.ItemService;
 import com.poku.graypants.domain.item.application.dto.ItemRequestDto;
 import com.poku.graypants.domain.item.application.dto.ItemResponseDto;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,10 +16,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/items")
+@RequiredArgsConstructor
 public class ItemController {
 
-    @Autowired
-    private ItemService itemService;
+    private final ItemService itemService;
 
     @GetMapping("/{id}")
     public ResponseEntity<ItemResponseDto> getItem(@PathVariable Long id) {

@@ -1,6 +1,7 @@
 package com.poku.graypants.domain.item.persistence;
 
 import com.poku.graypants.domain.item.application.dto.ItemRequestDto;
+import com.poku.graypants.domain.item.application.dto.ItemUpdateDto;
 import com.poku.graypants.domain.order.persistence.OrderItem;
 import com.poku.graypants.domain.store.persistence.Store;
 import jakarta.persistence.*;
@@ -70,13 +71,15 @@ public class Item {
         this.itemPhotos = itemPhotos;
     }
 
-    public void updateItem(ItemRequestDto dto) {
+    public Item updateItem(ItemUpdateDto dto) {
         this.itemName = dto.getItemName();
         this.itemPrice = dto.getItemPrice();
         //this.itemPhotos = dto.getItemPhotosDto();
         this.itemDescImg = dto.getItemDescImg();
         this.stock = dto.getStock();
         this.category = dto.getCategory();
+
+        return this;
     }
 
 }

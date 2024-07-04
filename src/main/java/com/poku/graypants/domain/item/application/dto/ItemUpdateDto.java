@@ -1,13 +1,14 @@
 package com.poku.graypants.domain.item.application.dto;
 
 import com.poku.graypants.domain.item.persistence.Category;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class ItemRequestDto {
+public class ItemUpdateDto {
 
     private String itemName;
     private int itemPrice;
@@ -16,5 +17,4 @@ public class ItemRequestDto {
     private int stock;
     private String storeName;
     private Category category;
-
 }

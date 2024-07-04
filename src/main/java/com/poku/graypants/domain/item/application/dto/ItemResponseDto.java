@@ -2,6 +2,7 @@ package com.poku.graypants.domain.item.application.dto;
 
 
 import com.poku.graypants.domain.item.persistence.Category;
+import com.poku.graypants.domain.item.persistence.Item;
 import com.poku.graypants.domain.store.persistence.Store;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
@@ -24,17 +25,15 @@ public class ItemResponseDto {
 
     @Builder
     @QueryProjection
-    public ItemResponseDto(Long id, String itemName, int itemPrice, int stock,
-                           String itemDescImg, LocalDateTime created_at, LocalDateTime updated_at,
-                           String storeName, String categoryTitle) {
-        this.id = id;
-        this.itemName = itemName;
-        this.itemPrice = itemPrice;
-        this.stock = stock;
-        this.itemDescImg = itemDescImg;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-        this.storeName = storeName;
-        this.categoryTitle = categoryTitle;
+    public ItemResponseDto(Item item) {
+        this.id = item.getId();
+        this.itemName = item.getItemName();
+        this.itemPrice = item.getItemPrice();
+        this.stock = item.getStock();
+        this.itemDescImg = item.getItemDescImg();
+        this.created_at = item.getCreated_at();
+        this.updated_at = item.getUpdated_at();
+        this.storeName = item.getStore().getStoreName();
+        this.categoryTitle = item.getCategory().getTitle();
     }
 }
