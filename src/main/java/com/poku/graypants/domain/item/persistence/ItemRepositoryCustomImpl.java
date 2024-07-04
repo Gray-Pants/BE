@@ -24,7 +24,7 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
     public List<ItemResponseDto> searchItemList(String name) {
         query = new JPAQueryFactory(em);
         return query.
-                select(new QItemResponseDto(item.Id, item.itemName, item.itemPrice, item.stock, item.itemDescImg, item.created_at, item.updated_at, item.store.storeName, item.category.categoryName))
+                select(new QItemResponseDto(item))
                 .from(item)
                 .where(item.itemName.contains(name)
                         .or(item.store.storeName.contains(name)))
