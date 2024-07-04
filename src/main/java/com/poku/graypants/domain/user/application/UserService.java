@@ -4,10 +4,11 @@ import com.poku.graypants.domain.user.persistence.User;
 import com.poku.graypants.domain.user.persistence.UserRepository;
 import com.poku.graypants.global.config.oauth.info.OAuth2UserInfo;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final String DEFAULT_ROLE = "ROLE_DEFAULT";
