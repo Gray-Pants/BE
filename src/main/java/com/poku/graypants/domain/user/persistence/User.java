@@ -1,14 +1,13 @@
 package com.poku.graypants.domain.user.persistence;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.poku.graypants.domain.like.persistence.Like;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -36,9 +35,13 @@ public class User {
     @Column(name="refresh_token")
     private String refreshToken;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Like> likes = new ArrayList<>();
+
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
+
     @Builder
     public User(String username, String email, String password, String grade) {
         this.username = username;
