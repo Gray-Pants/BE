@@ -2,17 +2,13 @@ package com.poku.graypants.domain.item.application;
 
 import com.poku.graypants.domain.item.application.dto.*;
 import com.poku.graypants.domain.item.persistence.Item;
+import com.poku.graypants.domain.item.persistence.ItemRepositoryCustom;
 import com.poku.graypants.domain.item.persistence.ItemRepository;
-import com.poku.graypants.domain.item.persistence.QItem;
-import com.poku.graypants.domain.store.persistence.StoreRepository;
 import com.poku.graypants.global.exception.ExceptionStatus;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.net.Authenticator;
 import java.util.List;
 
 @Service
@@ -23,13 +19,10 @@ public class ItemService {
     private ItemRepository itemRepository;
 
     @Autowired
-    private StoreRepository storeRepository;
+    private ItemRepositoryCustom itemRepositoryCustom;
 
-    @Autowired
-    EntityManager em;
-    JPAQueryFactory query;
 
-    public ItemResponseDto createItem(Authenticator authenticator, ItemCreateDto itemCreateDto) {
+    public ItemResponseDto createItem(ItemCreateDto itemCreateDto) {
         // USER email 을 통한 STORE 받아오기
         // authenticator.
         //return new ItemResponseDto(itemRepository.save(itemCreateDto.toEntity()));
@@ -44,15 +37,7 @@ public class ItemService {
 
 
     public List<ItemResponseDto> findByNameAll(String name) {
-        query = new JPAQueryFactory(em);
-        QItem item = QItem.item;
-         List<ItemResponseDto> searchItemList = query.
-            select(new QItemResponseDto(item.Id, item.itemName, item.itemPrice, item.stock, item.itemDescImg, item.created_at, item.updated_at, item.store.storeName, item.category.categoryName))
-                .from(item)
-                .where(item.itemName.contains(name)
-                        .or(item.store.storeName.contains(name)))
-                .fetch();
-         return searchItemList;
+        return itemRepositoryCustom.searchItemList(name);
     }
 
     public ItemResponseDto findById(Long id) {

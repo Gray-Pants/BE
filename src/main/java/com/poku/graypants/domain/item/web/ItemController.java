@@ -1,8 +1,10 @@
 package com.poku.graypants.domain.item.web;
 
 import com.poku.graypants.domain.item.application.ItemService;
+import com.poku.graypants.domain.item.application.dto.ItemCreateDto;
 import com.poku.graypants.domain.item.application.dto.ItemRequestDto;
 import com.poku.graypants.domain.item.application.dto.ItemResponseDto;
+import com.poku.graypants.domain.item.application.dto.ItemUpdateDto;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,15 +32,15 @@ public class ItemController {
     }
 
     @PostMapping("/item")
-    public ResponseEntity<ItemResponseDto> createItem(@RequestBody ItemRequestDto itemRequestDto) {
-        ItemResponseDto responseDto = itemService.createItem(itemRequestDto);
+    public ResponseEntity<ItemResponseDto> createItem(@RequestBody ItemCreateDto itemCreateDto) {
+        ItemResponseDto responseDto = itemService.createItem(itemCreateDto);
 
         return new ResponseEntity<>(responseDto, new HttpHeaders(), HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<ItemResponseDto> updateItem(@RequestBody ItemRequestDto itemRequestDto, @PathVariable Long id) {
-        ItemResponseDto responseDto = itemService.updateItem(id, itemRequestDto);
+    public ResponseEntity<ItemResponseDto> updateItem(@RequestBody ItemUpdateDto itemUpdateDto, @PathVariable Long id) {
+        ItemResponseDto responseDto = itemService.updateItem(id, itemUpdateDto);
         return new ResponseEntity<>(responseDto, new HttpHeaders(), HttpStatus.OK);
     }
 
@@ -48,7 +51,7 @@ public class ItemController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteItem(@PathVariable Long id, HttpServletResponse response) {
+    public ResponseEntity deleteItem(@PathVariable Long id) {
         itemService.deleteItem(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

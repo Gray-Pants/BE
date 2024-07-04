@@ -12,7 +12,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class OAuthService {
+public class
+OAuthService {
     private final OAuthRepository oAuthRepository;
     private final UserService userService;
 
