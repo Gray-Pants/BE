@@ -46,4 +46,8 @@ public class CartItem {
         this.cart = cart;
         this.item = item;
     }
+    //==비즈니스 로직==//
+    public void updateQuantity(int newQuantity) {
+        this.cartItemQuantity = newQuantity;
+    }
 }

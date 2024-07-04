@@ -1,4 +1,4 @@
-package com.poku.graypants.domain.cart;
+package com.poku.graypants.domain.cart.persistence;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -10,11 +10,4 @@ import java.util.Optional;
  */
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Long> {
-
-    /**
-     *
-     * @param cartId
-     * @return Optional<Cart>
-     */
-    Optional<Cart> findByCartId(Long cartId);
 }

@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "CARTS")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Cart {
 
     @Id
@@ -31,8 +31,4 @@ public class Cart {
     @OneToMany(mappedBy = "cart")
     private List<CartItem> cartItems;
 
-    @Builder
-    public Cart(List<CartItem> cartItems) {
-        this.cartItems = cartItems;
-    }
 }
