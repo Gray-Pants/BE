@@ -1,11 +1,7 @@
 package com.poku.graypants.domain.user.persistence;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.poku.graypants.domain.cart.persistence.Cart;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,6 +31,9 @@ public class User {
 
     @Column(name="refresh_token")
     private String refreshToken;
+
+    @OneToOne(mappedBy = "user")
+    private Cart cart;
 
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;

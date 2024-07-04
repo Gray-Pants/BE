@@ -1,8 +1,9 @@
+package com.poku.graypants.domain.cart.web;
+
 import com.poku.graypants.domain.cart.application.CartService;
-import com.poku.graypants.domain.cart.persistence.Cart;
+import com.poku.graypants.domain.cart.application.dto.AddCartItemRequestDto;
 import com.poku.graypants.domain.cart.persistence.CartItem;
-import com.poku.graypants.domain.cart.application.dto.AddCartItemRequest;
-import com.poku.graypants.domain.cart.application.dto.UpdateCartItemQuantityRequest;
+import com.poku.graypants.domain.cart.application.dto.UpdateCartItemQuantityRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,37 +17,34 @@ public class CartController {
 
     private final CartService cartService;
 
-    @PostMapping
-    public ResponseEntity<Cart> createCart() {
-        Cart cart = cartService.createCart();
-        return ResponseEntity.ok(cart);
-    }
-
-    @PostMapping("/{cartId}/items")
+    @PostMapping("/items")
     public ResponseEntity<CartItem> addItemToCart(
-            @PathVariable Long cartId,
-            @RequestBody AddCartItemRequest request) {
-        CartItem cartItem = cartService.addItemToCart(cartId, request.getItemId(), request.getQuantity());
+            @RequestBody AddCartItemRequestDto request,
+            @RequestParam String email) {
+        CartItem cartItem = cartService.addItemToCart(request.getItemId(), request.getQuantity(), email);
         return ResponseEntity.ok(cartItem);
     }
 
-    @GetMapping("/{cartId}/items")
-    public ResponseEntity<List<CartItem>> getCartItems(@PathVariable Long cartId) {
-        List<CartItem> cartItems = cartService.getCartItems(cartId);
+    @GetMapping("/items")
+    public ResponseEntity<List<CartItem>> getCartItems(
+            @RequestParam String email) {
+        List<CartItem> cartItems = cartService.getCartItems(email);
         return ResponseEntity.ok(cartItems);
     }
 
-    @DeleteMapping("/items/{cartItemId}")
-    public ResponseEntity<Void> removeItemFromCart(@PathVariable Long cartItemId) {
-        cartService.removeItemFromCart(cartItemId);
+    @DeleteMapping("/items/{cartitem_id}")
+    public ResponseEntity<Void> removeItemFromCart(
+            @PathVariable Long cartitem_id,
+            @RequestParam String email) {
+        cartService.removeItemFromCart(cartitem_id, email);
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/items/{cartItemId}")
+    @PatchMapping("/items/{cartitem_id}")
     public ResponseEntity<Void> updateCartItemQuantity(
-            @PathVariable Long cartItemId,
-            @RequestBody UpdateCartItemQuantityRequest request) {
-        cartService.updateCartItemQuantity(cartItemId, request.getNewQuantity());
+            @RequestBody UpdateCartItemQuantityRequestDto request,
+            @RequestParam String email) {
+        cartService.updateCartItemQuantity(request.getCartItemId(), request.getNewQuantity(), email);
         return ResponseEntity.ok().build();
     }
 }

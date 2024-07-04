@@ -50,10 +50,11 @@ public class ItemService {
         itemRepository.deleteById(id);
     }
 
-    private Item getItemByID(Long id) {
+    public Item getItemByID(Long id) {
         Item item = itemRepository.findById(id).orElseThrow(() ->
             {throw new RuntimeException(ExceptionStatus.ITEM_NOT_FOUND.getMessage());
             });
         return item;
     }
+
 }

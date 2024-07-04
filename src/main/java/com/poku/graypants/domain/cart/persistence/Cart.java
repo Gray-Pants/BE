@@ -1,5 +1,6 @@
 package com.poku.graypants.domain.cart.persistence;
 
+import com.poku.graypants.domain.user.persistence.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -31,4 +32,12 @@ public class Cart {
     @OneToMany(mappedBy = "cart")
     private List<CartItem> cartItems;
 
+    @OneToOne
+    @JoinTable(name = "user_id")
+    private User user;
+
+    @Builder
+    public Cart(User user) {
+        this.user = user;
+    }
 }

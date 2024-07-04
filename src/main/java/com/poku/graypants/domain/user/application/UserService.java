@@ -1,16 +1,23 @@
 package com.poku.graypants.domain.user.application;
 
+import com.poku.graypants.domain.cart.persistence.Cart;
+import com.poku.graypants.domain.cart.persistence.CartRepository;
 import com.poku.graypants.domain.user.persistence.User;
 import com.poku.graypants.domain.user.persistence.UserRepository;
 import com.poku.graypants.global.config.oauth.info.OAuth2UserInfo;
+import com.poku.graypants.global.exception.ExceptionStatus;
+import com.poku.graypants.global.exception.GrayPantsException;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final CartRepository cartRepository;
     private final String DEFAULT_ROLE = "ROLE_DEFAULT";
 
     public User saveOrGetUserByOAuth2Info(OAuth2UserInfo oAuth2UserInfo) {
@@ -23,5 +30,21 @@ public class UserService {
                 .email(email)
                 .username(username)
                 .build());
+    }
+
+    public Cart getCartByEmail(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isEmpty()) {
+            throw new GrayPantsException(ExceptionStatus.USER_NOT_FOUND);
+        }
+        Cart cart = user.get().getCart();
+        if(cart == null)
+            return createCart(user.get());
+        return cart;
+    }
+
+    public Cart createCart(User user) {
+        return cartRepository.save(Cart.builder()
+                        .user(user).build());
     }
 }
