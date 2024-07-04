@@ -3,6 +3,7 @@ package com.poku.graypants.domain.cart.persistence;
 import com.poku.graypants.domain.item.persistence.Item;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -38,4 +39,11 @@ public class CartItem {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "item_Id")
     private Item item;
+
+    @Builder
+    public CartItem(int cartItemQuantity, Cart cart, Item item) {
+        this.cartItemQuantity = cartItemQuantity;
+        this.cart = cart;
+        this.item = item;
+    }
 }

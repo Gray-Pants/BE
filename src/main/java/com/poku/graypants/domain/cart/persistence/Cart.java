@@ -2,6 +2,7 @@ package com.poku.graypants.domain.cart.persistence;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -30,4 +31,8 @@ public class Cart {
     @OneToMany(mappedBy = "cart")
     private List<CartItem> cartItems;
 
+    @Builder
+    public Cart(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
+    }
 }
