@@ -1,4 +1,4 @@
-package com.poku.graypants.domain.cart;
+package com.poku.graypants.domain.cart.persistence;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "carts")
+@Table(name = "CARTS")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Cart {
