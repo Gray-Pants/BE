@@ -7,33 +7,31 @@ import com.poku.graypants.domain.item.persistence.ItemRepository;
 import com.poku.graypants.global.exception.ExceptionStatus;
 import com.poku.graypants.global.exception.GrayPantsException;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class ItemService {
 
-    @Autowired
     private ItemRepository itemRepository;
-
-    @Autowired
     private ItemRepositoryCustom itemRepositoryCustom;
 
 
-    public ItemResponseDto createItem(ItemCreateDto itemCreateDto) {
+    public ItemResponseDto createItem(ItemCreateRequestDto itemCreateRequestDto) {
         // USER email 을 통한 STORE 받아오기
         // authenticator.
         //return new ItemResponseDto(itemRepository.save(itemCreateDto.toEntity()));
         return null;
     }
 
-    public ItemResponseDto updateItem(Long id, ItemUpdateDto itemUpdateDto) {
+    public ItemResponseDto updateItem(Long id, ItemUpdateRequestDto itemUpdateRequestDto) {
         Item item = getItemByID(id);
 
-        return new ItemResponseDto(item.updateItem(itemUpdateDto));
+        return new ItemResponseDto(item.updateItem(itemUpdateRequestDto));
     }
 
 
