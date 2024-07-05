@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class ItemUpdateDto {
+public class ItemUpdateRequestDto {
 
     private String itemName;
     private int itemPrice;
