@@ -31,8 +31,8 @@ public class ItemResponseDto {
         this.itemPrice = item.getItemPrice();
         this.stock = item.getStock();
         this.itemDescImg = item.getItemDescImg();
-        this.created_at = item.getCreated_at();
-        this.updated_at = item.getUpdated_at();
+        this.created_at = item.getCreatedAt();
+        this.updated_at = item.getUpdatedAt();
         this.storeName = item.getStore().getStoreName();
         this.categoryTitle = item.getCategory().getTitle();
     }
