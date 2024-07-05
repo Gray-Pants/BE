@@ -10,7 +10,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class ItemCreateDto {
+public class ItemCreateRequestDto {
 
     private String itemName;
     private int itemPrice;
