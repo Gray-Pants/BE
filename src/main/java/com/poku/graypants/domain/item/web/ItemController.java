@@ -1,18 +1,16 @@
 package com.poku.graypants.domain.item.web;
 
+import static com.poku.graypants.global.util.ApiResponseUtil.success;
+
 import com.poku.graypants.domain.item.application.ItemService;
-import com.poku.graypants.domain.item.application.dto.ItemCreateDto;
-import com.poku.graypants.domain.item.application.dto.ItemRequestDto;
+import com.poku.graypants.domain.item.application.dto.ItemCreateRequestDto;
 import com.poku.graypants.domain.item.application.dto.ItemResponseDto;
-import com.poku.graypants.domain.item.application.dto.ItemUpdateDto;
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
+import com.poku.graypants.domain.item.application.dto.ItemUpdateRequestDto;
+import com.poku.graypants.global.util.ApiResponseUtil.ApiResult;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,29 +23,29 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<ItemResponseDto> getItem(@PathVariable Long id) {
+    public ResponseEntity<ApiResult<ItemResponseDto>> getItem(@PathVariable Long id) {
         ItemResponseDto responseDto = itemService.findById(id);
-        return new ResponseEntity<>(responseDto, new HttpHeaders(), HttpStatus.FOUND);
+        return new ResponseEntity<>(success(responseDto), new HttpHeaders(), HttpStatus.OK);
 
     }
 
     @PostMapping("/item")
-    public ResponseEntity<ItemResponseDto> createItem(@RequestBody ItemCreateDto itemCreateDto) {
-        ItemResponseDto responseDto = itemService.createItem(itemCreateDto);
+    public ResponseEntity<ApiResult<ItemResponseDto>> createItem(@RequestBody ItemCreateRequestDto itemCreateRequestDto) {
+        ItemResponseDto responseDto = itemService.createItem(itemCreateRequestDto);
 
-        return new ResponseEntity<>(responseDto, new HttpHeaders(), HttpStatus.CREATED);
+        return new ResponseEntity<>(success(responseDto), new HttpHeaders(), HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<ItemResponseDto> updateItem(@RequestBody ItemUpdateDto itemUpdateDto, @PathVariable Long id) {
-        ItemResponseDto responseDto = itemService.updateItem(id, itemUpdateDto);
+    public ResponseEntity<ItemResponseDto> updateItem(@RequestBody ItemUpdateRequestDto itemUpdateRequestDto, @PathVariable Long id) {
+        ItemResponseDto responseDto = itemService.updateItem(id, itemUpdateRequestDto);
         return new ResponseEntity<>(responseDto, new HttpHeaders(), HttpStatus.OK);
     }
 
     @GetMapping("/{itemName}")
     public ResponseEntity<List<ItemResponseDto>> getItemsByName(@PathVariable String itemName) {
         List<ItemResponseDto> searchItemList = itemService.findByNameAll(itemName);
-        return new ResponseEntity<>(searchItemList, new HttpHeaders(), HttpStatus.FOUND);
+        return new ResponseEntity<>(searchItemList, new HttpHeaders(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

@@ -1,6 +1,6 @@
 package com.poku.graypants.domain.item.persistence;
 
-import com.poku.graypants.domain.item.application.dto.ItemUpdateDto;
+import com.poku.graypants.domain.item.application.dto.ItemUpdateRequestDto;
 import com.poku.graypants.domain.order.persistence.OrderItem;
 import com.poku.graypants.domain.store.persistence.Store;
 import com.poku.graypants.global.entity.BaseTime;
@@ -62,7 +62,7 @@ public class Item extends BaseTime {
         this.itemPhotos = itemPhotos;
     }
 
-    public Item updateItem(ItemUpdateDto dto) {
+    public Item updateItem(ItemUpdateRequestDto dto) {
         this.itemName = dto.getItemName();
         this.itemPrice = dto.getItemPrice();
         //this.itemPhotos = dto.getItemPhotosDto();
