@@ -2,13 +2,10 @@ package com.poku.graypants.domain.store.persistence;
 
 import com.poku.graypants.domain.item.persistence.Item;
 import com.poku.graypants.domain.order.persistence.OrderItem;
-import com.poku.graypants.global.persistence.BaseTime;
+import com.poku.graypants.global.entity.BaseTime;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

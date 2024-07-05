@@ -1,6 +1,6 @@
 package com.poku.graypants.domain.order.persistence;
 
-import com.poku.graypants.global.persistence.BaseTime;
+import com.poku.graypants.global.entity.BaseTime;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

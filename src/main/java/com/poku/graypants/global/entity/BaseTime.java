@@ -1,4 +1,4 @@
-package com.poku.graypants.global.persistence;
+package com.poku.graypants.global.entity;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

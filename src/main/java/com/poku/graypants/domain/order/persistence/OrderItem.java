@@ -2,7 +2,7 @@ package com.poku.graypants.domain.order.persistence;
 
 import com.poku.graypants.domain.item.persistence.Item;
 import com.poku.graypants.domain.store.persistence.Store;
-import com.poku.graypants.global.persistence.BaseTime;
+import com.poku.graypants.global.entity.BaseTime;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
