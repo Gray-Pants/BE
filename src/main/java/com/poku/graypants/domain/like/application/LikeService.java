@@ -1,29 +1,28 @@
 package com.poku.graypants.domain.like.application;
 
+import com.poku.graypants.domain.item.application.ItemService;
 import com.poku.graypants.domain.item.persistence.Item;
+import com.poku.graypants.domain.like.persistence.Like;
 import com.poku.graypants.domain.like.persistence.LikeRepository;
+import com.poku.graypants.domain.user.application.UserService;
 import com.poku.graypants.domain.user.persistence.User;
-import com.poku.graypants.domain.user.persistence.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
+@Transactional
+@RequiredArgsConstructor
 public class LikeService {
 
-    @Autowired
-    private LikeRepository likeRepository;
+    private final LikeRepository likeRepository;
+    private final UserService userService;
+    private final ItemService itemService;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    public List<Item> getLikesByEmail(String email) {
-        User user = userRepository.findByEmail(email);
-        if (user != null) {
-            return LikeRepository.findByUser(user);
-        } else {
-            // 사용자를 찾을 수 없을 때 빈 리스트를 반환하거나 예외 던짐
-            return List.of(); // 빈 리스트 반환
-        }
+    public List<Item> getLikeItems(String email) {
+        Like like = userService.getLikeByEmail(email);
+        return likeRepository.findBy
     }
 }
