@@ -2,6 +2,7 @@ package com.poku.graypants.domain.order.persistence;
 
 import com.poku.graypants.domain.item.persistence.Item;
 import com.poku.graypants.domain.store.persistence.Store;
+import com.poku.graypants.global.entity.BaseTime;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -15,7 +16,7 @@ import static jakarta.persistence.FetchType.*;
 @Table(name = "ORDER_ITEMS")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class OrderItem {
+public class OrderItem extends BaseTime {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderItemId;
@@ -49,6 +50,7 @@ public class OrderItem {
 
     @Builder
     public OrderItem(int orderItemPrice, int orderItemQuantity, OrderItemStatus orderItemStatus, String orderItemAddr, String orderItemPhone, Order order, Item item, Store store) {
+        super();
         this.orderItemPrice = orderItemPrice;
         this.orderItemQuantity = orderItemQuantity;
         this.orderItemStatus = orderItemStatus;

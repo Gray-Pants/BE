@@ -1,16 +1,12 @@
 package com.poku.graypants.domain.item.persistence;
 
-import com.poku.graypants.domain.item.application.dto.ItemRequestDto;
 import com.poku.graypants.domain.item.application.dto.ItemUpdateDto;
 import com.poku.graypants.domain.cart.persistence.CartItem;
 import com.poku.graypants.domain.order.persistence.OrderItem;
 import com.poku.graypants.domain.store.persistence.Store;
+import com.poku.graypants.global.entity.BaseTime;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static jakarta.persistence.FetchType.*;
@@ -19,7 +15,7 @@ import static jakarta.persistence.FetchType.*;
 @Table(name = "ITEMS")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Item {
+public class Item extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,12 +40,6 @@ public class Item {
     @Column(name = "view_count", nullable = false)
     private int viewCount;
 
-    @CreatedDate
-    private LocalDateTime created_at;
-
-    @LastModifiedDate
-    private LocalDateTime updated_at;
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
@@ -67,6 +57,7 @@ public class Item {
 
     @Builder
     public Item(String itemName, int itemPrice, String itemDescImg, int stock, Store store, Category category, List<ItemPhoto> itemPhotos) {
+        super();
         this.itemName = itemName;
         this.itemPrice = itemPrice;
         this.itemDescImg = itemDescImg;
