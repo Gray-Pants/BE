@@ -6,13 +6,9 @@ import com.poku.graypants.domain.cart.persistence.CartItemRepository;
 import com.poku.graypants.domain.cart.persistence.CartRepository;
 import com.poku.graypants.domain.item.application.ItemService;
 import com.poku.graypants.domain.item.persistence.Item;
-import com.poku.graypants.domain.item.persistence.ItemRepository;
 import com.poku.graypants.domain.user.application.UserService;
-import com.poku.graypants.domain.user.persistence.User;
-import com.poku.graypants.domain.user.persistence.UserRepository;
 import com.poku.graypants.global.exception.ExceptionStatus;
 import com.poku.graypants.global.exception.GrayPantsException;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +24,6 @@ public class CartService {
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
     private final UserService userService;
-    private final ItemRepository itemRepository; // Item 엔티티를 위한 레포지토리
     private final ItemService itemService;
 
     public CartItem addItemToCart(Long item_id, int quantity, String email) {
