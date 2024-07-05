@@ -35,5 +35,22 @@ public class UserService {
                 .build());
     }
 
+    public User saveEmailUser(String email, String name, String password) {
+        return userRepository.save(User.builder()
+                .grade(DEFAULT_ROLE)
+                .email(email)
+                .username(name)
+                .password(password)
+                .build());
+    }
 
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new GrayPantsException(ExceptionStatus.USER_NOT_FOUND));
+    }
+
+    public boolean matchPassword(String password, String password1) {
+        //인코딩 로직 필요
+        return password.equals(password1);
+    }
 }

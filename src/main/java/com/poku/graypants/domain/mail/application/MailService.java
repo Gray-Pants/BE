@@ -1,26 +1,27 @@
 package com.poku.graypants.domain.mail.application;
 
+import com.poku.graypants.domain.mail.application.dto.VerificationEmailSendRequestDto;
+import com.poku.graypants.domain.mail.application.dto.VerifyEmailRequestDto;
+import com.poku.graypants.domain.mail.application.dto.VerifyEmailResponseDto;
 import com.poku.graypants.global.exception.ExceptionStatus;
 import com.poku.graypants.global.exception.GrayPantsException;
-import jakarta.annotation.Resource;
+import com.poku.graypants.global.util.RedisUtil;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.Duration;
 import java.util.Random;
-import lombok.AllArgsConstructor;
-import org.springframework.data.redis.core.ValueOperations;
+import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MailService {
 
     private final JavaMailSender javaMailSender;
 
-    @Resource(name = "redisTemplate")
-    private ValueOperations<String, String> valueOperations;
+    private final RedisUtil redisUtil;
 
     public void sendMail(String to, String subject, String text) {
         SimpleMailMessage message = createMailMessage(to, subject, text);
@@ -35,11 +36,11 @@ public class MailService {
         return message;
     }
 
-    public void sendCodeToEmail(String email) {
+    public void sendCodeToEmail(VerificationEmailSendRequestDto request) {
         String title = "Gray-Pants 이메일 인증 번호";
         String authCode = this.createCode();
-        this.sendMail(email, title, authCode);
-        valueOperations.set("AuthCode " + email, authCode, Duration.ofMinutes(10));
+        this.sendMail(request.getEmail(), title, authCode);
+        redisUtil.setData("AuthCode " + request.getEmail(), authCode, Duration.ofMinutes(10));
     }
 
     private String createCode() {
@@ -57,11 +58,19 @@ public class MailService {
         return builder.toString();
     }
 
-    public boolean verifiedCode(String email, String code) {
-        String authCode = valueOperations.get("AuthCode " + email);
-        if(!code.equals(authCode))
+    public boolean verifiedCode(VerifyEmailRequestDto request) {
+        String authCode = (String) redisUtil.getData("AuthCode " + request.getEmail());
+        if(!request.getAuthCode().equals(authCode))
             return false;
-        valueOperations.getAndDelete("AuthCode " + email);
+        redisUtil.deleteData("AuthCode " + request.getEmail());
         return true;
+    }
+
+    public VerifyEmailResponseDto getVerifiedCode(VerifyEmailRequestDto request) {
+        String verifiedCode = java.util.UUID.randomUUID().toString();
+        redisUtil.setData("VerificationCode " + request.getEmail(), verifiedCode, Duration.ofMinutes(30));
+        return VerifyEmailResponseDto.builder()
+                .verifiedCode(verifiedCode)
+                .build();
     }
 }
