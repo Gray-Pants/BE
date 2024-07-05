@@ -1,6 +1,7 @@
 package com.poku.graypants.domain.cart.persistence;
 
 import com.poku.graypants.domain.user.persistence.User;
+import com.poku.graypants.global.entity.BaseTime;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -16,18 +17,12 @@ import java.util.List;
 @Table(name = "CARTS")
 @Getter
 @NoArgsConstructor
-public class Cart {
+public class Cart extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cart_id",unique = true, nullable = false)
     private Long cartId;
-
-    @CreatedDate
-    private LocalDateTime created_at;
-
-    @LastModifiedDate
-    private LocalDateTime updated_at;
 
     @OneToMany(mappedBy = "cart")
     private List<CartItem> cartItems;

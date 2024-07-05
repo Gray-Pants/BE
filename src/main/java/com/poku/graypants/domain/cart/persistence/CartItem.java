@@ -1,6 +1,7 @@
 package com.poku.graypants.domain.cart.persistence;
 
 import com.poku.graypants.domain.item.persistence.Item;
+import com.poku.graypants.global.entity.BaseTime;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -17,7 +18,7 @@ import static jakarta.persistence.FetchType.*;
 @Table(name = "CART_ITEMS")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CartItem {
+public class CartItem extends BaseTime {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cart_item_id",unique = true, nullable = false)
@@ -25,12 +26,6 @@ public class CartItem {
 
     @Column(name = "cart_item_quantity")
     private int cartItemQuantity;
-
-    @CreatedDate
-    private LocalDateTime created_at;
-
-    @LastModifiedDate
-    private LocalDateTime updated_at;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "cart_id")

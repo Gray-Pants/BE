@@ -1,9 +1,9 @@
 package com.poku.graypants.domain.cart.web;
 
 import com.poku.graypants.domain.cart.application.CartService;
-import com.poku.graypants.domain.cart.application.dto.AddCartItemRequestDto;
+import com.poku.graypants.domain.cart.application.dto.CartItemAddRequestDto;
 import com.poku.graypants.domain.cart.persistence.CartItem;
-import com.poku.graypants.domain.cart.application.dto.UpdateCartItemQuantityRequestDto;
+import com.poku.graypants.domain.cart.application.dto.CartItemUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ public class CartController {
 
     @PostMapping("/items")
     public ResponseEntity<CartItem> addItemToCart(
-            @RequestBody AddCartItemRequestDto request,
+            @RequestBody CartItemAddRequestDto request,
             @RequestParam String email) {
         CartItem cartItem = cartService.addItemToCart(request.getItemId(), request.getQuantity(), email);
         return ResponseEntity.ok(cartItem);
@@ -42,7 +42,7 @@ public class CartController {
 
     @PatchMapping("/items/{cartitem_id}")
     public ResponseEntity<Void> updateCartItemQuantity(
-            @RequestBody UpdateCartItemQuantityRequestDto request,
+            @RequestBody CartItemUpdateRequestDto request,
             @RequestParam String email) {
         cartService.updateCartItemQuantity(request.getCartItemId(), request.getNewQuantity(), email);
         return ResponseEntity.ok().build();
