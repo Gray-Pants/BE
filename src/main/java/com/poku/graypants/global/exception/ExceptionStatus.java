@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ExceptionStatus {
     ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "Item Not Found"),
+    Like_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "Like Not Found"),
     CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "Category Not Found");
 
     private final int status;

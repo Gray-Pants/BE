@@ -15,7 +15,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Table(name = "likes")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+
 public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,4 +45,5 @@ public class Like {
         this.user = user;
         this.item = item;
     }
+
 }

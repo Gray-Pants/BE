@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface LikeRepository extends JpaRepository<Like, Integer> {
-
+public interface LikeRepository extends JpaRepository<Like, Long> {
 
 }
