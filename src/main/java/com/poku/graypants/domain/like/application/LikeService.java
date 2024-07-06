@@ -1,13 +1,11 @@
 package com.poku.graypants.domain.like.application;
 
-import com.poku.graypants.domain.item.application.ItemService;
-import com.poku.graypants.domain.item.persistence.Item;
 import com.poku.graypants.domain.like.application.dto.LikeResponseDto;
+import com.poku.graypants.domain.like.application.dto.LikecreateRequestDto;
 import com.poku.graypants.domain.like.persistence.Like;
 import com.poku.graypants.domain.like.persistence.LikeRepository;
-import com.poku.graypants.domain.user.application.UserService;
-import com.poku.graypants.domain.user.persistence.User;
 import com.poku.graypants.global.exception.ExceptionStatus;
+import com.poku.graypants.global.exception.GrayPantsException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,20 +19,25 @@ public class LikeService {
 
     private final LikeRepository likeRepository;
 
-    public LikeResponseDto findById(Long id) {
-        Like like = getLikeByID(id);
+    public LikeResponseDto createLike(LikecreateRequestDto likecreateRequestDto) {
+        return new LikeResponseDto(likeRepository.save(likecreateRequestDto.toEntity()));
+    }
+
+    public List<LikeResponseDto> getLikes(Like like) {
+        return likeRepository.findAll(like);
+    }
+
+    public LikeResponseDto findByUserId(Long id) {
+        Like like = getLikeById(id);
         return new LikeResponseDto(like);
     }
 
-    private Like getLikeByID(Long id) {
-        Like like = likeRepository.findById(id).orElseThrow(() ->
-            {throw new RuntimeException(ExceptionStatus.ITEM_NOT_FOUND.getMessage());
-            });
-        return like;
+    public void deleteLike(Long id) {
+        likeRepository.deleteById(id);
     }
 
-    public List<LikeResponseDto> findByUserId(Long id) {
-        Like like = getLikeByID(id);
-        return new List<LikeResponseDto>(like);
+    private Like getLikeById(Long id) {
+        return likeRepository.findById(id).orElseThrow(() -> new GrayPantsException(ExceptionStatus.Like_NOT_FOUND));
     }
+
 }

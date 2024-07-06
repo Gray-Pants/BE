@@ -1,7 +1,9 @@
 package com.poku.graypants.domain.like.persistence;
 
 import com.poku.graypants.domain.item.persistence.Item;
+import com.poku.graypants.domain.like.application.dto.LikeUpdateRequestDto;
 import com.poku.graypants.domain.user.persistence.User;
+import com.poku.graypants.global.entity.BaseTime;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -18,7 +20,7 @@ import java.time.LocalDateTime;
 @Table(name = "likes")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 
-public class Like {
+public class Like extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "like_id")
@@ -46,4 +48,10 @@ public class Like {
         this.item = item;
     }
 
+    public Like updateLike(LikeUpdateRequestDto dto) {
+        this.user = dto.getUser();
+        this.item = dto.getItem();
+
+        return this;
+    }
 }

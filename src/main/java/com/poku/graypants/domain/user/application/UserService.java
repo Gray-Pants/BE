@@ -25,15 +25,4 @@ public class UserService {
         return null;
     }
 
-    public Like getLikeByEmail(String email) {
-        Optional<User> user = userRepository.findByEmail(email);
-        if (user.isEmpty()) {
-            throw new GrayPantsException(ExceptionStatus.USER_NOT_FOUND);
-        }
-        Like like = user.get().getLike();
-        if(cart == null)
-            return createCart(user.get());
-        return cart;
-    }
-    }
 }
