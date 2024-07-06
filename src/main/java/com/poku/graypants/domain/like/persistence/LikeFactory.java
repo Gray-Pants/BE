@@ -1,15 +1,13 @@
-package com.poku.graypants.domain.like.application.dto;
+package com.poku.graypants.domain.like.persistence;
 
 import com.poku.graypants.domain.item.persistence.Item;
-import com.poku.graypants.domain.like.persistence.Like;
 import com.poku.graypants.domain.user.persistence.User;
+import org.springframework.stereotype.Component;
 
-public class LikecreateRequestDto {
+@Component
+public class LikeFactory {
 
-    private User user;
-    private Item item;
-
-    public Like toEntity() {
+    public Like createLike(User user, Item item) {
         return Like.builder()
                 .user(user)
                 .item(item)

@@ -5,6 +5,7 @@ import com.poku.graypants.domain.item.persistence.Item;
 import com.poku.graypants.domain.item.persistence.ItemRepositoryCustom;
 import com.poku.graypants.domain.item.persistence.ItemRepository;
 import com.poku.graypants.global.exception.ExceptionStatus;
+import com.poku.graypants.global.exception.GrayPantsException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -53,5 +54,10 @@ public class ItemService {
             {throw new RuntimeException(ExceptionStatus.ITEM_NOT_FOUND.getMessage());
             });
         return item;
+    }
+
+    public Item getItemById(Long itemId) {
+        return itemRepository.findById(itemId)
+                .orElseThrow(() -> new GrayPantsException(ExceptionStatus.ITEM_NOT_FOUND));
     }
 }

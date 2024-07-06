@@ -4,6 +4,7 @@ import com.poku.graypants.domain.like.persistence.Like;
 import com.poku.graypants.domain.user.persistence.User;
 import com.poku.graypants.domain.user.persistence.UserRepository;
 import com.poku.graypants.global.config.oauth.info.OAuth2UserInfo;
+import com.poku.graypants.global.exception.ExceptionStatus;
 import com.poku.graypants.global.exception.GrayPantsException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,11 @@ public class UserService {
 
     public User saveUser(String email, String username) {
         return null;
+    }
+
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new GrayPantsException(ExceptionStatus.USER_NOT_FOUND));
     }
 
 }

@@ -1,20 +1,13 @@
 package com.poku.graypants.domain.like.web;
 
 import com.poku.graypants.domain.like.application.LikeService;
+import com.poku.graypants.domain.like.application.dto.LikeRequestDto;
 import com.poku.graypants.domain.like.application.dto.LikeResponseDto;
-import com.poku.graypants.domain.like.application.dto.LikecreateRequestDto;
-import com.poku.graypants.domain.like.persistence.Like;
-import com.poku.graypants.global.util.ApiResponseUtil.ApiResult;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static com.poku.graypants.global.util.ApiResponseUtil.success;
-
 
 @RestController
 @RequestMapping("/api/likes")
@@ -23,28 +16,27 @@ public class LikeController {
 
     private final LikeService likeService;
 
-    @GetMapping("/{id}") // userId를 인자로 받는다
-    public ResponseEntity<ApiResult<LikeResponseDto>> getLike(@PathVariable Long id) {
-        LikeResponseDto responseDto = likeService.findByUserId(id);
-        return new ResponseEntity<>(success(responseDto), new HttpHeaders(), HttpStatus.OK);
+    @PostMapping
+    public ResponseEntity<LikeResponseDto> addLike(@RequestBody LikeRequestDto requestDto) {
+        LikeResponseDto responseDto = likeService.addLike(requestDto);
+        return ResponseEntity.ok(responseDto);
     }
 
-    @PostMapping("/like")
-    public ResponseEntity<ApiResult<LikeResponseDto>> createLike(@RequestBody LikecreateRequestDto likecreateRequestDto) {
-        LikeResponseDto responseDto = likeService.createLike(likecreateRequestDto);
-
-        return new ResponseEntity<>(success(responseDto), new HttpHeaders(), HttpStatus.CREATED);
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<LikeResponseDto>> getLikesByUser(@PathVariable Long userId) {
+        List<LikeResponseDto> likes = likeService.getLikesByUser(userId);
+        return ResponseEntity.ok(likes);
     }
 
-    @GetMapping("/{likes}")
-    public ResponseEntity<List<LikeResponseDto>> getLikes(@PathVariable Like likes) {
-        List<LikeResponseDto> likeList = likeService.getLikes(likes);
-        return new ResponseEntity<>(likeList, new HttpHeaders(), HttpStatus.OK);
+    @GetMapping("/{likeId}")
+    public ResponseEntity<LikeResponseDto> findById(@PathVariable Long likeId) {
+        LikeResponseDto responseDto = likeService.findById(likeId);
+        return ResponseEntity.ok(responseDto);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity deleteLike(@PathVariable Long id) {
-        likeService.deleteLike(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @DeleteMapping("/{likeId}")
+    public ResponseEntity<Void> removeLike(@PathVariable Long likeId) {
+        likeService.removeLike(likeId);
+        return ResponseEntity.noContent().build();
     }
 }
