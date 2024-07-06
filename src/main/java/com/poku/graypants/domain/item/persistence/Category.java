@@ -1,6 +1,7 @@
 package com.poku.graypants.domain.item.persistence;
 
 import com.poku.graypants.global.exception.ExceptionStatus;
+import com.poku.graypants.global.exception.GrayPantsException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -91,7 +92,7 @@ public enum Category {
     // 부모카테고리 Getter
     public Category getParentCategory() {
         if (parentCategory == null) {
-            throw new RuntimeException(ExceptionStatus.CATEGORY_NOT_FOUND.getMessage());
+            throw new GrayPantsException(ExceptionStatus.CATEGORY_NOT_FOUND);
         }
         return parentCategory;
     }

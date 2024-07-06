@@ -9,8 +9,6 @@ public enum ExceptionStatus {
     Like_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "Like Not Found"),
     CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "Category Not Found"),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, 404,"User not found"),
-    CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "Category Not Found"),
-    USER_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "User Not Found"),
     INVALID_QUANTITY(HttpStatus.BAD_REQUEST, 400, "유효하지 않은 수량입니다." );
 
     private final int status;
