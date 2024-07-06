@@ -1,7 +1,7 @@
 package com.poku.graypants.domain.item.persistence;
 
-import com.poku.graypants.domain.item.application.dto.ItemUpdateDto;
 import com.poku.graypants.domain.cart.persistence.CartItem;
+import com.poku.graypants.domain.item.application.dto.ItemUpdateRequestDto;
 import com.poku.graypants.domain.order.persistence.OrderItem;
 import com.poku.graypants.domain.store.persistence.Store;
 import com.poku.graypants.global.entity.BaseTime;

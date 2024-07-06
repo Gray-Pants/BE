@@ -26,22 +26,22 @@ public class CartService {
     private final UserService userService;
     private final ItemService itemService;
 
-    public CartItem addItemToCart(Long item_id, int quantity, String email) {
-        Cart myCart = userService.getCartByEmail(email);
-        Item item = itemService.getItemByID(item_id);
-        CartItem cartItem =  CartItem.builder()
-                .cart(myCart)
-                .item(item)
-                .cartItemQuantity(quantity)
-                .build();
-        return cartItemRepository.save(cartItem);
-    }
-
-    @Transactional(readOnly = true)
-    public List<CartItem> getCartItems(String email) {
-        Cart cart = userService.getCartByEmail(email);
-        return cartItemRepository.findByCart(cart);
-    }
+//    public CartItem addItemToCart(Long item_id, int quantity, String email) {
+//        Cart myCart = userService.getCartByEmail(email);
+//        Item item = itemService.getItemByID(item_id);
+//        CartItem cartItem =  CartItem.builder()
+//                .cart(myCart)
+//                .item(item)
+//                .cartItemQuantity(quantity)
+//                .build();
+//        return cartItemRepository.save(cartItem);
+//    }
+//
+//    @Transactional(readOnly = true)
+//    public List<CartItem> getCartItems(String email) {
+//        Cart cart = userService.getCartByEmail(email);
+//        return cartItemRepository.findByCart(cart);
+//    }
 
     public void removeItemFromCart(Long cartItem_id, String email) {
         Optional<CartItem> cartItem = cartItemRepository.findById(cartItem_id);

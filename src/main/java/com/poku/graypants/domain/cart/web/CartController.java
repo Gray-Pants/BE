@@ -17,20 +17,20 @@ public class CartController {
 
     private final CartService cartService;
 
-    @PostMapping("/items")
-    public ResponseEntity<CartItem> addItemToCart(
-            @RequestBody CartItemAddRequestDto request,
-            @RequestParam String email) {
-        CartItem cartItem = cartService.addItemToCart(request.getItemId(), request.getQuantity(), email);
-        return ResponseEntity.ok(cartItem);
-    }
-
-    @GetMapping("/items")
-    public ResponseEntity<List<CartItem>> getCartItems(
-            @RequestParam String email) {
-        List<CartItem> cartItems = cartService.getCartItems(email);
-        return ResponseEntity.ok(cartItems);
-    }
+//    @PostMapping("/items")
+//    public ResponseEntity<CartItem> addItemToCart(
+//            @RequestBody CartItemAddRequestDto request,
+//            @RequestParam String email) {
+//        CartItem cartItem = cartService.addItemToCart(request.getItemId(), request.getQuantity(), email);
+//        return ResponseEntity.ok(cartItem);
+//    }
+//
+//    @GetMapping("/items")
+//    public ResponseEntity<List<CartItem>> getCartItems(
+//            @RequestParam String email) {
+//        List<CartItem> cartItems = cartService.getCartItems(email);
+//        return ResponseEntity.ok(cartItems);
+//    }
 
     @DeleteMapping("/items/{cartitem_id}")
     public ResponseEntity<Void> removeItemFromCart(
