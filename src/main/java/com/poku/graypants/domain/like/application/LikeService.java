@@ -1,40 +1,32 @@
+
 package com.poku.graypants.domain.like.application;
 
-import com.poku.graypants.domain.item.application.ItemService;
-import com.poku.graypants.domain.item.persistence.Item;
+import com.poku.graypants.domain.item.persistence.ItemRepository;
 import com.poku.graypants.domain.like.application.dto.LikeResponseDto;
 import com.poku.graypants.domain.like.persistence.Like;
 import com.poku.graypants.domain.like.persistence.LikeRepository;
-import com.poku.graypants.domain.user.application.UserService;
 import com.poku.graypants.domain.user.persistence.User;
-import com.poku.graypants.global.exception.ExceptionStatus;
-import jakarta.transaction.Transactional;
+import com.poku.graypants.domain.user.persistence.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-@Transactional
-@RequiredArgsConstructor
+@RequiredArgsConstructor //@Autowired 역할도 수행
 public class LikeService {
-
     private final LikeRepository likeRepository;
+    private final UserRepository userRepository;
+    private final ItemRepository itemRepository;
 
-    public LikeResponseDto findById(Long id) {
-        Like like = getLikeByID(id);
-        return new LikeResponseDto(like);
-    }
 
-    private Like getLikeByID(Long id) {
-        Like like = likeRepository.findById(id).orElseThrow(() ->
-            {throw new RuntimeException(ExceptionStatus.ITEM_NOT_FOUND.getMessage());
-            });
-        return like;
-    }
-
-    public List<LikeResponseDto> findByUserId(Long id) {
-        Like like = getLikeByID(id);
-        return new List<LikeResponseDto>(like);
+    @Transactional(readOnly = true)
+    public List<LikeResponseDto> getAllLikesByUser(User userId) {
+        List<Like> likes = likeRepository.findByUserId(userId);
+        return likes.stream()
+                .map(LikeResponseDto::new)
+                .collect(Collectors.toList());
     }
 }
+

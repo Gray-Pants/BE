@@ -1,7 +1,6 @@
 package com.poku.graypants.domain.item.persistence;
 
 import com.poku.graypants.domain.item.application.dto.ItemResponseDto;
-import com.poku.graypants.domain.item.application.dto.QItemResponseDto;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

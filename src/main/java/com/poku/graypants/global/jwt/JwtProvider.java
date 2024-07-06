@@ -48,7 +48,7 @@ public class JwtProvider {
                 .setIssuedAt(new Date())
                 .setExpiration(expirationDate)
                 .setSubject(user.getEmail())
-                .claim("id", user.getUserId())
+                .claim("id", user.getId())
                 .signWith(getSigningKey())
                 .compact();
     }
