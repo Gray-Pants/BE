@@ -12,6 +12,7 @@ import java.util.List;
 import static jakarta.persistence.FetchType.*;
 
 @Entity
+@Table(name = "STORES")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Store extends BaseTime {
