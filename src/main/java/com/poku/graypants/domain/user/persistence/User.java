@@ -1,5 +1,6 @@
 package com.poku.graypants.domain.user.persistence;
 
+import com.poku.graypants.domain.cart.persistence.Cart;
 import com.poku.graypants.domain.like.persistence.Like;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -34,6 +35,9 @@ public class User {
 
     @Column(name="refresh_token")
     private String refreshToken;
+
+    @OneToOne(mappedBy = "user")
+    private Cart cart;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Like> likes = new ArrayList<>();
