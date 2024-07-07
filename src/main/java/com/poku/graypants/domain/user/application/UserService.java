@@ -25,7 +25,11 @@ public class UserService {
     }
 
     public User saveUser(String email, String username) {
-        return null;
+        return userRepository.save(User.builder()
+                        .grade(DEFAULT_ROLE)
+                        .email(email)
+                        .username(username)
+                        .build());
     }
 
     public User getUserById(Long userId) {

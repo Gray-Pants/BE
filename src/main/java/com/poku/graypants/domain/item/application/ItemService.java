@@ -17,8 +17,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ItemService {
 
-    private ItemRepository itemRepository;
-    private ItemRepositoryCustom itemRepositoryCustom;
+    private final ItemRepository itemRepository;
+    private final ItemRepositoryCustom itemRepositoryCustom;
 
 
     public ItemResponseDto createItem(ItemCreateRequestDto itemCreateRequestDto) {
