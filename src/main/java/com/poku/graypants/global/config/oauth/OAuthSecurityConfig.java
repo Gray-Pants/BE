@@ -6,6 +6,7 @@ import com.poku.graypants.domain.user.application.UserService;
 import com.poku.graypants.domain.user.persistence.UserRepository;
 import com.poku.graypants.global.config.filter.TokenAuthenticationFilter;
 import com.poku.graypants.global.jwt.JwtProvider;
+import com.poku.graypants.global.jwt.JwtService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,9 +25,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class OAuthSecurityConfig {
 
     private final OAuth2UserCustomService oAuth2UserCustomService;
-    private final UserRepository userRepository;
+    private final JwtService jwtService;
     private final JwtProvider tokenProvider;
-    private final UserService userService;
 
     @Bean
     public WebSecurityCustomizer configure() {
@@ -68,8 +68,8 @@ public class OAuthSecurityConfig {
 
     @Bean
     public OAuth2SuccessHandler oAuth2SuccessHandler() {
-        return new OAuth2SuccessHandler(tokenProvider,
-                userRepository,
+        return new OAuth2SuccessHandler(
+                jwtService,
                 oAuth2AuthorizationRequestBasedOnCookieRepository()
         );
     }

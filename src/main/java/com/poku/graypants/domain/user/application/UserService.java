@@ -1,23 +1,35 @@
 package com.poku.graypants.domain.user.application;
 
+
 import com.poku.graypants.domain.cart.persistence.Cart;
 import com.poku.graypants.domain.cart.persistence.CartRepository;
+import com.poku.graypants.domain.mail.application.MailService;
 import com.poku.graypants.domain.user.persistence.User;
 import com.poku.graypants.domain.user.persistence.UserRepository;
 import com.poku.graypants.global.config.oauth.info.OAuth2UserInfo;
 import com.poku.graypants.global.exception.ExceptionStatus;
 import com.poku.graypants.global.exception.GrayPantsException;
+
 import lombok.AllArgsConstructor;
+import jakarta.annotation.Resource;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.time.Duration;
+import java.util.Random;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final MailService mailService;
     private final String DEFAULT_ROLE = "ROLE_DEFAULT";
     private final CartRepository cartRepository;
+
 
     public User saveOrGetUserByOAuth2Info(OAuth2UserInfo oAuth2UserInfo) {
         return userRepository.findByEmail(oAuth2UserInfo.getEmail())
@@ -31,6 +43,7 @@ public class UserService {
                         .username(username)
                         .build());
     }
+
 
     public User getUserById(Long userId) {
         return userRepository.findById(userId)
@@ -53,4 +66,22 @@ public class UserService {
                 .user(user).build());
     }
 
+    public User saveEmailUser(String email, String name, String password) {
+        return userRepository.save(User.builder()
+                .grade(DEFAULT_ROLE)
+                .email(email)
+                .username(name)
+                .password(password)
+                .build());
+    }
+
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new GrayPantsException(ExceptionStatus.USER_NOT_FOUND));
+    }
+
+    public boolean matchPassword(String password, String password1) {
+        //인코딩 로직 필요
+        return password.equals(password1);
+    }
 }

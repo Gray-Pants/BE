@@ -38,3 +38,4 @@ out/
 
 ### Security ###
 application-oauth.yml
+application-mail.yml
