@@ -1,5 +1,6 @@
 package com.poku.graypants.domain.user.persistence;
 
+import com.poku.graypants.domain.auth.persistence.EmailAuthenticateAble;
 import com.poku.graypants.domain.cart.persistence.Cart;
 import com.poku.graypants.domain.like.persistence.Like;
 import jakarta.persistence.*;
@@ -14,7 +15,7 @@ import java.util.List;
 @Table(name = "USERS")
 @Getter
 @NoArgsConstructor
-public class User {
+public class User implements EmailAuthenticateAble {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,5 +53,15 @@ public class User {
         this.email = email;
         this.password = password;
         this.grade = grade;
+    }
+
+    @Override
+    public String getRole() {
+        return null;
+    }
+
+    @Override
+    public Long getId() {
+        return userId;
     }
 }

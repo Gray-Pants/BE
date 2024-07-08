@@ -1,16 +1,22 @@
 package com.poku.graypants.global.jwt;
 
+import com.poku.graypants.domain.auth.persistence.EmailAuthenticateAble;
+import com.poku.graypants.domain.store.persistence.Store;
+import com.poku.graypants.domain.store.persistence.StoreRepository;
 import com.poku.graypants.domain.user.persistence.User;
 import com.poku.graypants.domain.user.persistence.UserRepository;
 import com.poku.graypants.global.util.CookieUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 import java.time.Duration;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class JwtService {
 
     public static final String REFRESH_TOKEN_COOKIE_NAME = "refresh_token";
@@ -19,6 +25,7 @@ public class JwtService {
 
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
+    private final StoreRepository storeRepository;
 
     /**
      * 생성된 리프레시 토큰을 쿠키에 저장하는 메소드
@@ -26,9 +33,14 @@ public class JwtService {
      * @param user       Long
      * @param newRefreshToken String
      */
-    public void saveRefreshToken(User user, final String newRefreshToken) {
-        user.updateRefreshToken(newRefreshToken);
-        userRepository.save(user);
+    public void saveRefreshToken(EmailAuthenticateAble entity, final String newRefreshToken) {
+        entity.updateRefreshToken(newRefreshToken);
+        if(entity instanceof User)
+            userRepository.save((User) entity);
+        else if(entity instanceof Store)
+            storeRepository.save((Store) entity);
+        else
+            throw new IllegalArgumentException("Invalid Role");
     }
 
     public void addRefreshTokenToCookie(final HttpServletRequest request, final HttpServletResponse response,
@@ -38,7 +50,7 @@ public class JwtService {
         CookieUtil.addCookie(response, REFRESH_TOKEN_COOKIE_NAME, refreshToken, cookieMaxAge);
     }
 
-    public String generateToken(User user, Duration duration) {
-        return jwtProvider.generateToken(user, duration);
+    public String generateToken(EmailAuthenticateAble entity, Duration duration) {
+        return jwtProvider.generateToken(entity, duration);
     }
 }

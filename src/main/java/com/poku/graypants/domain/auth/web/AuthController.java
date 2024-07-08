@@ -16,15 +16,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/email-auth")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
-public class EmailAuthController {
+public class AuthController {
 
     private final EmailAuthService emailAuthService;
     @PostMapping("/login")
     public ResponseEntity<ApiResult<?>> emailLogin(HttpServletRequest httpRequest, HttpServletResponse httpResponse, @RequestBody  EmailLoginRequestDto request) {
 
-        String targetUri = emailAuthService.login(httpRequest, httpResponse, request);
+        String targetUri = emailAuthService.userEmailLogin(httpRequest, httpResponse, request);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("uri", targetUri);
         return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
@@ -33,6 +33,16 @@ public class EmailAuthController {
     @PostMapping("/signup")
     public ResponseEntity<ApiResult<?>> emailSignup(HttpServletRequest httpRequest, HttpServletResponse httpResponse, @RequestBody EmailSignupRequestDto request) {
         String targetUri = emailAuthService.signup(httpRequest, httpResponse, request);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("uri", targetUri);
+        return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
+    }
+
+    @PostMapping("/store-login")
+    public ResponseEntity<ApiResult<?>> storeLogin(HttpServletRequest httpRequest, HttpServletResponse httpResponse,
+                                                   @RequestBody EmailLoginRequestDto request) {
+
+        String targetUri = emailAuthService.storeEmailLogin(httpRequest, httpResponse, request);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("uri", targetUri);
         return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
