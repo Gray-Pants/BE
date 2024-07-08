@@ -47,7 +47,7 @@ public class JwtProvider {
                 .setIssuer(jwtProperties.getIssuer())
                 .setIssuedAt(new Date())
                 .setExpiration(expirationDate)
-                .setSubject(user.getEmail())
+//                .setSubject(user.getEmail())
                 .claim("id", user.getUserId())
                 .signWith(getSigningKey())
                 .compact();
@@ -81,7 +81,7 @@ public class JwtProvider {
         Claims claims = getClaims(token);
         Set<SimpleGrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
         return new UsernamePasswordAuthenticationToken(
-                new org.springframework.security.core.userdetails.User(claims.getSubject(), "", authorities),
+                claims.get("id", Long.class),
                 token,
                 authorities
         );
