@@ -7,9 +7,14 @@ spring:
       hibernate:
         format_sql: true
     defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
   datasource:
     url: jdbc:h2:mem:testdb
     username: sa
+  sql:
+    init:
+      mode: always
   h2:
     console:
       enabled: true

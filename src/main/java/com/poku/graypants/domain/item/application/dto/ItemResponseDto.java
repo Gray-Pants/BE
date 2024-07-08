@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 public class ItemResponseDto {
 
-    private Long id;
+    private Long itemId;
     private String itemName;
     private int itemPrice;
     private int stock;
@@ -26,7 +26,7 @@ public class ItemResponseDto {
     @Builder
     @QueryProjection
     public ItemResponseDto(Item item) {
-        this.id = item.getId();
+        this.itemId = item.getItemId();
         this.itemName = item.getItemName();
         this.itemPrice = item.getItemPrice();
         this.stock = item.getStock();

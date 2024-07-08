@@ -8,9 +8,11 @@ public enum ExceptionStatus {
 
     RANDOM_NUMBER_GENERATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, 500, "Random Number Generate Failed"),
     ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "Item Not Found"),
+    Like_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "Like Not Found"),
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND, 404,"User not found"),
+    INVALID_QUANTITY(HttpStatus.BAD_REQUEST, 400, "유효하지 않은 수량입니다." );
     CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "Category Not Found"),
     INVALID_VERIFICATION_CODE(HttpStatus.BAD_REQUEST, 400, "유효하지 않은 메일 인증입니다."),
-    USER_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "User Not Found"),
     INVALID_PASSWORD(HttpStatus.FORBIDDEN, 400, "Invalid Password");
 
     private final int status;
