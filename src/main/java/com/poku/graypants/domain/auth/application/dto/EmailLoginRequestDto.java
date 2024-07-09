@@ -9,5 +9,4 @@ import lombok.Getter;
 public class EmailLoginRequestDto {
     private String email;
     private String password;
-
 }

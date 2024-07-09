@@ -9,4 +9,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class VerificationEmailSendRequestDto {
     private String email;
+    private String role;
 }

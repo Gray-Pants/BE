@@ -67,6 +67,8 @@ public class UserService {
     }
 
     public User saveEmailUser(String email, String name, String password) {
+        if (userRepository.findByEmail(email).isPresent())
+            throw new GrayPantsException(ExceptionStatus.DUPLICATED_EMAIL);
         return userRepository.save(User.builder()
                 .grade(DEFAULT_ROLE)
                 .email(email)
@@ -77,11 +79,7 @@ public class UserService {
 
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new GrayPantsException(ExceptionStatus.USER_NOT_FOUND));
+                .orElse(null);
     }
 
-    public boolean matchPassword(String password, String password1) {
-        //인코딩 로직 필요
-        return password.equals(password1);
-    }
 }

@@ -1,5 +1,6 @@
 package com.poku.graypants.domain.store.persistence;
 
+import com.poku.graypants.domain.auth.persistence.EmailAuthenticateAble;
 import com.poku.graypants.domain.item.persistence.Item;
 import com.poku.graypants.domain.order.persistence.OrderItem;
 import com.poku.graypants.global.entity.BaseTime;
@@ -15,7 +16,7 @@ import static jakarta.persistence.FetchType.*;
 @Table(name = "STORES")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Store extends BaseTime {
+public class Store extends BaseTime implements EmailAuthenticateAble  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +31,9 @@ public class Store extends BaseTime {
     @Column(name = "store_password", length = 100, nullable = false)
     private String storePassword;
 
+    @Column(name="refresh_token")
+    private String refreshToken;
+    
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = LAZY)
     private List<Item> itemList = new ArrayList<>();
 
@@ -43,5 +47,30 @@ public class Store extends BaseTime {
         this.storeName = storeName;
         this.storeEmail = storeEmail;
         this.storePassword = storePassword;
+    }
+
+    @Override
+    public String getEmail() {
+        return this.storeEmail;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.storePassword;
+    }
+
+    @Override
+    public String getRole() {
+        return "ROLE_STORE";
+    }
+
+    @Override
+    public Long getId() {
+        return this.storeId;
+    }
+
+    @Override
+    public void updateRefreshToken(String newRefreshToken) {
+        this.refreshToken = newRefreshToken;
     }
 }
