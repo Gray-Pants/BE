@@ -11,7 +11,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -22,11 +24,18 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @AllArgsConstructor
 @Configuration
+@EnableWebSecurity
+@EnableMethodSecurity(securedEnabled = true)
 public class OAuthSecurityConfig {
 
     private final OAuth2UserCustomService oAuth2UserCustomService;
     private final JwtService jwtService;
     private final JwtProvider tokenProvider;
+    private final CustomAccessDeniedHandler accessDeniedHandler;
+
+    private static final String[] AUTH_WHITELIST = {
+             "*/swagger-ui.html", "/email-auth", "/login"
+    };
 
     @Bean
     public WebSecurityCustomizer configure() {
@@ -44,7 +53,7 @@ public class OAuthSecurityConfig {
                 .addFilterBefore(new TokenAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests((auth)-> auth
                         .requestMatchers(new AntPathRequestMatcher("/api/token")).permitAll()
-//                        .requestMatchers(new AntPathRequestMatcher("/api/**")).authenticated()
+                        .requestMatchers(new AntPathRequestMatcher("/api/**")).authenticated()
                         .anyRequest().permitAll())
                 .oauth2Login(oauth2 -> oauth2
                         .authorizationEndpoint(
@@ -54,6 +63,7 @@ public class OAuthSecurityConfig {
                         .successHandler(oAuth2SuccessHandler())
                 )
                 .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .accessDeniedHandler(accessDeniedHandler)
                         .defaultAuthenticationEntryPointFor(
                                 new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
                                 new AntPathRequestMatcher("/api/**"))
