@@ -24,3 +24,13 @@ spring:
     redis:
       host: localhost
       port: 6379
+
+springdoc:
+  packages-to-scan: com.poku.graypants
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    path: /swagger
+    disable-swagger-default-url: true
+    display-request-duration: true
+    operations-sorter: alpha

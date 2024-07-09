@@ -28,6 +28,10 @@ public class OAuthSecurityConfig {
     private final JwtService jwtService;
     private final JwtProvider tokenProvider;
 
+    private static final String[] AUTH_WHITELIST = {
+             "*/swagger-ui.html", "/email-auth", "/login"
+    };
+
     @Bean
     public WebSecurityCustomizer configure() {
         return (web) -> web.ignoring()
@@ -44,7 +48,7 @@ public class OAuthSecurityConfig {
                 .addFilterBefore(new TokenAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests((auth)-> auth
                         .requestMatchers(new AntPathRequestMatcher("/api/token")).permitAll()
-//                        .requestMatchers(new AntPathRequestMatcher("/api/**")).authenticated()
+                        .requestMatchers(new AntPathRequestMatcher("/api/**")).authenticated()
                         .anyRequest().permitAll())
                 .oauth2Login(oauth2 -> oauth2
                         .authorizationEndpoint(

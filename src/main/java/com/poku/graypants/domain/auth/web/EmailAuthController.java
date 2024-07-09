@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/email-auth")
+@RequestMapping("api/email-auth")
 @RequiredArgsConstructor
 public class EmailAuthController {
 
