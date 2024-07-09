@@ -56,7 +56,7 @@ public class LikeService {
 
     private Like getLikeById(Long likeId) {
         return likeRepository.findById(likeId)
-                .orElseThrow(() -> new GrayPantsException(ExceptionStatus.Like_NOT_FOUND));
+                .orElseThrow(() -> new GrayPantsException(ExceptionStatus.LIKE_NOT_FOUND));
     }
 
 }

@@ -49,14 +49,14 @@ public class Item extends BaseTime {
     @OneToMany(mappedBy = "item", fetch = LAZY)
     private List<OrderItem> orderItems;
 
-    @OneToMany(mappedBy = "item" ,fetch = LAZY)
-    private List<ItemPhoto> itemPhotos;
+    @Column(name = "item_photos", nullable = false)
+    private String itemPhotos;
 
     @OneToMany(mappedBy = "item")
     private List<CartItem> cartItems;
 
     @Builder
-    public Item(String itemName, int itemPrice, String itemDescImg, int stock, Store store, Category category, List<ItemPhoto> itemPhotos) {
+    public Item(String itemName, int itemPrice, String itemDescImg, int stock, Store store, Category category, String itemPhotos) {
         super();
         this.itemName = itemName;
         this.itemPrice = itemPrice;
@@ -67,7 +67,7 @@ public class Item extends BaseTime {
         this.itemPhotos = itemPhotos;
     }
 
-    public Item updateItem(ItemUpdateRequestDto dto, List<ItemPhoto> itemPhotos, String itemDescImg) {
+    public Item updateItem(ItemUpdateRequestDto dto, String itemPhotos, String itemDescImg) {
         this.itemName = dto.getItemName();
         this.itemPrice = dto.getItemPrice();
         this.stock = dto.getStock();
@@ -78,7 +78,7 @@ public class Item extends BaseTime {
         return this;
     }
 
-    public void updateItemPhotos(List<ItemPhoto> itemPhotos) {
+    public void updateItemPhotos(String itemPhotos) {
         this.itemPhotos = itemPhotos;
     }
 

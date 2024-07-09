@@ -5,7 +5,6 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.poku.graypants.domain.item.application.dto.*;
 import com.poku.graypants.domain.item.persistence.Item;
-import com.poku.graypants.domain.item.persistence.ItemPhoto;
 import com.poku.graypants.domain.item.persistence.ItemRepositoryCustom;
 import com.poku.graypants.domain.item.persistence.ItemRepository;
 import com.poku.graypants.global.exception.ExceptionStatus;
@@ -44,10 +43,11 @@ public class ItemService {
         List<MultipartFile> multipartItemPhotos = itemCreateRequestDto.getItemPhotos();
         MultipartFile multipartItemDesc = itemCreateRequestDto.getItemDescImg();
 
-        Item savedItem = itemRepository.save(itemCreateRequestDto.toEntity());
+        Item item = itemCreateRequestDto.toEntity();
+        item.updateItemPhotos(uploadItemPhotos(multipartItemPhotos));
+        item.updateItemDescImg(uploadDescPhoto(multipartItemDesc));
 
-        savedItem.updateItemPhotos(uploadItemPhotos(multipartItemPhotos, savedItem));
-        savedItem.updateItemDescImg(uploadDescPhoto(multipartItemDesc));
+        Item savedItem = itemRepository.save(item);
 
         return new ItemResponseDto(savedItem);
     }
@@ -56,7 +56,7 @@ public class ItemService {
         Item item = getItemByID(id);
 
         return new ItemResponseDto(item.updateItem(itemUpdateRequestDto,
-                uploadItemPhotos(itemUpdateRequestDto.getItemPhotos(), item),
+                uploadItemPhotos(itemUpdateRequestDto.getItemPhotos()),
                 uploadDescPhoto(itemUpdateRequestDto.getItemDescImg())));
     }
 
@@ -107,16 +107,14 @@ public class ItemService {
         try {
             multipartFile.transferTo(file);
         } catch (IOException e) {
-            throw new RuntimeException(ExceptionStatus.FILE_NOT_FOUND.getMessage());
+            throw new GrayPantsException(ExceptionStatus.FILE_NOT_FOUND);
         }
         return file;
     }
 
     private String makeUUID() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(UUID.randomUUID().toString().substring(0, 7));
 
-        return sb.toString();
+        return UUID.randomUUID().toString().substring(0, 7);
     }
 
     private String uploadDescPhoto(MultipartFile multipartItemDesc) {
@@ -131,22 +129,26 @@ public class ItemService {
         return uploadDescPhotoUrl;
     }
 
-    private List<ItemPhoto> uploadItemPhotos(List<MultipartFile> multipartItemPhotos, Item savedItem) {
-        List<ItemPhoto> itemPhotos = new ArrayList<>();
+    private String uploadItemPhotos(List<MultipartFile> multipartItemPhotos) {
 
-        for (MultipartFile multipartItemPhoto : multipartItemPhotos){
-            String fileName = multipartItemPhoto.getOriginalFilename();
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < multipartItemPhotos.size(); i++){
+            String fileName = multipartItemPhotos.get(i).getOriginalFilename();
             fileName = LocalDateTime.now() + "-" + fileName + "-" + makeUUID();
 
-            File uploadFile = multipartFileToFile(multipartItemPhoto);
+            File uploadFile = multipartFileToFile(multipartItemPhotos.get(i));
             String uploadFileUrl = putS3(uploadFile, fileName);
-            itemPhotos.add(ItemPhoto.builder()
-                    .itemPhotoLink(uploadFileUrl)
-                    .item(savedItem).build());
+
+            sb.append(uploadFileUrl);
+
+            if (i != multipartItemPhotos.size() - 1) {
+                sb.append(",");
+            }
 
             removeLocalFile(uploadFile);
         }
 
-        return itemPhotos;
+        return sb.toString();
     }
 }
