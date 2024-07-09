@@ -7,13 +7,19 @@ import com.poku.graypants.domain.item.application.dto.ItemCreateRequestDto;
 import com.poku.graypants.domain.item.application.dto.ItemResponseDto;
 import com.poku.graypants.domain.item.application.dto.ItemUpdateRequestDto;
 import com.poku.graypants.global.util.ApiResponseUtil.ApiResult;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/items")
@@ -30,14 +36,17 @@ public class ItemController {
     }
 
     @PostMapping("/item")
-    public ResponseEntity<ApiResult<ItemResponseDto>> createItem(@RequestBody ItemCreateRequestDto itemCreateRequestDto) {
+    public ResponseEntity<ApiResult<ItemResponseDto>> createItem(
+            @RequestBody ItemCreateRequestDto itemCreateRequestDto) {
         ItemResponseDto responseDto = itemService.createItem(itemCreateRequestDto);
 
         return new ResponseEntity<>(success(responseDto), new HttpHeaders(), HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ROLE_STORE')")
     @PostMapping("/{id}")
-    public ResponseEntity<ItemResponseDto> updateItem(@RequestBody ItemUpdateRequestDto itemUpdateRequestDto, @PathVariable Long id) {
+    public ResponseEntity<ItemResponseDto> updateItem(@RequestBody ItemUpdateRequestDto itemUpdateRequestDto,
+                                                      @PathVariable Long id) {
         ItemResponseDto responseDto = itemService.updateItem(id, itemUpdateRequestDto);
         return new ResponseEntity<>(responseDto, new HttpHeaders(), HttpStatus.OK);
     }
