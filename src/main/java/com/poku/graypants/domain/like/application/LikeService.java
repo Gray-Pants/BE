@@ -26,8 +26,8 @@ public class LikeService {
     private final ItemService itemService;
     private final LikeFactory likeFactory;
 
-    public LikeResponseDto addLike(LikeRequestDto requestDto) {
-        User user = userService.getUserById(requestDto.getUserId());
+    public LikeResponseDto addLike(LikeRequestDto requestDto, Long userId) {
+        User user = userService.getUserById(userId);
         Item item = itemService.getItemById(requestDto.getItemId());
 
         Like like = likeFactory.createLike(user, item);
