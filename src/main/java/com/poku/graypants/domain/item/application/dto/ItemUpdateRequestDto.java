@@ -13,7 +13,7 @@ public class ItemUpdateRequestDto {
 
     private String itemName;
     private int itemPrice;
-    private List<MultipartFile> itemPhotosDto;
+    private List<MultipartFile> itemPhotos;
     private MultipartFile itemDescImg;
     private int stock;
     private String storeName;

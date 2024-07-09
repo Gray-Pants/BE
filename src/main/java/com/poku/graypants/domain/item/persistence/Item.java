@@ -62,11 +62,13 @@ public class Item extends BaseTime {
         this.itemPhotos = itemPhotos;
     }
 
-    public Item updateItem(ItemUpdateRequestDto dto) {
+    public Item updateItem(ItemUpdateRequestDto dto, List<ItemPhoto> itemPhotos, String itemDescImg) {
         this.itemName = dto.getItemName();
         this.itemPrice = dto.getItemPrice();
         this.stock = dto.getStock();
         this.category = dto.getCategory();
+        this.itemPhotos = itemPhotos;
+        this.itemDescImg = itemDescImg;
 
         return this;
     }

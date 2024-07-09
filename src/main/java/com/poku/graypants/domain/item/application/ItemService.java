@@ -33,7 +33,7 @@ public class ItemService {
     private ItemRepositoryCustom itemRepositoryCustom;
     private final AmazonS3 amazonS3;
 
-    @Value("${spring.cloud.aws.s3.bucket}")
+    @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
     public ItemResponseDto createItem(ItemCreateRequestDto itemCreateRequestDto) {
@@ -43,19 +43,20 @@ public class ItemService {
         List<MultipartFile> multipartItemPhotos = itemCreateRequestDto.getItemPhotos();
         MultipartFile multipartItemDesc = itemCreateRequestDto.getItemDescImg();
 
-//        Item savedItem = itemRepository.save(ItemCreateRequestDto.toEntity());
-//
-//        savedItem.updateItemPhotos(uploadItemPhotos(multipartItemPhotos, savedItem));
-//        savedItem.updateItemDescImg(uploadDescPhoto(multipartItemDesc));
-//
-//        return new ItemResponseDto(savedItem);
-        return null;
+        Item savedItem = itemRepository.save(itemCreateRequestDto.toEntity());
+
+        savedItem.updateItemPhotos(uploadItemPhotos(multipartItemPhotos, savedItem));
+        savedItem.updateItemDescImg(uploadDescPhoto(multipartItemDesc));
+
+        return new ItemResponseDto(savedItem);
     }
 
     public ItemResponseDto updateItem(Long id, ItemUpdateRequestDto itemUpdateRequestDto) {
         Item item = getItemByID(id);
 
-        return new ItemResponseDto(item.updateItem(itemUpdateRequestDto));
+        return new ItemResponseDto(item.updateItem(itemUpdateRequestDto,
+                uploadItemPhotos(itemUpdateRequestDto.getItemPhotos(), item),
+                uploadDescPhoto(itemUpdateRequestDto.getItemDescImg())));
     }
 
 
