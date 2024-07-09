@@ -7,13 +7,23 @@ spring:
       hibernate:
         format_sql: true
     defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
   datasource:
     url: jdbc:h2:mem:testdb
     username: sa
+  sql:
+    init:
+      mode: always
   h2:
     console:
       enabled: true
   profiles:
+    include: oauth, mail
+  data:
+    redis:
+      host: localhost
+      port: 6379
     include: oauth
   servlet:
     multipart:

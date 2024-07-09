@@ -1,5 +1,6 @@
 package com.poku.graypants.global.jwt;
 
+import com.poku.graypants.domain.auth.persistence.EmailAuthenticateAble;
 import com.poku.graypants.domain.user.persistence.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
@@ -30,9 +31,9 @@ public class JwtProvider {
      * @param duration 만료 시간
      * @return String
      */
-    public String generateToken(User user, Duration duration) {
+    public String generateToken(EmailAuthenticateAble entity, Duration duration) {
         Date now = new Date();
-        return makeToken(new Date(now.getTime() + duration.toMillis()), user);
+        return makeToken(new Date(now.getTime() + duration.toMillis()), entity);
     }
 
     /**
@@ -41,14 +42,15 @@ public class JwtProvider {
      * @param member Member 객체
      * @return String
      */
-    public String makeToken(Date expirationDate, User user) {
+    public String makeToken(Date expirationDate, EmailAuthenticateAble entity) {
         return Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setIssuer(jwtProperties.getIssuer())
                 .setIssuedAt(new Date())
                 .setExpiration(expirationDate)
-                .setSubject(user.getEmail())
-                .claim("id", user.getUserId())
+//                .setSubject(user.getEmail())
+                .claim("id", entity.getId())
+                .claim("id", entity.getRole())
                 .signWith(getSigningKey())
                 .compact();
     }
@@ -81,7 +83,7 @@ public class JwtProvider {
         Claims claims = getClaims(token);
         Set<SimpleGrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
         return new UsernamePasswordAuthenticationToken(
-                new org.springframework.security.core.userdetails.User(claims.getSubject(), "", authorities),
+                claims.get("id", Long.class),
                 token,
                 authorities
         );

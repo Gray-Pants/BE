@@ -1,5 +1,6 @@
 package com.poku.graypants.domain.item.persistence;
 
+import com.poku.graypants.domain.cart.persistence.CartItem;
 import com.poku.graypants.domain.item.application.dto.ItemUpdateRequestDto;
 import com.poku.graypants.domain.order.persistence.OrderItem;
 import com.poku.graypants.domain.store.persistence.Store;
@@ -11,6 +12,7 @@ import java.util.List;
 import static jakarta.persistence.FetchType.*;
 
 @Entity
+@Table(name = "ITEMS")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Item extends BaseTime {
@@ -18,7 +20,7 @@ public class Item extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id", nullable = false, unique = true)
-    private Long Id;
+    private Long itemId;
 
     @Column(name = "item_name", length = 200, nullable = false)
     private String itemName;
@@ -49,6 +51,9 @@ public class Item extends BaseTime {
 
     @OneToMany(mappedBy = "item" ,fetch = LAZY)
     private List<ItemPhoto> itemPhotos;
+
+    @OneToMany(mappedBy = "item")
+    private List<CartItem> cartItems;
 
     @Builder
     public Item(String itemName, int itemPrice, String itemDescImg, int stock, Store store, Category category, List<ItemPhoto> itemPhotos) {

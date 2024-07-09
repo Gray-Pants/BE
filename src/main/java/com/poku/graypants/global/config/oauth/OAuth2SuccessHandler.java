@@ -1,9 +1,13 @@
 package com.poku.graypants.global.config.oauth;
 
+import static com.poku.graypants.global.jwt.JwtService.ACCESS_TOKEN_DURATION;
+import static com.poku.graypants.global.jwt.JwtService.REFRESH_TOKEN_DURATION;
+
 import com.poku.graypants.domain.user.application.UserService;
 import com.poku.graypants.domain.user.persistence.User;
 import com.poku.graypants.domain.user.persistence.UserRepository;
 import com.poku.graypants.global.jwt.JwtProvider;
+import com.poku.graypants.global.jwt.JwtService;
 import com.poku.graypants.global.util.CookieUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,13 +23,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 @AllArgsConstructor
 @Component
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-    public static final String REFRESH_TOKEN_COOKIE_NAME = "refresh_token";
-    public static final Duration REFRESH_TOKEN_DURATION = Duration.ofDays(14);
-    public static final Duration ACCESS_TOKEN_DURATION = Duration.ofDays(1);
+
+
     public static final String REDIRECT_PATH = "/";
 
-    private final JwtProvider tokenProvider;
-    private final UserRepository userRepository;
+    private final JwtService jwtService;
     private final OAuth2AuthorizationRequestBasedOnCookieRepository authorizationRequestRepository;
 
     /**
@@ -42,12 +44,12 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         User user = principal.getUser();
 
         //리프레시 토큰 생성 -> 저장 -> 쿠키에 저장
-        String refreshToken = tokenProvider.generateToken(user, REFRESH_TOKEN_DURATION);
-        saveRefreshToken(user, refreshToken);
-        addRefreshTokenToCookie(request, response, refreshToken);
+        String refreshToken = jwtService.generateToken(user, REFRESH_TOKEN_DURATION);
+        jwtService.saveRefreshToken(user, refreshToken);
+        jwtService.addRefreshTokenToCookie(request, response, refreshToken);
 
         // 액세스 토큰 생성 -> 패스에 엑세스 토큰 추가
-        String accessToken = tokenProvider.generateToken(user, ACCESS_TOKEN_DURATION);
+        String accessToken = jwtService.generateToken(user, ACCESS_TOKEN_DURATION);
         String targetUrl = getTargetUrl(accessToken);
 
         //인증 관련 설정값, 쿠키 제거
@@ -57,25 +59,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 
-    //생성된 리프레시 토큰을 쿠키에 저장
-
-    /**
-     * 생성된 리프레시 토큰을 쿠키에 저장하는 메소드
-     *
-     * @param user       Long
-     * @param newRefreshToken String
-     */
-    private void saveRefreshToken(User user, final String newRefreshToken) {
-        user.updateRefreshToken(newRefreshToken);
-        userRepository.save(user);
-    }
-
-    private void addRefreshTokenToCookie(final HttpServletRequest request, final HttpServletResponse response,
-                                         final String refreshToken) {
-        int cookieMaxAge = (int) REFRESH_TOKEN_DURATION.toSeconds();
-        CookieUtil.deleteCookie(request, response, REFRESH_TOKEN_COOKIE_NAME);
-        CookieUtil.addCookie(response, REFRESH_TOKEN_COOKIE_NAME, refreshToken, cookieMaxAge);
-    }
 
     //인증 관련 설정값, 쿠키 제거
 

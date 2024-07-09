@@ -9,6 +9,7 @@ import com.poku.graypants.domain.item.persistence.ItemPhoto;
 import com.poku.graypants.domain.item.persistence.ItemRepositoryCustom;
 import com.poku.graypants.domain.item.persistence.ItemRepository;
 import com.poku.graypants.global.exception.ExceptionStatus;
+import com.poku.graypants.global.exception.GrayPantsException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,8 +30,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ItemService {
 
-    private ItemRepository itemRepository;
-    private ItemRepositoryCustom itemRepositoryCustom;
+    private final ItemRepository itemRepository;
+    private final ItemRepositoryCustom itemRepositoryCustom;
     private final AmazonS3 amazonS3;
 
     @Value("${cloud.aws.s3.bucket}")
@@ -74,11 +75,15 @@ public class ItemService {
         itemRepository.deleteById(id);
     }
 
-    private Item getItemByID(Long id) {
+    public Item getItemByID(Long id) {
         Item item = itemRepository.findById(id).orElseThrow(() ->
-            {throw new RuntimeException(ExceptionStatus.ITEM_NOT_FOUND.getMessage());
-            });
+                new GrayPantsException(ExceptionStatus.ITEM_NOT_FOUND));
         return item;
+    }
+
+    public Item getItemById(Long itemId) {
+        return itemRepository.findById(itemId)
+                .orElseThrow(() -> new GrayPantsException(ExceptionStatus.ITEM_NOT_FOUND));
     }
 
     private String putS3(File uploadFile, String fileName){
