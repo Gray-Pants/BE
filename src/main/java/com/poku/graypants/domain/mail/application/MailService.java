@@ -40,7 +40,7 @@ public class MailService {
         String title = "Gray-Pants 이메일 인증 번호";
         String authCode = this.createCode();
         this.sendMail(request.getEmail(), title, authCode);
-        redisUtil.setData("AuthCode " + request.getEmail(), authCode, Duration.ofMinutes(10));
+        redisUtil.setData("AuthCode " + request.getRole() + request.getEmail(), authCode, Duration.ofMinutes(10));
     }
 
     private String createCode() {
@@ -59,16 +59,16 @@ public class MailService {
     }
 
     public boolean verifiedCode(VerifyEmailRequestDto request) {
-        String authCode = (String) redisUtil.getData("AuthCode " + request.getEmail());
+        String authCode = (String) redisUtil.getData("AuthCode "+ request.getRole() + request.getEmail());
         if(!request.getAuthCode().equals(authCode))
             return false;
-        redisUtil.deleteData("AuthCode " + request.getEmail());
+        redisUtil.deleteData("AuthCode "+ request.getRole() + request.getEmail());
         return true;
     }
 
     public VerifyEmailResponseDto getVerifiedCode(VerifyEmailRequestDto request) {
         String verifiedCode = java.util.UUID.randomUUID().toString();
-        redisUtil.setData("VerificationCode " + request.getEmail(), verifiedCode, Duration.ofMinutes(30));
+        redisUtil.setData("VerificationCode "+ request.getRole() + request.getEmail(), verifiedCode, Duration.ofMinutes(30));
         return VerifyEmailResponseDto.builder()
                 .verifiedCode(verifiedCode)
                 .build();

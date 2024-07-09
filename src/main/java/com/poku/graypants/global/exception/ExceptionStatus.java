@@ -13,7 +13,10 @@ public enum ExceptionStatus {
     INVALID_QUANTITY(HttpStatus.BAD_REQUEST, 400, "유효하지 않은 수량입니다."),
     CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "Category Not Found"),
     INVALID_VERIFICATION_CODE(HttpStatus.BAD_REQUEST, 400, "유효하지 않은 메일 인증입니다."),
-    INVALID_PASSWORD(HttpStatus.FORBIDDEN, 403, "Invalid Password"),
+    INVALID_PASSWORD(HttpStatus.FORBIDDEN, 400, "Invalid Password"),
+    STORE_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "Store Not Found"),
+    DUPLICATED_EMAIL(HttpStatus.FORBIDDEN, 403, "이미 존재하는 이메일입니다."),
+    INVALID_ROLE(HttpStatus.BAD_REQUEST, 400, "허용되지 않은 역할입니다."),
     ACCESS_DENIED(HttpStatus.FORBIDDEN, 403, "권한이 없습니다.");
 
     private final int status;

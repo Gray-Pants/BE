@@ -11,4 +11,5 @@ public class EmailSignupRequestDto {
     private String password;
     private String phone;
     private String verificationCode;
+    private String role;
 }
