@@ -1,14 +1,15 @@
 package com.poku.graypants.domain.item.application.dto;
 
 
-import com.poku.graypants.domain.item.persistence.Category;
 import com.poku.graypants.domain.item.persistence.Item;
-import com.poku.graypants.domain.store.persistence.Store;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Getter
 public class ItemResponseDto {
@@ -22,6 +23,7 @@ public class ItemResponseDto {
     private LocalDateTime updated_at;
     private String storeName;
     private String categoryTitle;
+    private List<String> itemPhotos;
 
     @Builder
     @QueryProjection
@@ -35,5 +37,13 @@ public class ItemResponseDto {
         this.updated_at = item.getUpdatedAt();
         this.storeName = item.getStore().getStoreName();
         this.categoryTitle = item.getCategory().getTitle();
+
+        this.itemPhotos = photosStringToList(item);
+    }
+
+    private static List<String> photosStringToList(Item item) {
+        String[] arr = item.getItemPhotos().split(",");
+
+        return new ArrayList<>(Arrays.asList(arr));
     }
 }

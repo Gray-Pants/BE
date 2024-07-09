@@ -36,8 +36,7 @@ public class ItemController {
     }
 
     @PostMapping("/item")
-    public ResponseEntity<ApiResult<ItemResponseDto>> createItem(
-            @RequestBody ItemCreateRequestDto itemCreateRequestDto) {
+    public ResponseEntity<ApiResult<ItemResponseDto>> createItem(@ModelAttribute ItemCreateRequestDto itemCreateRequestDto) {
         ItemResponseDto responseDto = itemService.createItem(itemCreateRequestDto);
 
         return new ResponseEntity<>(success(responseDto), new HttpHeaders(), HttpStatus.CREATED);

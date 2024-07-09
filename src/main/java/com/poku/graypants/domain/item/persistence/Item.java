@@ -49,14 +49,14 @@ public class Item extends BaseTime {
     @OneToMany(mappedBy = "item", fetch = LAZY)
     private List<OrderItem> orderItems;
 
-    @OneToMany(mappedBy = "item" ,fetch = LAZY)
-    private List<ItemPhoto> itemPhotos;
+    @Column(name = "item_photos", nullable = false)
+    private String itemPhotos;
 
     @OneToMany(mappedBy = "item")
     private List<CartItem> cartItems;
 
     @Builder
-    public Item(String itemName, int itemPrice, String itemDescImg, int stock, Store store, Category category, List<ItemPhoto> itemPhotos) {
+    public Item(String itemName, int itemPrice, String itemDescImg, int stock, Store store, Category category, String itemPhotos) {
         super();
         this.itemName = itemName;
         this.itemPrice = itemPrice;
@@ -67,15 +67,23 @@ public class Item extends BaseTime {
         this.itemPhotos = itemPhotos;
     }
 
-    public Item updateItem(ItemUpdateRequestDto dto) {
+    public Item updateItem(ItemUpdateRequestDto dto, String itemPhotos, String itemDescImg) {
         this.itemName = dto.getItemName();
         this.itemPrice = dto.getItemPrice();
-        //this.itemPhotos = dto.getItemPhotosDto();
-        this.itemDescImg = dto.getItemDescImg();
         this.stock = dto.getStock();
         this.category = dto.getCategory();
+        this.itemPhotos = itemPhotos;
+        this.itemDescImg = itemDescImg;
 
         return this;
+    }
+
+    public void updateItemPhotos(String itemPhotos) {
+        this.itemPhotos = itemPhotos;
+    }
+
+    public void updateItemDescImg(String itemDescImg) {
+        this.itemDescImg = itemDescImg;
     }
 
 }
