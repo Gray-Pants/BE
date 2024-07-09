@@ -3,10 +3,14 @@ package com.poku.graypants.global.exception;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+import java.io.File;
+
 @Getter
 public enum ExceptionStatus {
     ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "Item Not Found"),
-    CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "Category Not Found");
+    CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "Category Not Found"),
+
+    FILE_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "ItemImgFile Not Found");
 
     private final int status;
     private final int customCode;

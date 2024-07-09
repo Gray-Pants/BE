@@ -26,8 +26,8 @@ public class ItemPhoto {
     private Item item;
 
     @Builder
-    public ItemPhoto(String itemPhotoLink) {
+    public ItemPhoto(String itemPhotoLink, Item item) {
         this.itemPhotoLink = itemPhotoLink;
-
+        this.item = item;
     }
 }
