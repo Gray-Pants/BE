@@ -4,9 +4,9 @@ INSERT INTO stores (store_name, store_password, store_email, created_at, updated
 ('store_2', 'password_2', 'store_2@example.com', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- items 테이블에 더미 데이터 삽입
-INSERT INTO items (category, item_price, sales_quantity, stock, view_count, created_at, store_id, updated_at, item_desc_img, item_name) VALUES
-(1, 1000, 10, 100, 50, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'desc_img_1', 'item_1'),
-(2, 2000, 20, 200, 100, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'desc_img_2', 'item_2');
+INSERT INTO items (category, item_price, sales_quantity, stock, view_count, created_at, store_id, updated_at,item_photos, item_desc_img, item_name) VALUES
+(1, 1000, 10, 100, 50, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'www.localhost:8080','desc_img_1', 'item_1'),
+(2, 2000, 20, 200, 100, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'www.localhost:8787','desc_img_2', 'item_2');
 
 -- orders 테이블에 더미 데이터 삽입
 INSERT INTO "orders" (order_id, created_at, updated_at) VALUES
@@ -32,11 +32,6 @@ INSERT INTO likes (item_id, user_id, created_at, updated_at) VALUES
 INSERT INTO cart_items (cart_item_quantity, cart_id, item_id, created_at, updated_at) VALUES
 (1, 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 (2, 2, 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-
--- item_photos 테이블에 더미 데이터 삽입
-INSERT INTO item_photos (item_id, item_photo_link) VALUES
-(1, 'photo_link_1'),
-(2, 'photo_link_2');
 
 -- order_items 테이블에 더미 데이터 삽입
 INSERT INTO order_items (order_item_price, order_item_quantity, item_id, order_id, store_id, created_at, updated_at, order_item_addr, order_item_phone, order_item_status) VALUES
