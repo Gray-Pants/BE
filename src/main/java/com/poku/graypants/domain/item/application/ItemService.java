@@ -7,6 +7,7 @@ import com.poku.graypants.domain.item.application.dto.*;
 import com.poku.graypants.domain.item.persistence.Item;
 import com.poku.graypants.domain.item.persistence.ItemRepositoryCustom;
 import com.poku.graypants.domain.item.persistence.ItemRepository;
+import com.poku.graypants.domain.store.persistence.Store;
 import com.poku.graypants.global.exception.ExceptionStatus;
 import com.poku.graypants.global.exception.GrayPantsException;
 import jakarta.transaction.Transactional;
@@ -19,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -86,6 +86,7 @@ public class ItemService {
                 .orElseThrow(() -> new GrayPantsException(ExceptionStatus.ITEM_NOT_FOUND));
     }
 
+<<<<<<< Updated upstream
     private String putS3(File uploadFile, String fileName){
         amazonS3.putObject(
                 new PutObjectRequest(bucket, fileName, uploadFile)
@@ -150,5 +151,13 @@ public class ItemService {
         }
 
         return sb.toString();
+    }
+
+=======
+>>>>>>> Stashed changes
+    public void verifyItemAndStoreMatch(Item item, Store store) {
+        if (!item.getStore().getStoreId().equals(store.getStoreId()) {
+            throw new GrayPantsException(ExceptionStatus.ORDER_AND_USER_MISMATCH);
+        }
     }
 }

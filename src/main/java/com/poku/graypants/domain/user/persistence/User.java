@@ -1,8 +1,8 @@
 package com.poku.graypants.domain.user.persistence;
 
 import com.poku.graypants.domain.auth.persistence.EmailAuthenticateAble;
-import com.poku.graypants.domain.cart.persistence.Cart;
 import com.poku.graypants.domain.like.persistence.Like;
+import com.poku.graypants.domain.order.persistence.Order;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,11 +37,11 @@ public class User implements EmailAuthenticateAble {
     @Column(name="refresh_token")
     private String refreshToken;
 
-    @OneToOne(mappedBy = "user")
-    private Cart cart;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Like> likes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders = new ArrayList<>();
 
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;

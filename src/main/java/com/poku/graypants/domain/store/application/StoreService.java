@@ -15,8 +15,12 @@ public class StoreService {
     private final StoreRepository storeRepository;
 
     public Store getStoreByEmail(String email) {
+        return getVerifyStore(email);
+    }
+
+    public Store getVerifyStore(String email) {
         return storeRepository.findByStoreEmail(email)
-                .orElse(null);
+                .orElseThrow(() -> new GrayPantsException(ExceptionStatus.USER_NOT_FOUND));
     }
 
     public EmailAuthenticateAble saveStore(String email, String name, String password) {
