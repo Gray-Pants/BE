@@ -45,7 +45,7 @@ public class ItemController {
     }
 
     @GetMapping("/{itemName}")
-    public ResponseEntity<List<ApiResult<ItemResponseDto>>> getItemsByName(@PathVariable String itemName) {
+    public ResponseEntity<ApiResult<List<ItemResponseDto>>> getItemsByName(@PathVariable String itemName) {
         List<ItemResponseDto> searchItemList = itemService.findByNameAll(itemName);
         return new ResponseEntity<>(success(searchItemList), new HttpHeaders(), HttpStatus.OK);
     }

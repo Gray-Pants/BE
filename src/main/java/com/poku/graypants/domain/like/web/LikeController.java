@@ -32,7 +32,7 @@ public class LikeController {
     }
 
     @GetMapping("/my")
-    public ResponseEntity<List<ApiResult<LikeResponseDto>>> getLikesByUser(Authentication Authentication) {
+    public ResponseEntity<ApiResult<List<LikeResponseDto>>> getLikesByUser(Authentication Authentication) {
         List<LikeResponseDto> likes = likeService.getLikesByUser((Long) Authentication.getPrincipal());
         return new ResponseEntity<>(success(likes), new HttpHeaders(), HttpStatus.OK);
     }

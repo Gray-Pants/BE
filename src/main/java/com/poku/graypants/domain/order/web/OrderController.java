@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.poku.graypants.global.util.ApiResponseUtil.success;
+
 /**
  * 주문 컨트롤러
  * @version 1.0.0
@@ -35,19 +37,19 @@ public class OrderController {
   public ResponseEntity<ApiResult<OrderResponseDto>> createOrder(@RequestBody @Valid OrderCreateRequestDto orderCreateRequestDto,
                                                                  @AuthenticationPrincipal Long userId) {
     OrderResponseDto orderResponseDto = orderService.createOrder(orderCreateRequestDto, userId);
-    return new ResponseEntity<>(ApiResponseUtil.success(orderResponseDto), new HttpHeaders(), HttpStatus.CREATED);
+    return new ResponseEntity<>(success(orderResponseDto), new HttpHeaders(), HttpStatus.CREATED);
   }
 
   @GetMapping("/{orderId}")
   public ResponseEntity<ApiResult<OrderResponseDto>> getOrder(@PathVariable Long orderId) {
     OrderResponseDto orderResponseDto = orderService.getOrder(orderId);
-    return new ResponseEntity<>(ApiResponseUtil.success(orderResponseDto), new HttpHeaders(), HttpStatus.OK);
+    return new ResponseEntity<>(success(orderResponseDto), new HttpHeaders(), HttpStatus.OK);
   }
 
   @GetMapping("/list")
-  public ResponseEntity<List<ApiResult<OrderResponseDto>>> getOrders(@AuthenticationPrincipal Long userId) {
+  public ResponseEntity<ApiResult<List<OrderResponseDto>>> getOrders(@AuthenticationPrincipal Long userId) {
     List<OrderResponseDto> orderResponseDtoList = orderService.getOrders(userId);
-    return new ResponseEntity<>(ApiResponseUtil.success(orderResponseDtoList), new HttpHeaders(), HttpStatus.OK);
+    return new ResponseEntity<>(success(orderResponseDtoList), new HttpHeaders(), HttpStatus.OK);
   }
 
   @PutMapping("/{orderId}")
@@ -55,13 +57,13 @@ public class OrderController {
                                                                  @RequestBody @Valid OrderUpdateRequestDto orderUpdateRequestDto,
                                                                  @AuthenticationPrincipal Long userId) {
     OrderResponseDto orderResponseDto = orderService.updateOrder(orderId, orderUpdateRequestDto, userId);
-    return new ResponseEntity<>(ApiResponseUtil.success(orderResponseDto), new HttpHeaders(), HttpStatus.OK);
+    return new ResponseEntity<>(success(orderResponseDto), new HttpHeaders(), HttpStatus.OK);
   }
 
   @DeleteMapping("/{orderId}")
   public ResponseEntity<ApiResult<OrderResponseDto>> deleteOrder(@PathVariable Long orderId,
                                                                  @AuthenticationPrincipal Long userId) {
     OrderResponseDto orderResponseDto = orderService.deleteOrder(orderId, userId);
-    return new ResponseEntity<>(ApiResponseUtil.success(orderResponseDto), new HttpHeaders(), HttpStatus.NO_CONTENT);
+    return new ResponseEntity<>(success(orderResponseDto), new HttpHeaders(), HttpStatus.NO_CONTENT);
   }
 }
