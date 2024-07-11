@@ -32,6 +32,9 @@ public class Order extends BaseTime {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "user_id", insertable = false, updatable = false)
+    private Long userId;
+
     public void updateOrder(OrderUpdateRequestDto orderUpdateRequestDto) {
         this.orderAddr = orderUpdateRequestDto.getOrderAddr();
         this.orderPhone = orderUpdateRequestDto.getOrderPhone();

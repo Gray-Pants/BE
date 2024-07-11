@@ -86,7 +86,7 @@ public class OrderServiceImpl implements OrderService {
   }
 
   private void verifyOrderUserAndLoginUserMatch(Order findOrder, User findUser) {
-    if (!findOrder.getUser().getUserId().equals(findUser.getUserId())) {
+    if (!findOrder.getUserId().equals(findUser.getUserId())) {
       throw new GrayPantsException(ExceptionStatus.ORDER_AND_USER_MISMATCH);
     }
   }
