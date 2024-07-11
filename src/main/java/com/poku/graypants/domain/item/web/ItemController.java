@@ -40,23 +40,24 @@ public class ItemController {
 
     @PreAuthorize("hasRole('ROLE_STORE')")
     @PostMapping("/item/{id}")
-    public ResponseEntity<ItemResponseDto> updateItem(@RequestBody ItemUpdateRequestDto itemUpdateRequestDto,
+    public ResponseEntity<ApiResult<ItemResponseDto>> updateItem(@RequestBody ItemUpdateRequestDto itemUpdateRequestDto,
                                                       @PathVariable Long id) {
         ItemResponseDto responseDto = itemService.updateItem(id, itemUpdateRequestDto);
-        return new ResponseEntity<>(responseDto, new HttpHeaders(), HttpStatus.OK);
+        return new ResponseEntity<>(success(responseDto), new HttpHeaders(), HttpStatus.OK);
     }
 
     @GetMapping("/{itemName}")
-    public ResponseEntity<List<ItemResponseDto>> getItemsByName(@PathVariable String itemName) {
+    public ResponseEntity<ApiResult<List<ItemResponseDto>>> getItemsByName(@PathVariable String itemName) {
         log.info("Getting items by name: {}", itemName);
         List<ItemResponseDto> searchItemList = itemService.findByNameAll(itemName);
-        return new ResponseEntity<>(searchItemList, new HttpHeaders(), HttpStatus.OK);
+        return new ResponseEntity<>(success(searchItemList), new HttpHeaders(), HttpStatus.OK);
     }
 
+
     @DeleteMapping("/item/{id}")
-    public ResponseEntity deleteItem(@PathVariable Long id) {
+    public ResponseEntity<ApiResult<Void>> deleteItem(@PathVariable Long id) {
         itemService.deleteItem(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(new HttpHeaders(), HttpStatus.NO_CONTENT);
     }
 
 
