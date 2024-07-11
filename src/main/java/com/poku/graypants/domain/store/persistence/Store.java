@@ -2,7 +2,7 @@ package com.poku.graypants.domain.store.persistence;
 
 import com.poku.graypants.domain.auth.persistence.EmailAuthenticateAble;
 import com.poku.graypants.domain.item.persistence.Item;
-import com.poku.graypants.domain.order.persistence.OrderItem;
+import com.poku.graypants.domain.orderItem.persistence.OrderItem;
 import com.poku.graypants.global.entity.BaseTime;
 import jakarta.persistence.*;
 import lombok.*;

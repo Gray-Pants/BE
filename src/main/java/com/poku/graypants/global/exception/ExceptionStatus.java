@@ -44,7 +44,6 @@ public enum ExceptionStatus {
     INVALID_REFRESH_TOKEN(HttpStatus.FORBIDDEN, 403, "유효하지 않은 리프레시 토큰입니다."),
 
     // ROLE
-    INVALID_ROLE(HttpStatus.BAD_REQUEST, 400, "허용되지 않은 역할입니다."),
     ACCESS_DENIED(HttpStatus.FORBIDDEN, 403, "권한이 없습니다.");
 
     private final int status;

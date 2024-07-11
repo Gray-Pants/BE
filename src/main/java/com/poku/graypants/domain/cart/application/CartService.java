@@ -27,20 +27,22 @@ public class CartService {
     private final ItemService itemService;
 
     public CartItem addItemToCart(Long item_id, int quantity, String email) {
-        Cart myCart = userService.getCartByEmail(email);
+        userService.getUserByEmail(email);
         Item item = itemService.getItemByID(item_id);
-        CartItem cartItem =  CartItem.builder()
-                .cart(myCart)
-                .item(item)
-                .cartItemQuantity(quantity)
-                .build();
-        return cartItemRepository.save(cartItem);
+//        CartItem cartItem =  CartItem.builder()
+//                .cart(myCart)
+//                .item(item)
+//                .cartItemQuantity(quantity)
+//                .build();
+//        return cartItemRepository.save(cartItem);
+        return null;
     }
 
     @Transactional(readOnly = true)
     public List<CartItem> getCartItems(String email) {
-        Cart cart = userService.getCartByEmail(email);
-        return cartItemRepository.findByCart(cart);
+//        Cart cart = userService.getCartByEmail(email);
+//        return cartItemRepository.findByCart(cart);
+        return null;
     }
 
     public void removeItemFromCart(Long cartItem_id, String email) {
