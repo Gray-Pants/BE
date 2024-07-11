@@ -1,5 +1,7 @@
 package com.poku.graypants.domain.item.persistence;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.poku.graypants.global.exception.ExceptionStatus;
 import com.poku.graypants.global.exception.GrayPantsException;
 import jakarta.persistence.*;
@@ -14,31 +16,6 @@ import java.util.stream.Collectors;
 import static jakarta.persistence.FetchType.*;
 
 public enum Category {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "category_id",unique = true, nullable = false)
-//    private Long categoryId;
-//
-//    @OneToMany(mappedBy = "category", fetch = LAZY)
-//    private List<Item> item;
-//
-//    @Column(name = "category_name", length = 50, nullable = false, unique = true)
-//    private String categoryName;
-//
-//    @ManyToOne(fetch = LAZY)
-//    @JoinColumn(name = "parent_id")
-//    private Category parent;
-//
-//    @OneToMany(fetch = LAZY, mappedBy = "parent")
-//    private List<Category> children;
-//
-//    @Builder
-//    public Category(List<Item> item, String categoryName, Category parent, List<Category> children) {
-//        this.item = item;
-//        this.categoryName = categoryName;
-//        this.parent = parent;
-//        this.children = children;
-//    }
 
     ROOT("카테고리", null),
         TOP("상의", ROOT),
@@ -71,7 +48,6 @@ public enum Category {
 
 
     // 카테고리 이름
-    @Getter
     private final String title;
 
     // 부모 카테고리
@@ -87,6 +63,21 @@ public enum Category {
         if(Objects.nonNull(parentCategory)) {
             parentCategory.childCategories.add(this);
         }
+    }
+
+    @JsonCreator
+    public Category from(String value) {
+        for (Category category : Category.values()) {
+            if (category.getTitle().equals(value)) {
+                return category;
+            }
+        }
+        return null;
+    }
+
+    @JsonValue
+    public String getTitle() {
+        return title;
     }
 
     // 부모카테고리 Getter

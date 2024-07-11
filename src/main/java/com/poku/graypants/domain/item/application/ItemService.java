@@ -103,6 +103,7 @@ public class ItemService {
     }
 
     private File multipartFileToFile(MultipartFile multipartFile) {
+        log.info(multipartFile.getOriginalFilename());
         File file = new File(multipartFile.getOriginalFilename());
         try {
             multipartFile.transferTo(file);
