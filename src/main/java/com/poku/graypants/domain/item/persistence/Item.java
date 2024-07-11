@@ -14,7 +14,7 @@ import static jakarta.persistence.FetchType.*;
 @Entity
 @Table(name = "ITEMS")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Item extends BaseTime {
 
     @Id
