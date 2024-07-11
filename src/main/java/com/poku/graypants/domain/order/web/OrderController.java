@@ -61,9 +61,9 @@ public class OrderController {
   }
 
   @DeleteMapping("/{orderId}")
-  public ResponseEntity<ApiResult<OrderResponseDto>> deleteOrder(@PathVariable Long orderId,
+  public ResponseEntity<ApiResult<Void>> deleteOrder(@PathVariable Long orderId,
                                                                  @AuthenticationPrincipal Long userId) {
-    OrderResponseDto orderResponseDto = orderService.deleteOrder(orderId, userId);
-    return new ResponseEntity<>(success(orderResponseDto), new HttpHeaders(), HttpStatus.NO_CONTENT);
+    orderService.deleteOrder(orderId, userId);
+    return new ResponseEntity<>(new HttpHeaders(), HttpStatus.NO_CONTENT);
   }
 }
