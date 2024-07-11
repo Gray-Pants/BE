@@ -25,7 +25,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
 
-    public static final String REDIRECT_PATH = "/";
+//    public static final String REDIRECT_PATH = "http://localhost:5173/me";
 
     private final JwtService jwtService;
     private final OAuth2AuthorizationRequestBasedOnCookieRepository authorizationRequestRepository;
@@ -50,13 +50,15 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         // 액세스 토큰 생성 -> 패스에 엑세스 토큰 추가
         String accessToken = jwtService.generateToken(user, ACCESS_TOKEN_DURATION);
-        String targetUrl = getTargetUrl(accessToken);
+//        String targetUrl = getTargetUrl(accessToken);
 
         //인증 관련 설정값, 쿠키 제거
         clearAuthenticationAttributes(request, response);
 
         // 리다이렉트
-        getRedirectStrategy().sendRedirect(request, response, targetUrl);
+//        getRedirectStrategy().sendRedirect(request, response, targetUrl);
+        response.setStatus(200);
+        response.setHeader("access-token", accessToken);
     }
 
 
@@ -81,7 +83,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
      * @param token String
      * @return String
      */
-    private String getTargetUrl(final String token) {
-        return UriComponentsBuilder.fromUriString(REDIRECT_PATH).queryParam("token", token).build().toUriString();
-    }
+//    private String getTargetUrl(final String token) {
+//        return UriComponentsBuilder.fromUriString(REDIRECT_PATH).queryParam("token", token).build().toUriString();
+//    }
 }
