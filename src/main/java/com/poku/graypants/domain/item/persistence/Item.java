@@ -44,6 +44,9 @@ public class Item extends BaseTime {
     @JoinColumn(name = "store_id")
     private Store store;
 
+    @Column(name="store_id",  insertable=false, updatable=false)
+    private Long storeId;
+
     private Category category;
 
     @OneToMany(mappedBy = "item", fetch = LAZY)

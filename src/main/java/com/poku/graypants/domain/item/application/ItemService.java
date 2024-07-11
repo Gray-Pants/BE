@@ -89,7 +89,7 @@ public class ItemService {
     }
 
     public void verifyItemAndStoreMatch(Item item, Store store) {
-        if (!item.getStore().getStoreId().equals(store.getStoreId())) {
+        if (!item.getStoreId().equals(store.getStoreId())) {
             throw new GrayPantsException(ExceptionStatus.ORDER_AND_USER_MISMATCH);
         }
     }
