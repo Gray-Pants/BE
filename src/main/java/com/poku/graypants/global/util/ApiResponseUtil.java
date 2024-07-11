@@ -9,12 +9,6 @@ public class ApiResponseUtil {
         return new ApiResult<>(true, response);
     }
 
-    public static <T> List<ApiResult<T>> success(List<T> response) {
-        return response.stream()
-                .map(value -> new ApiResult<>(true, value))
-                .collect(Collectors.toList());
-    }
-
     public static ApiResult<ApiError> error(Throwable throwable) {
         return new ApiResult<>(false, new ApiError(throwable));
     }
