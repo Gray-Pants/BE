@@ -7,6 +7,7 @@ import com.poku.graypants.domain.user.persistence.UserRepository;
 import com.poku.graypants.global.config.filter.TokenAuthenticationFilter;
 import com.poku.graypants.global.jwt.JwtProvider;
 import com.poku.graypants.global.jwt.JwtService;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +26,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import java.util.List;
 
 @AllArgsConstructor
@@ -60,6 +60,8 @@ public class OAuthSecurityConfig {
                 .addFilterBefore(new TokenAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests((auth)-> auth
                         .requestMatchers(new AntPathRequestMatcher("/api/token")).permitAll()
+
+                        .requestMatchers(new AntPathRequestMatcher("/api/auth/**")).permitAll()
 //                        .requestMatchers(new AntPathRequestMatcher("/api/**")).authenticated()
                         .requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll()
                         .anyRequest().permitAll())
@@ -108,6 +110,4 @@ public class OAuthSecurityConfig {
         source.registerCorsConfiguration("/**", corsConfiguration);
         return source;
     }
-
-
 }
