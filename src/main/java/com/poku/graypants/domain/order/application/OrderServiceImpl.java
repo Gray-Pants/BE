@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
  *
  */
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
@@ -33,17 +32,20 @@ public class OrderServiceImpl implements OrderService {
   private final UserService userService;
 
   @Override
+  @Transactional
   public OrderResponseDto createOrder(OrderCreateRequestDto orderCreateRequestDto, Long userId) {
     Order savedOrder = orderRepository.save(orderCreateRequestDto.toEntity(userService.getUser(userId)));
     return new OrderResponseDto(savedOrder);
   }
 
   @Override
+  @Transactional(readOnly = true)
   public OrderResponseDto getOrder(Long orderId) {
     return new OrderResponseDto(getVerifyExistsOrder(orderId));
   }
 
   @Override
+  @Transactional(readOnly = true)
   public List<OrderResponseDto> getOrders(Long userId) {
     List<Order> findAllOrders = orderRepository.findAllByUserId(userService.getUser(userId));
     return findAllOrders.stream()
@@ -52,6 +54,7 @@ public class OrderServiceImpl implements OrderService {
   }
 
   @Override
+  @Transactional
   public OrderResponseDto updateOrder(Long orderId, OrderUpdateRequestDto orderUpdateRequestDto, Long userId) {
     User findUser = userService.getUser(userId);
     Order findOrder = getVerifyExistsOrder(orderId);
@@ -70,6 +73,7 @@ public class OrderServiceImpl implements OrderService {
    * 개선 사항 -> 추후 하드삭제가 아닌 소프트 삭제로 변경(삭제여부 컬럼 추가)
    */
   @Override
+  @Transactional
   public OrderResponseDto deleteOrder(Long orderId, Long userId) {
     Order verifyExistsOrder = getVerifyExistsOrder(orderId);
     User findUser = userService.getUser(userId);
@@ -78,7 +82,7 @@ public class OrderServiceImpl implements OrderService {
     return new OrderResponseDto(verifyExistsOrder);
   }
 
-
+  @Transactional(readOnly = true)
   public Order getVerifyExistsOrder(Long orderId) {
     return orderRepository.findById(orderId).orElseThrow(() -> new GrayPantsException(ExceptionStatus.ORDER_NOT_FOUND));
   }
