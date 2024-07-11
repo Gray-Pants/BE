@@ -50,7 +50,7 @@ public class JwtProvider {
                 .setExpiration(expirationDate)
 //                .setSubject(user.getEmail())
                 .claim("id", entity.getId())
-                .claim("id", entity.getRole())
+                .claim("role", entity.getRole())
                 .signWith(getSigningKey())
                 .compact();
     }
@@ -81,7 +81,7 @@ public class JwtProvider {
      */
     public Authentication getAuthentication(final String token) {
         Claims claims = getClaims(token);
-        Set<SimpleGrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
+        Set<SimpleGrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority(claims.get("role", String.class)));
         return new UsernamePasswordAuthenticationToken(
                 claims.get("id", Long.class),
                 token,
