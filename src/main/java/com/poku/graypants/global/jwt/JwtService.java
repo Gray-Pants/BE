@@ -5,12 +5,16 @@ import com.poku.graypants.domain.store.persistence.Store;
 import com.poku.graypants.domain.store.persistence.StoreRepository;
 import com.poku.graypants.domain.user.persistence.User;
 import com.poku.graypants.domain.user.persistence.UserRepository;
+import com.poku.graypants.global.exception.ExceptionStatus;
+import com.poku.graypants.global.exception.GrayPantsException;
 import com.poku.graypants.global.util.CookieUtil;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import java.time.Duration;
 import java.util.Objects;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -52,5 +56,25 @@ public class JwtService {
 
     public String generateToken(EmailAuthenticateAble entity, Duration duration) {
         return jwtProvider.generateToken(entity, duration);
+    }
+
+    public void refresh(HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
+        Cookie[] cookies = httpRequest.getCookies();
+        if(cookies == null || cookies.length == 0)
+            throw new GrayPantsException(ExceptionStatus.INVALID_REFRESH_TOKEN);
+        for(Cookie cookie : cookies) {
+            if(cookie.getName().equals(REFRESH_TOKEN_COOKIE_NAME)) {
+                String refreshToken = cookie.getValue();
+                System.out.println("refreshToken = " + refreshToken);
+                Optional<User> user = userRepository.findByRefreshToken(refreshToken);
+                if(user.isPresent()) {
+                    String accessToken = generateToken(user.get(), ACCESS_TOKEN_DURATION);
+                    httpResponse.setHeader("access-token", accessToken);
+                    return ;
+                }
+                break;
+            }
+        }
+        throw new GrayPantsException(ExceptionStatus.INVALID_REFRESH_TOKEN);
     }
 }

@@ -38,9 +38,14 @@ public enum ExceptionStatus {
     ORDER_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "주문 상품을 조회할 수 없습니다."),
 
     // IMAGE
-    FILE_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "파일을 찾을 수 없습니다.");
+    FILE_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "파일을 찾을 수 없습니다."),
+  
+    // JWT
+    INVALID_REFRESH_TOKEN(HttpStatus.FORBIDDEN, 403, "유효하지 않은 리프레시 토큰입니다."),
 
-
+    // ROLE
+    INVALID_ROLE(HttpStatus.BAD_REQUEST, 400, "허용되지 않은 역할입니다."),
+    ACCESS_DENIED(HttpStatus.FORBIDDEN, 403, "권한이 없습니다.");
 
     private final int status;
     private final int customCode;
