@@ -71,10 +71,9 @@ public class ItemService {
     }
 
 
-    public ItemResponseDto deleteItem(Long id) {
+    public void deleteItem(Long id) {
         Item findItem = getItemByID(id);
         itemRepository.delete(findItem);
-        return new ItemResponseDto(findItem);
     }
 
     public Item getItemByID(Long id) {

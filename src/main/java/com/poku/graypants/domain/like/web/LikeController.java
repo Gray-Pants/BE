@@ -44,8 +44,8 @@ public class LikeController {
     }
 
     @DeleteMapping("/{likeId}")
-    public ResponseEntity<ApiResult<LikeResponseDto>> removeLike(@PathVariable Long likeId) {
-        LikeResponseDto likeResponseDto = likeService.removeLike(likeId);
-        return new ResponseEntity<>(success(likeResponseDto), new HttpHeaders(), HttpStatus.NO_CONTENT);
+    public ResponseEntity<ApiResult<Void>> removeLike(@PathVariable Long likeId) {
+        likeService.removeLike(likeId);
+        return new ResponseEntity<>(new HttpHeaders(), HttpStatus.NO_CONTENT);
     }
 }

@@ -50,10 +50,9 @@ public class LikeService {
         return new LikeResponseDto(like.getLikeId(), like.getUser().getUserId(), like.getItem().getItemId());
     }
 
-    public LikeResponseDto removeLike(Long likeId) {
+    public void removeLike(Long likeId) {
         Like like = getLikeById(likeId);
-        likeRepository.deleteById(likeId);
-        return new LikeResponseDto(like.getLikeId(), like.getUser().getUserId(), like.getItem().getItemId());
+        likeRepository.delete(like);
     }
 
     private Like getLikeById(Long likeId) {

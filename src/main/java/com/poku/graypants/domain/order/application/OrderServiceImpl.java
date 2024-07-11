@@ -72,12 +72,11 @@ public class OrderServiceImpl implements OrderService {
    */
   @Override
   @Transactional
-  public OrderResponseDto deleteOrder(Long orderId, Long userId) {
+  public void deleteOrder(Long orderId, Long userId) {
     Order verifyExistsOrder = getVerifyExistsOrder(orderId);
     User findUser = userService.getUser(userId);
     verifyOrderUserAndLoginUserMatch(verifyExistsOrder, findUser);
     orderRepository.delete(verifyExistsOrder);
-    return new OrderResponseDto(verifyExistsOrder);
   }
 
   @Transactional(readOnly = true)

@@ -51,9 +51,9 @@ public class ItemController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResult<ItemResponseDto>> deleteItem(@PathVariable Long id) {
-        ItemResponseDto itemResponseDto = itemService.deleteItem(id);
-        return new ResponseEntity<>(success(itemResponseDto), new HttpHeaders(), HttpStatus.NO_CONTENT);
+    public ResponseEntity<ApiResult<Void>> deleteItem(@PathVariable Long id) {
+        itemService.deleteItem(id);
+        return new ResponseEntity<>(new HttpHeaders(), HttpStatus.NO_CONTENT);
     }
 
 

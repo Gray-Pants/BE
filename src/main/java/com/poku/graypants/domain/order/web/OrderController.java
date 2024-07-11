@@ -53,11 +53,11 @@ public class OrderController {
   }
 
   @PutMapping("/{orderId}")
-  public ResponseEntity<ApiResult<OrderResponseDto>> updateOrder(@PathVariable Long orderId,
+  public ResponseEntity<ApiResult<Void>> updateOrder(@PathVariable Long orderId,
                                                                  @RequestBody @Valid OrderUpdateRequestDto orderUpdateRequestDto,
                                                                  @AuthenticationPrincipal Long userId) {
-    OrderResponseDto orderResponseDto = orderService.updateOrder(orderId, orderUpdateRequestDto, userId);
-    return new ResponseEntity<>(success(orderResponseDto), new HttpHeaders(), HttpStatus.OK);
+    orderService.updateOrder(orderId, orderUpdateRequestDto, userId);
+    return new ResponseEntity<>(new HttpHeaders(), HttpStatus.OK);
   }
 
   @DeleteMapping("/{orderId}")
