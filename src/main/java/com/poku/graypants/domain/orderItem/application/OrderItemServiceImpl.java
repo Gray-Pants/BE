@@ -65,7 +65,7 @@ public class OrderItemServiceImpl implements OrderItemService {
   public OrderItemResponseDto updateOrderItem(Long orderItemId, OrderItemUpdateRequestDto orderItemUpdateRequestDto) {
     OrderItem verifyOrderItem = getVerifyOrderItem(orderItemId);
     verifyOrderItem.updateOrderItem(orderItemUpdateRequestDto);
-    return new OrderItemResponseDto(verifyOrderItem, new OrderResponseDto(verifyOrderItem.getOrder());
+    return new OrderItemResponseDto(verifyOrderItem, new OrderResponseDto(verifyOrderItem.getOrder()));
   }
 
   @Override

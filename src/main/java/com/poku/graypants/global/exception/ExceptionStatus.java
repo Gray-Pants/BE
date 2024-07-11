@@ -35,14 +35,11 @@ public enum ExceptionStatus {
 
     // ORDER_ITEM
     ORDER_ITEM_INFO_AND_STORE_INFO_MISMATCH(HttpStatus.BAD_REQUEST, 400, "상품 정보와 판매자 정보가 일치하지 않습니다."),
-<<<<<<< Updated upstream
     ORDER_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "주문 상품을 조회할 수 없습니다."),
 
     // IMAGE
     FILE_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "파일을 찾을 수 없습니다.");
-=======
-    ORDER_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "주문 상품을 조회할 수 없습니다.");
->>>>>>> Stashed changes
+
 
 
     private final int status;

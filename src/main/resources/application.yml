@@ -26,6 +26,10 @@ spring:
       port: 6379
     include: oauth
   servlet:
+    encoding:
+        charset: UTF-8
+        enabled: true
+        force: true
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB

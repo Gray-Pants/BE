@@ -71,8 +71,10 @@ public class ItemService {
     }
 
 
-    public void deleteItem(Long id) {
-        itemRepository.deleteById(id);
+    public ItemResponseDto deleteItem(Long id) {
+        Item findItem = getItemByID(id);
+        itemRepository.delete(findItem);
+        return new ItemResponseDto(findItem);
     }
 
     public Item getItemByID(Long id) {
@@ -86,7 +88,12 @@ public class ItemService {
                 .orElseThrow(() -> new GrayPantsException(ExceptionStatus.ITEM_NOT_FOUND));
     }
 
-<<<<<<< Updated upstream
+    public void verifyItemAndStoreMatch(Item item, Store store) {
+        if (!item.getStore().getStoreId().equals(store.getStoreId())) {
+            throw new GrayPantsException(ExceptionStatus.ORDER_AND_USER_MISMATCH);
+        }
+    }
+
     private String putS3(File uploadFile, String fileName){
         amazonS3.putObject(
                 new PutObjectRequest(bucket, fileName, uploadFile)
@@ -151,13 +158,5 @@ public class ItemService {
         }
 
         return sb.toString();
-    }
-
-=======
->>>>>>> Stashed changes
-    public void verifyItemAndStoreMatch(Item item, Store store) {
-        if (!item.getStore().getStoreId().equals(store.getStoreId()) {
-            throw new GrayPantsException(ExceptionStatus.ORDER_AND_USER_MISMATCH);
-        }
     }
 }

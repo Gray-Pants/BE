@@ -70,8 +70,12 @@ public class OrderServiceImpl implements OrderService {
    * 개선 사항 -> 추후 하드삭제가 아닌 소프트 삭제로 변경(삭제여부 컬럼 추가)
    */
   @Override
-  public void deleteOrder(Long orderId) {
-    orderRepository.delete(getVerifyExistsOrder(orderId));
+  public OrderResponseDto deleteOrder(Long orderId, Long userId) {
+    Order verifyExistsOrder = getVerifyExistsOrder(orderId);
+    User findUser = userService.getUser(userId);
+    verifyOrderUserAndLoginUserMatch(verifyExistsOrder, findUser);
+    orderRepository.delete(verifyExistsOrder);
+    return new OrderResponseDto(verifyExistsOrder);
   }
 
 
