@@ -51,7 +51,8 @@ public class LikeService {
     }
 
     public void removeLike(Long likeId) {
-        likeRepository.deleteById(likeId);
+        Like like = getLikeById(likeId);
+        likeRepository.delete(like);
     }
 
     private Like getLikeById(Long likeId) {

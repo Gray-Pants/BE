@@ -9,9 +9,9 @@ INSERT INTO items (category, item_price, sales_quantity, stock, view_count, crea
 (2, 2000, 20, 200, 100, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'www.localhost:8787','desc_img_2', 'item_2');
 
 -- orders 테이블에 더미 데이터 삽입
-INSERT INTO "orders" (order_id, created_at, updated_at) VALUES
-(1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-(2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+-- INSERT INTO "orders" (order_id, created_at, updated_at) VALUES
+-- (1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+-- (2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- carts 테이블에 더미 데이터 삽입
 INSERT INTO carts (created_at, updated_at) VALUES
@@ -34,9 +34,9 @@ INSERT INTO cart_items (cart_item_quantity, cart_id, item_id, created_at, update
 (2, 2, 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- order_items 테이블에 더미 데이터 삽입
-INSERT INTO order_items (order_item_price, order_item_quantity, item_id, order_id, store_id, created_at, updated_at, order_item_addr, order_item_phone, order_item_status) VALUES
-(1000, 1, 1, 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'address_1', '010-1234-5678', 'ORDER'),
-(2000, 2, 2, 2, 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'address_2', '010-8765-4321', 'ORDER');
+-- INSERT INTO order_items (order_item_price, order_item_quantity, item_id, order_id, store_id, created_at, updated_at, order_item_addr, order_item_phone, order_item_status) VALUES
+-- (1000, 1, 1, 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'address_1', '010-1234-5678', 'ORDER'),
+-- (2000, 2, 2, 2, 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'address_2', '010-8765-4321', 'ORDER');
 
 -- oauth 테이블에 더미 데이터 삽입
 INSERT INTO oauth (oauth_provider, oauth_provider_id, user_email, oauth_id) VALUES

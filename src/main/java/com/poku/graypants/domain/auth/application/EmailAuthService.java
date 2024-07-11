@@ -1,6 +1,5 @@
 package com.poku.graypants.domain.auth.application;
 
-import static com.poku.graypants.global.config.oauth.OAuth2SuccessHandler.REDIRECT_PATH;
 import static com.poku.graypants.global.jwt.JwtService.ACCESS_TOKEN_DURATION;
 import static com.poku.graypants.global.jwt.JwtService.REFRESH_TOKEN_DURATION;
 
@@ -20,7 +19,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 @RequiredArgsConstructor
@@ -45,14 +43,15 @@ public class EmailAuthService {
 
         //유저생성
         EmailAuthenticateAble entity = null;
-        if(request.getRole().equals("user"))
+        if (request.getRole().equals("user")) {
             entity = userService.saveEmailUser(request.getEmail(), request.getName(), request.getPassword());
-        else if(request.getRole().equals("store"))
+        } else if (request.getRole().equals("store")) {
             entity = storeService.saveStore(request.getEmail(), request.getName(), request.getPassword());
-        else
+        } else {
             throw new GrayPantsException(ExceptionStatus.INVALID_ROLE);
+        }
 
-        return saveTokenAndGetTargetUri(httpRequest, httpResponse, entity);
+        return saveTokenAndGetAccessToken(httpRequest, httpResponse, entity);
     }
 
     public String userEmailLogin(HttpServletRequest httpRequest, HttpServletResponse httpResponse,
@@ -81,11 +80,11 @@ public class EmailAuthService {
             throw new GrayPantsException(ExceptionStatus.INVALID_PASSWORD);
         }
 
-        return saveTokenAndGetTargetUri(httpRequest, httpResponse, entity);
+        return saveTokenAndGetAccessToken(httpRequest, httpResponse, entity);
     }
 
-    private String saveTokenAndGetTargetUri(HttpServletRequest httpRequest, HttpServletResponse httpResponse,
-                                            EmailAuthenticateAble entity) {
+    private String saveTokenAndGetAccessToken(HttpServletRequest httpRequest, HttpServletResponse httpResponse,
+                                              EmailAuthenticateAble entity) {
 
         String accessToken = jwtService.generateToken(entity, ACCESS_TOKEN_DURATION);
         String refreshToken = jwtService.generateToken(entity, REFRESH_TOKEN_DURATION);
@@ -95,8 +94,8 @@ public class EmailAuthService {
 
         //리프레시 토큰 쿠키에 저장
         jwtService.addRefreshTokenToCookie(httpRequest, httpResponse, refreshToken);
-
-        return UriComponentsBuilder.fromUriString(REDIRECT_PATH).queryParam("token", accessToken).build().toUriString();
+        return accessToken;
+//        return UriComponentsBuilder.fromUriString(REDIRECT_PATH).queryParam("token", accessToken).build().toUriString();
     }
 
 
