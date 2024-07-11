@@ -12,7 +12,6 @@ import static jakarta.persistence.GenerationType.*;
 @Getter
 @Builder
 @Table(name = "ORDERS")
-@EqualsAndHashCode(exclude = "orderId")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order extends BaseTime {
