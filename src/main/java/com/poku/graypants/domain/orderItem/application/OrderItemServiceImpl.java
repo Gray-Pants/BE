@@ -38,7 +38,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     Item findItem = itemService.getItemByID(itemId);
     Store findStore = storeService.getVerifyStore(findItem.getStore().getStoreEmail());
 
-    itemService.verifyItemAndStoreMatch(findItem, findStore);
+//    itemService.verifyItemAndStoreMatch(findItem, findStore);
 
     OrderItem createOrderItem = orderItemCreateRequestDto.toEntity(verifyExistsOrder, findItem, findStore);
     OrderItem savedOrderItem = orderItemRepository.save(createOrderItem);

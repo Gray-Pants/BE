@@ -86,12 +86,12 @@ public class ItemService {
         return itemRepository.findById(itemId)
                 .orElseThrow(() -> new GrayPantsException(ExceptionStatus.ITEM_NOT_FOUND));
     }
-
-    public void verifyItemAndStoreMatch(Item item, Store store) {
-        if (!item.getStoreId().equals(store.getStoreId())) {
-            throw new GrayPantsException(ExceptionStatus.ORDER_AND_USER_MISMATCH);
-        }
-    }
+//
+//    public void verifyItemAndStoreMatch(Item item, Store store) {
+//        if (!item.getStoreId().equals(store.getStoreId())) {
+//            throw new GrayPantsException(ExceptionStatus.ORDER_AND_USER_MISMATCH);
+//        }
+//    }
 
     private String putS3(File uploadFile, String fileName){
         amazonS3.putObject(

@@ -83,23 +83,6 @@ public class OAuthSecurityConfig {
     }
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-
-        corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.addAllowedOrigin("http://localhost:5173"); // 허용할 Origin 추가
-        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        corsConfiguration.addAllowedHeader("Authorization");
-        corsConfiguration.addAllowedHeader("Content-Type");
-        corsConfiguration.addExposedHeader("Access-Token");
-        corsConfiguration.addExposedHeader(HttpHeaders.SET_COOKIE);
-        corsConfiguration.addAllowedHeader("*");
-        source.registerCorsConfiguration("/**", corsConfiguration);
-        return source;
-    }
-
-    @Bean
     public OAuth2AuthorizationRequestBasedOnCookieRepository oAuth2AuthorizationRequestBasedOnCookieRepository() {
         return new OAuth2AuthorizationRequestBasedOnCookieRepository();
     }
