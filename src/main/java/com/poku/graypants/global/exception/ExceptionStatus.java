@@ -23,7 +23,10 @@ public enum ExceptionStatus {
     STORE_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "Store Not Found"),
     DUPLICATED_EMAIL(HttpStatus.FORBIDDEN, 403, "이미 존재하는 이메일입니다."),
     INVALID_ROLE(HttpStatus.BAD_REQUEST, 400, "허용되지 않은 역할입니다."),
-    ACCESS_DENIED(HttpStatus.FORBIDDEN, 403, "권한이 없습니다.");
+    ACCESS_DENIED(HttpStatus.FORBIDDEN, 403, "권한이 없습니다."),
+
+    REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, 404,  "리뷰가 존재하지 않습니다.");
+
 
     private final int status;
     private final int customCode;
