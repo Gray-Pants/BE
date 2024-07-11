@@ -1,8 +1,6 @@
 package com.poku.graypants.domain.user.application;
 
 import com.poku.graypants.domain.auth.persistence.EmailAuthenticateAble;
-import com.poku.graypants.domain.cart.persistence.Cart;
-import com.poku.graypants.domain.cart.persistence.CartItem;
 import com.poku.graypants.domain.user.persistence.User;
 import com.poku.graypants.domain.user.persistence.UserRepository;
 import com.poku.graypants.global.config.oauth.info.OAuth2UserInfo;
@@ -30,10 +28,10 @@ public class UserService {
     }
 
     public User getUser(Long userId) {
-        return findverifyUser(userId);
+        return findverifyUserById(userId);
     }
 
-    private User findverifyUser(Long userId) {
+    private User findverifyUserById(Long userId) {
         return userRepository.findById(userId).orElseThrow(() -> new GrayPantsException(ExceptionStatus.USER_NOT_FOUND));
     }
 
@@ -51,6 +49,6 @@ public class UserService {
     }
 
     public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow(() -> new GrayPantsException(ExceptionStatus.USER_NOT_FOUND));
+        return userRepository.findByEmail(email).orElse(null);
     }
 }
