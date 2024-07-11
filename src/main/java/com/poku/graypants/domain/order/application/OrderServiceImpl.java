@@ -21,8 +21,6 @@ import java.util.stream.Collectors;
  * @version 1.0.0
  * @see OrderService
  * @Author Jgone2
- * @Since 2021-07-05
- *
  */
 @Service
 @RequiredArgsConstructor
