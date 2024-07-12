@@ -4,9 +4,29 @@ INSERT INTO stores (store_name, store_password, store_email, created_at, updated
 ('store_2', 'password_2', 'store_2@example.com', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- items 테이블에 더미 데이터 삽입
-INSERT INTO items (category, item_price, sales_quantity, stock, view_count, created_at, store_id, updated_at,item_photos, item_desc_img, item_name) VALUES
-(1, 1000, 10, 100, 50, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'www.localhost:8080','desc_img_1', 'item_1'),
-(2, 2000, 20, 200, 100, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'www.localhost:8787','desc_img_2', 'item_2');
+INSERT INTO items (category, item_price, sales_quantity, stock, view_count, created_at, store_id, updated_at, item_photos, item_desc_img, item_name) VALUES
+    ('BAG', 1000, 10, 100, 50, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/04cfba70ad4746a4b12d300d4272cd45.jpg', 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/04cfba70ad4746a4b12d300d4272cd45.jpg', 'bagPack_1'),
+    ('BAG', 1000, 10, 100, 50, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/04cfba70ad4746a4b12d300d4272cd45.jpg', 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/04cfba70ad4746a4b12d300d4272cd45.jpg', 'bagPack_2'),
+    ('BAG', 1000, 10, 100, 50, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/04cfba70ad4746a4b12d300d4272cd45.jpg', 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/04cfba70ad4746a4b12d300d4272cd45.jpg', 'bagPack_3'),
+    ('BAG', 1000, 10, 100, 50, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/04cfba70ad4746a4b12d300d4272cd45.jpg', 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/04cfba70ad4746a4b12d300d4272cd45.jpg', 'bagPack_4'),
+    ('BACKPACK', 1000, 10, 100, 50, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/04cfba70ad4746a4b12d300d4272cd45.jpg', 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/04cfba70ad4746a4b12d300d4272cd45.jpg', 'bagPack_5'),
+    ('BACKPACK', 1000, 10, 100, 50, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/04cfba70ad4746a4b12d300d4272cd45.jpg', 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/04cfba70ad4746a4b12d300d4272cd45.jpg', 'bagPack_6'),
+    ('BACKPACK', 1000, 10, 100, 50, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/04cfba70ad4746a4b12d300d4272cd45.jpg', 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/04cfba70ad4746a4b12d300d4272cd45.jpg', 'bagPack_7'),
+    ('BACKPACK', 1000, 10, 100, 50, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/04cfba70ad4746a4b12d300d4272cd45.jpg', 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/04cfba70ad4746a4b12d300d4272cd45.jpg', 'bagPack_8'),
+    ('SHORT_SLEEVE', 2000, 20, 200, 100, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/4fda663856d6477395213cef09058855.jpg', 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/4fda663856d6477395213cef09058855.jpg', 'top_1'),
+    ('SHORT_SLEEVE', 2000, 20, 200, 100, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/4fda663856d6477395213cef09058855.jpg', 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/4fda663856d6477395213cef09058855.jpg', 'top_2'),
+    ('SHORT_SLEEVE', 2000, 20, 200, 100, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/4fda663856d6477395213cef09058855.jpg', 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/4fda663856d6477395213cef09058855.jpg', 'top_3'),
+    ('SHORT_SLEEVE', 2000, 20, 200, 100, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/4fda663856d6477395213cef09058855.jpg', 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/4fda663856d6477395213cef09058855.jpg', 'top_4'),
+    ('SNIKERS', 3000, 30, 300, 150, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/3464841_16920023767111_500.jpg', 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/3464841_16920023767111_500.jpg', 'runningShoes_1'),
+    ('SNIKERS', 3000, 30, 300, 150, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/3464841_16920023767111_500.jpg', 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/3464841_16920023767111_500.jpg', 'runningShoes_2'),
+    ('SNIKERS', 3000, 30, 300, 150, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/3464841_16920023767111_500.jpg', 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/3464841_16920023767111_500.jpg', 'runningShoes_3'),
+    ('SNIKERS', 3000, 30, 300, 150, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/3464841_16920023767111_500.jpg', 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/3464841_16920023767111_500.jpg', 'runningShoes_4'),
+    ('SLIPPER', 1500, 15, 150, 75, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/2473265_1_500.jpg', 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/2473265_1_500.jpg', 'slipper_1'),
+    ('SLIPPER', 1500, 15, 150, 75, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/2473265_1_500.jpg', 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/2473265_1_500.jpg', 'slipper_2'),
+    ('SLIPPER', 1500, 15, 150, 75, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/2473265_1_500.jpg', 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/2473265_1_500.jpg', 'slipper_3'),
+    ('SLIPPER', 1500, 15, 150, 75, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/2473265_1_500.jpg', 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/2473265_1_500.jpg', 'slipper_4');
+
+
 
 -- carts 테이블에 더미 데이터 삽입
 INSERT INTO carts (created_at, updated_at) VALUES

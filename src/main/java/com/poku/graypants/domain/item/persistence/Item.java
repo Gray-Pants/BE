@@ -47,6 +47,7 @@ public class Item extends BaseTime {
     @Column(name="store_id",  insertable=false, updatable=false)
     private Long storeId;
 
+    @Enumerated(value = EnumType.STRING)
     private Category category;
 
     @OneToMany(mappedBy = "item", fetch = LAZY)

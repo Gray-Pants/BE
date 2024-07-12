@@ -61,6 +61,12 @@ public class ItemController {
         return new ResponseEntity<>(success(searchItemList), new HttpHeaders(), HttpStatus.OK);
     }
 
+    @GetMapping()
+    public ResponseEntity<ApiResult<List<ItemResponseDto>>> findAll() {
+        List<ItemResponseDto> itemList = itemService.findAll();
+        return new ResponseEntity<>(success(itemList), new HttpHeaders(), HttpStatus.OK);
+    }
+
 
     @PreAuthorize("hasRole('ROLE_STORE')")
     @DeleteMapping("/item/{id}")

@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -66,6 +67,14 @@ public class ItemService {
         return itemRepositoryCustom.searchItemList(name);
     }
 
+    public List<ItemResponseDto> findAll(){
+        List<Item> items = itemRepository.findAll();
+        List<ItemResponseDto> itemResponseDtos = new ArrayList<>();
+        for(Item item : items) {
+           itemResponseDtos.add(new ItemResponseDto(item));
+        }
+        return itemResponseDtos;
+    }
     public ItemResponseDto findById(Long id) {
         Item item = getItemById(id);
         return new ItemResponseDto(item);
