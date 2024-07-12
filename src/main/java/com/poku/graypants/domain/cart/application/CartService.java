@@ -1,6 +1,5 @@
 package com.poku.graypants.domain.cart.application;
 
-import com.poku.graypants.domain.cart.persistence.Cart;
 import com.poku.graypants.domain.cart.persistence.CartItem;
 import com.poku.graypants.domain.cart.persistence.CartItemRepository;
 import com.poku.graypants.domain.cart.persistence.CartRepository;
@@ -28,7 +27,7 @@ public class CartService {
 
     public CartItem addItemToCart(Long item_id, int quantity, String email) {
         userService.getUserByEmail(email);
-        Item item = itemService.getItemByID(item_id);
+        Item item = itemService.getItemById(item_id);
 //        CartItem cartItem =  CartItem.builder()
 //                .cart(myCart)
 //                .item(item)
