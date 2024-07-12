@@ -43,21 +43,4 @@ public class Review {
         this.item = item;
     }
 
-    public Review updateContent(String reviewContent) {
-        return Review.builder()
-                .reviewContent(reviewContent)
-                .reviewScore(this.reviewScore)
-                .user(this.user)
-                .item(this.item)
-                .build();
-    }
-
-    public Review updateScore(int reviewScore) {
-        return Review.builder()
-                .reviewContent(this.reviewContent)
-                .reviewScore(reviewScore)
-                .user(this.user)
-                .item(this.item)
-                .build();
-    }
 }

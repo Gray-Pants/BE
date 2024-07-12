@@ -13,12 +13,4 @@ public class ReviewRequestDTO {
     private Long userId;
     private Long itemId;
 
-    public Review toEntity() {
-        return Review.builder()
-                .reviewId(reviewId)
-                .reviewContent(reviewContent)
-                .reviewScore(reviewScore)
-                .build();
-    }
-
 }
