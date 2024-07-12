@@ -63,7 +63,7 @@ public class OAuthSecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/api/token")).permitAll()
 
                         .requestMatchers(new AntPathRequestMatcher("/api/auth/**")).permitAll()
-//                        .requestMatchers(new AntPathRequestMatcher("/api/**")).authenticated()
+//                        .requestMatchers(new AntPathRequestMatcher("/api/**")).authenticated() //TODO: 인증 필요
                         .requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll()
                         .anyRequest().permitAll())
                 .oauth2Login(oauth2 -> oauth2
