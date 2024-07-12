@@ -2,6 +2,8 @@ package com.poku.graypants.domain.user.application;
 
 import com.poku.graypants.domain.auth.persistence.EmailAuthenticateAble;
 import com.poku.graypants.domain.order.application.OrderDataService;
+import com.poku.graypants.domain.review.application.ReviewDataService;
+import com.poku.graypants.domain.review.application.dto.ReviewResponseDTO;
 import com.poku.graypants.domain.user.application.dto.MyProfileResponseDto;
 import com.poku.graypants.domain.user.persistence.User;
 import com.poku.graypants.domain.user.persistence.UserRepository;
@@ -11,10 +13,14 @@ import com.poku.graypants.global.exception.GrayPantsException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+
+    private final ReviewDataService reviewDataService;
 
     private final OrderDataService orderDataService;
 
@@ -24,6 +30,7 @@ public class UserService {
         return userRepository.findByEmail(oAuth2UserInfo.getEmail())
                 .orElseGet(() -> saveUser(oAuth2UserInfo.getEmail(), oAuth2UserInfo.getName()));
     }
+
     public User saveUser(String email, String username) {
         return userRepository.save(User.builder()
                 .grade(DEFAULT_ROLE)
@@ -67,5 +74,9 @@ public class UserService {
                 .reviewCount(reviewCount)
                 .orderCount(orderCount)
                 .build();
+    }
+
+    public List<ReviewResponseDTO> getMyReviews(Long userId) {
+        return reviewDataService.getReviewsByUserId(userId).stream().map(ReviewResponseDTO::fromEntity).toList();
     }
 }

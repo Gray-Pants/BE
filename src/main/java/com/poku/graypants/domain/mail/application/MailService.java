@@ -60,7 +60,7 @@ public class MailService {
 
     public boolean verifiedCode(VerifyEmailRequestDto request) {
         String authCode = (String) redisUtil.getData("AuthCode "+ request.getRole() + request.getEmail());
-        if(!request.getAuthCode().equals(authCode))
+        if(request.getAuthCode() == null || !request.getAuthCode().equals(authCode))
             return false;
         redisUtil.deleteData("AuthCode "+ request.getRole() + request.getEmail());
         return true;

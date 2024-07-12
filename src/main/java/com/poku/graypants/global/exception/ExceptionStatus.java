@@ -15,10 +15,11 @@ public enum ExceptionStatus {
     ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "Item Not Found"),
     LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "찜한 상품이 없습니다."),
     INVALID_QUANTITY(HttpStatus.BAD_REQUEST, 400, "유효하지 않은 수량입니다." ),
+    IO_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, 500, "입출력 예외입니다."),
 
     // USER
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, 404,"유저를 조회할 수 없습니다."),
-    INVALID_PASSWORD(HttpStatus.FORBIDDEN, 400, "허용되지 않는 비밀번호입니다."),
+    INVALID_PASSWORD(HttpStatus.FORBIDDEN, 403, "허용되지 않는 비밀번호입니다."),
     INVALID_ROLE(HttpStatus.BAD_REQUEST, 400, "허용되지 않은 역할입니다."),
 
     // MAIL
