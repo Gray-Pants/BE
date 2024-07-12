@@ -3,6 +3,8 @@ package com.poku.graypants.global.exception;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+import java.io.File;
+
 @Getter
 public enum ExceptionStatus {
 
@@ -10,7 +12,7 @@ public enum ExceptionStatus {
     RANDOM_NUMBER_GENERATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, 500, "Random Number Generate Failed"),
 
     // ITEM
-    ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "존재하지 않는 상품입니다."),
+    ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "Item Not Found"),
     LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "찜한 상품이 없습니다."),
     INVALID_QUANTITY(HttpStatus.BAD_REQUEST, 400, "유효하지 않은 수량입니다." ),
 
@@ -39,12 +41,15 @@ public enum ExceptionStatus {
 
     // IMAGE
     FILE_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "파일을 찾을 수 없습니다."),
-  
+
     // JWT
     INVALID_REFRESH_TOKEN(HttpStatus.FORBIDDEN, 403, "유효하지 않은 리프레시 토큰입니다."),
 
     // ROLE
-    ACCESS_DENIED(HttpStatus.FORBIDDEN, 403, "권한이 없습니다.");
+    ACCESS_DENIED(HttpStatus.FORBIDDEN, 403, "권한이 없습니다."),
+
+    //REVIEW
+    REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, 404,  "리뷰가 존재하지 않습니다.");
 
     private final int status;
     private final int customCode;
