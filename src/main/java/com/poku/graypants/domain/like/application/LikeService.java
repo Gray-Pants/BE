@@ -1,6 +1,7 @@
 package com.poku.graypants.domain.like.application;
 
 import com.poku.graypants.domain.item.application.ItemService;
+import com.poku.graypants.domain.item.application.dto.ItemResponseDto;
 import com.poku.graypants.domain.item.persistence.Item;
 import com.poku.graypants.domain.like.application.dto.LikeRequestDto;
 import com.poku.graypants.domain.like.application.dto.LikeResponseDto;
@@ -33,21 +34,21 @@ public class LikeService {
         Like like = likeFactory.createLike(user, item);
         Like savedLike = likeRepository.save(like);
 
-        return new LikeResponseDto(savedLike.getLikeId(), savedLike.getUser().getUserId(), savedLike.getItem().getItemId());
+        return new LikeResponseDto(savedLike.getLikeId(), savedLike.getUser().getUserId(), new ItemResponseDto(savedLike.getItem()));
     }
 
-    public List<LikeResponseDto> getLikesByUser(Long userId) {
-        User user = userService.getUserById(userId);
-        List<Like> likes = likeRepository.findByUser(user);
+    public List<LikeResponseDto> getLikesByUserId(Long userId) {
+        List<Like> likes = likeRepository.findByUser_UserId(userId);
 
         return likes.stream()
-                .map(like -> new LikeResponseDto(like.getLikeId(), user.getUserId(), like.getItem().getItemId()))
+                .map(like -> new LikeResponseDto(like.getLikeId(), userId,
+                        new ItemResponseDto(like.getItem())))
                 .collect(Collectors.toList());
     }
 
     public LikeResponseDto findById(Long likeId) {
         Like like = getLikeById(likeId);
-        return new LikeResponseDto(like.getLikeId(), like.getUser().getUserId(), like.getItem().getItemId());
+        return new LikeResponseDto(like.getLikeId(), like.getUser().getUserId(),new ItemResponseDto(like.getItem()));
     }
 
     public void removeLike(Long likeId) {
