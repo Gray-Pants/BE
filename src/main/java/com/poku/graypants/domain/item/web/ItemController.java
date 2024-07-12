@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -41,7 +42,7 @@ public class ItemController {
     @PreAuthorize("hasRole('ROLE_STORE')")
     @PostMapping("/item/{id}")
     public ResponseEntity<ApiResult<ItemResponseDto>> updateItem(@RequestBody ItemUpdateRequestDto itemUpdateRequestDto,
-                                                      @PathVariable Long id) {
+                                                                 @PathVariable Long id) {
         ItemResponseDto responseDto = itemService.updateItem(id, itemUpdateRequestDto);
         return new ResponseEntity<>(success(responseDto), new HttpHeaders(), HttpStatus.OK);
     }

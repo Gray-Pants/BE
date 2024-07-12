@@ -35,7 +35,7 @@ public class OrderItemServiceImpl implements OrderItemService {
   public OrderItemResponseDto createOrderItem(OrderCreateRequestDto orderCreateRequestDto, Long userId, OrderItemCreateRequestDto orderItemCreateRequestDto, Long itemId) {
     OrderResponseDto createdOrder = orderService.createOrder(orderCreateRequestDto, userId);
     Order verifyExistsOrder = orderService.getVerifyExistsOrder(createdOrder.getOrderId());
-    Item findItem = itemService.getItemByID(itemId);
+    Item findItem = itemService.getItemById(itemId);
     Store findStore = storeService.getVerifyStore(findItem.getStore().getStoreEmail());
 
 //    itemService.verifyItemAndStoreMatch(findItem, findStore);
@@ -50,7 +50,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     OrderResponseDto createdOrder = orderService.createOrder(orderCreateRequestDto, userId);
     Order verifyExistsOrder = orderService.getVerifyExistsOrder(createdOrder.getOrderId());
     for (OrderItemCreateRequestDto orderItemCreateRequestDto : orderItemCreateRequestDtos) {
-      Item findItem = itemService.getItemByID(itemId);
+      Item findItem = itemService.getItemById(itemId);
       Store findStore = storeService.getVerifyStore(findItem.getStore().getStoreEmail());
     }
     return null;
