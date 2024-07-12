@@ -9,7 +9,6 @@ public class EmailSignupRequestDto {
     private String name;
     private String email;
     private String password;
-    private String phone;
     private String verificationCode;
     private String role;
 }

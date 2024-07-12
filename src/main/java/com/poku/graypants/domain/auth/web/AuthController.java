@@ -8,6 +8,7 @@ import com.poku.graypants.global.util.ApiResponseUtil.ApiResult;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+@Slf4j
 @Controller
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -34,20 +36,20 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<ApiResult<?>> emailSignup(HttpServletRequest httpRequest, HttpServletResponse httpResponse, @RequestBody EmailSignupRequestDto request) {
-        String targetUri = emailAuthService.signup(httpRequest, httpResponse, request);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("uri", targetUri);
-        return new ResponseEntity<>(httpHeaders, HttpStatus.OK);
+        String accessToken = emailAuthService.signup(httpRequest, httpResponse, request);
+        httpResponse.setHeader("access-token", accessToken);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/store-login")
     public ResponseEntity<ApiResult<?>> storeLogin(HttpServletRequest httpRequest, HttpServletResponse httpResponse,
                                                    @RequestBody EmailLoginRequestDto request) {
 
-        String targetUri = emailAuthService.storeEmailLogin(httpRequest, httpResponse, request);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("uri", targetUri);
-        return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
+        log.info("store login request: {}", request);
+        String accessToken = emailAuthService.storeEmailLogin(httpRequest, httpResponse, request);
+
+        httpResponse.setHeader("access-token", accessToken);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/refresh")

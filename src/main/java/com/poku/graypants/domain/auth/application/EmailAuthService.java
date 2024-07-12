@@ -95,7 +95,6 @@ public class EmailAuthService {
         //리프레시 토큰 쿠키에 저장
         jwtService.addRefreshTokenToCookie(httpRequest, httpResponse, refreshToken);
         return accessToken;
-//        return UriComponentsBuilder.fromUriString(REDIRECT_PATH).queryParam("token", accessToken).build().toUriString();
     }
 
 

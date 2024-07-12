@@ -19,7 +19,7 @@ public enum ExceptionStatus {
 
     // USER
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, 404,"유저를 조회할 수 없습니다."),
-    INVALID_PASSWORD(HttpStatus.FORBIDDEN, 400, "허용되지 않는 비밀번호입니다."),
+    INVALID_PASSWORD(HttpStatus.FORBIDDEN, 403, "허용되지 않는 비밀번호입니다."),
     INVALID_ROLE(HttpStatus.BAD_REQUEST, 400, "허용되지 않은 역할입니다."),
 
     // MAIL
