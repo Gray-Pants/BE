@@ -8,7 +8,6 @@ import com.poku.graypants.domain.item.application.dto.*;
 import com.poku.graypants.domain.item.persistence.Item;
 import com.poku.graypants.domain.item.persistence.ItemRepositoryCustom;
 import com.poku.graypants.domain.item.persistence.ItemRepository;
-import com.poku.graypants.domain.store.persistence.Store;
 import com.poku.graypants.global.exception.ExceptionStatus;
 import com.poku.graypants.global.exception.GrayPantsException;
 import jakarta.transaction.Transactional;
@@ -55,7 +54,7 @@ public class ItemService {
     }
 
     public ItemResponseDto updateItem(Long id, ItemUpdateRequestDto itemUpdateRequestDto) {
-        Item item = getItemByID(id);
+        Item item = getItemById(id);
 
         return new ItemResponseDto(item.updateItem(itemUpdateRequestDto,
                 uploadItemPhotos(itemUpdateRequestDto.getItemPhotos()),
@@ -68,26 +67,21 @@ public class ItemService {
     }
 
     public ItemResponseDto findById(Long id) {
-        Item item = getItemByID(id);
+        Item item = getItemById(id);
         return new ItemResponseDto(item);
     }
 
 
     public void deleteItem(Long id) {
-        Item findItem = getItemByID(id);
+        Item findItem = getItemById(id);
         itemRepository.delete(findItem);
-    }
-
-    public Item getItemByID(Long id) {
-        Item item = itemRepository.findById(id).orElseThrow(() ->
-                new GrayPantsException(ExceptionStatus.ITEM_NOT_FOUND));
-        return item;
     }
 
     public Item getItemById(Long itemId) {
         return itemRepository.findById(itemId)
                 .orElseThrow(() -> new GrayPantsException(ExceptionStatus.ITEM_NOT_FOUND));
     }
+
 //
 //    public void verifyItemAndStoreMatch(Item item, Store store) {
 //        if (!item.getStoreId().equals(store.getStoreId())) {
