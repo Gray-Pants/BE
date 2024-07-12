@@ -57,7 +57,7 @@ public class User implements EmailAuthenticateAble {
 
     @Override
     public String getRole() {
-        return null;
+        return "ROLE_USER";
     }
 
     @Override

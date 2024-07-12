@@ -3,9 +3,7 @@ package com.poku.graypants.domain.like.web;
 import com.poku.graypants.domain.like.application.LikeService;
 import com.poku.graypants.domain.like.application.dto.LikeRequestDto;
 import com.poku.graypants.domain.like.application.dto.LikeResponseDto;
-import java.security.Principal;
 
-import com.poku.graypants.global.util.ApiResponseUtil;
 import com.poku.graypants.global.util.ApiResponseUtil.ApiResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -33,7 +31,7 @@ public class LikeController {
 
     @GetMapping("/my")
     public ResponseEntity<ApiResult<List<LikeResponseDto>>> getLikesByUser(Authentication Authentication) {
-        List<LikeResponseDto> likes = likeService.getLikesByUser((Long) Authentication.getPrincipal());
+        List<LikeResponseDto> likes = likeService.getLikesByUserId((Long) Authentication.getPrincipal());
         return new ResponseEntity<>(success(likes), new HttpHeaders(), HttpStatus.OK);
     }
 
