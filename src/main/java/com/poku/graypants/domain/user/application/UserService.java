@@ -19,7 +19,9 @@ import java.util.List;
 @AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+
     private final ReviewDataService reviewDataService;
+
     private final OrderDataService orderDataService;
 
     private final String DEFAULT_ROLE = "ROLE_DEFAULT";

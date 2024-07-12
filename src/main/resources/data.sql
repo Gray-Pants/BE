@@ -27,7 +27,6 @@ INSERT INTO items (category, item_price, sales_quantity, stock, view_count, crea
     ('SLIPPER', 1500, 15, 150, 75, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/2473265_1_500.jpg', 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/2473265_1_500.jpg', 'slipper_4');
 
 
-
 -- carts 테이블에 더미 데이터 삽입
 INSERT INTO carts (created_at, updated_at) VALUES
 (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
@@ -57,6 +56,7 @@ INSERT INTO orders (order_id, order_addr, order_phone, user_id) VALUES
 (4, '서울시', '010-1234-1234', 1);
 
 -- order_items 테이블에 더미 데이터 삽입
+
 INSERT INTO order_items (order_item_price, order_item_quantity, item_id, order_id, store_id, created_at, updated_at, order_item_status) VALUES
 (1000, 1, 1, 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ORDER'),
 (1000, 1, 1, 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ORDER'),
@@ -66,6 +66,16 @@ INSERT INTO order_items (order_item_price, order_item_quantity, item_id, order_i
 (1000, 1, 1, 3, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ORDER'),
 (1000, 1, 1, 3, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ORDER'),
 (2000, 2, 2, 4, 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ORDER');
+-- INSERT INTO order_items (order_item_price, order_item_quantity, item_id, order_id, store_id, created_at, updated_at, order_item_addr, order_item_phone, order_item_status) VALUES
+-- (1000, 1, 1, 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'address_1', '010-1234-5678', 'ORDER'),
+-- (1000, 1, 1, 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'address_1', '010-1234-5678', 'ORDER'),
+-- (1000, 1, 1, 2, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'address_1', '010-1234-5678', 'ORDER'),
+-- (1000, 1, 1, 2, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'address_1', '010-1234-5678', 'ORDER'),
+-- (1000, 1, 1, 3, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'address_1', '010-1234-5678', 'ORDER'),
+-- (1000, 1, 1, 3, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'address_1', '010-1234-5678', 'ORDER'),
+-- (1000, 1, 1, 3, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'address_1', '010-1234-5678', 'ORDER'),
+-- (2000, 2, 2, 4, 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'address_2', '010-8765-4321', 'ORDER');
+
 
 -- oauth 테이블에 더미 데이터 삽입
 INSERT INTO oauth (oauth_provider, oauth_provider_id, user_email, oauth_id) VALUES
