@@ -20,7 +20,7 @@ import static com.poku.graypants.global.util.ApiResponseUtil.success;
 
 
 @RestController
-@RequestMapping("/api/items")
+@RequestMapping("/api/stores")
 @RequiredArgsConstructor
 public class StoreController {
 
