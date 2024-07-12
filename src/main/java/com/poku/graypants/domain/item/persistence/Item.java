@@ -28,7 +28,7 @@ public class Item extends BaseTime {
     @Column(name = "item_price", nullable = false)
     private int itemPrice;
 
-    @Column(name = "item_desc_img", length = 100, nullable = false)
+    @Column(name = "item_desc_img", nullable = false)
     private String itemDescImg;
 
     @Column(name = "stock", nullable = false)

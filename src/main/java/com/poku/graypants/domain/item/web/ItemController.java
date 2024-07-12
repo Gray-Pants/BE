@@ -25,6 +25,7 @@ public class ItemController {
 
     private final ItemService itemService;
 
+    @PreAuthorize("hasRole('ROLE_STORE')")
     @GetMapping("/item/{id}")
     public ResponseEntity<ApiResult<ItemResponseDto>> getItem(@PathVariable Long id) {
         ItemResponseDto responseDto = itemService.findById(id);
@@ -32,6 +33,7 @@ public class ItemController {
 
     }
 
+    @PreAuthorize("hasRole('ROLE_STORE')")
     @PostMapping("/item")
     public ResponseEntity<ApiResult<ItemResponseDto>> createItem(@ModelAttribute ItemCreateRequestDto itemCreateRequestDto) {
 
@@ -50,6 +52,7 @@ public class ItemController {
         return new ResponseEntity<>(success(responseDto), new HttpHeaders(), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_STORE')")
     @GetMapping("/{itemName}")
     public ResponseEntity<ApiResult<List<ItemResponseDto>>> getItemsByName(@PathVariable String itemName) {
         log.info("Getting items by name: {}", itemName);
@@ -58,6 +61,7 @@ public class ItemController {
     }
 
 
+    @PreAuthorize("hasRole('ROLE_STORE')")
     @DeleteMapping("/item/{id}")
     public ResponseEntity<ApiResult<Void>> deleteItem(@PathVariable Long id) {
         itemService.deleteItem(id);
