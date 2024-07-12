@@ -3,6 +3,7 @@ package com.poku.graypants.domain.store.web;
 import com.poku.graypants.domain.item.application.dto.ItemResponseDto;
 import com.poku.graypants.domain.store.application.StoreService;
 import com.poku.graypants.global.util.ApiResponseUtil;
+import com.poku.graypants.global.util.ApiResponseUtil.ApiResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class StoreController {
 
     @PreAuthorize("hasRole('ROLE_STORE')")
     @GetMapping("/myitems")
-    public ResponseEntity<ApiResponseUtil.ApiResult<List<ItemResponseDto>>> getItemList(Authentication authentication) {
+    public ResponseEntity<ApiResult<List<ItemResponseDto>>> getItemList(Authentication authentication) {
         List<ItemResponseDto> response = storeService.getItemByStoreId((Long) authentication.getPrincipal());
         return new ResponseEntity(success(response), HttpStatus.OK);
     }
