@@ -25,4 +25,13 @@ public class OrderItemResponseDto {
     this.itemId = orderItem.getItem().getItemId();
     this.storeName = orderItem.getStore().getStoreName();
   }
+
+  public OrderItemResponseDto(OrderItem orderItem) {
+    this.orderItemPrice = orderItem.getOrderItemPrice();
+    this.orderItemQuantity = orderItem.getOrderItemQuantity();
+    this.orderItemStatus = orderItem.getOrderItemStatus();
+    this.orderId = orderItem.getOrder().getOrderId();
+    this.itemId = orderItem.getItem().getItemId();
+    this.storeName = orderItem.getStore().getStoreName();
+  }
 }

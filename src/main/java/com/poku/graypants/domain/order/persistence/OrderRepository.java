@@ -10,4 +10,6 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Long>{
     List<Order> findAllByUser(User user);
     Long countByUser_UserId(Long userId);
+
+    List<Order> findAllByUser_UserId(Long userId);
 }
