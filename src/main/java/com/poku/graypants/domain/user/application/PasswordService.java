@@ -13,13 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PasswordService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public boolean changePassword(PasswordEditRequestDto passwordDto) {
-        User user = userRepository.findById(passwordDto.getUserId())
+    public boolean changePassword(PasswordEditRequestDto passwordDto, Long userId) {
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (passwordEncoder.matches(passwordDto.getPassword(), user.getPassword())) {
