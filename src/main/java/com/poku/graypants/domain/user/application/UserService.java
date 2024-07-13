@@ -40,15 +40,15 @@ public class UserService {
     }
 
     public User getUser(Long userId) {
-        return findVerifyUserById(userId);
+        return getVerifyUserByUserId(userId);
     }
 
-    private User findVerifyUserById(Long userId) {
+    public User getVerifyUserByUserId(Long userId) {
         return userRepository.findById(userId).orElseThrow(() -> new GrayPantsException(ExceptionStatus.USER_NOT_FOUND));
     }
 
-    public User getUserById(Long userId) {
-        return userRepository.findById(userId).orElseThrow(() -> new GrayPantsException(ExceptionStatus.USER_NOT_FOUND));
+    public User getUserByUserId(Long userId) {
+        return userRepository.findById(userId).orElse(null);
     }
 
     public EmailAuthenticateAble saveEmailUser(String email, String name, String password) {
