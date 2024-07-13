@@ -1,5 +1,6 @@
 package com.poku.graypants.domain.review.application.dto;
 
+import com.poku.graypants.domain.item.application.dto.ItemResponseDto;
 import com.poku.graypants.domain.review.persistence.Review;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +12,7 @@ public class ReviewResponseDTO {
     private String reviewContent;
     private int reviewScore;
     private Long userId;
-    private Long itemId;
+    private ItemResponseDto item;
 
     public static ReviewResponseDTO fromEntity(Review review) {
         return new ReviewResponseDTO(
@@ -19,7 +20,7 @@ public class ReviewResponseDTO {
                 review.getReviewContent(),
                 review.getReviewScore(),
                 review.getUser().getId(),
-                review.getItem().getItemId()
+                new ItemResponseDto(review.getItem())
         );
     }
 }
