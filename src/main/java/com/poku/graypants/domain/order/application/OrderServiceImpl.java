@@ -45,7 +45,7 @@ public class OrderServiceImpl implements OrderService {
   @Override
   @Transactional(readOnly = true)
   public List<OrderResponseDto> getOrders(Long userId) {
-    List<Order> findAllOrders = orderRepository.findAllByUser(userService.getUser(userId));
+    List<Order> findAllOrders = orderRepository.findAllByUser_UserId(userId);
     return findAllOrders.stream()
             .map(OrderResponseDto::new)
             .collect(Collectors.toList());

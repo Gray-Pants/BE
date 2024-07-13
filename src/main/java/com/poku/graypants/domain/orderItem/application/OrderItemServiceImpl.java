@@ -71,10 +71,17 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     @Override
+    public List<OrderItemResponseDto> getOrderItemsByOrder(Order order) {
+        return order.getOrderItems().stream().map(OrderItemResponseDto::new).toList();
+    }
+
+    @Override
     public void deleteOrderItem(Long orderItemId) {
         OrderItem verifyOrderItem = getVerifyOrderItem(orderItemId);
         orderItemRepository.delete(verifyOrderItem);
     }
+
+
 
     private OrderItem getVerifyOrderItem(Long orderItemId) {
         return orderItemRepository.findById(orderItemId)

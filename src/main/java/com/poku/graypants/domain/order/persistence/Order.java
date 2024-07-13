@@ -1,9 +1,11 @@
 package com.poku.graypants.domain.order.persistence;
 
 import com.poku.graypants.domain.order.application.dto.OrderUpdateRequestDto;
+import com.poku.graypants.domain.orderItem.persistence.OrderItem;
 import com.poku.graypants.domain.user.persistence.User;
 import com.poku.graypants.global.entity.BaseTime;
 import jakarta.persistence.*;
+import java.util.List;
 import lombok.*;
 
 import static jakarta.persistence.GenerationType.*;
@@ -33,6 +35,9 @@ public class Order extends BaseTime {
 
     @Column(name = "user_id", insertable = false, updatable = false)
     private Long userId;
+
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    private List<OrderItem> orderItems;
 
     public void updateOrder(OrderUpdateRequestDto orderUpdateRequestDto) {
         this.orderAddr = orderUpdateRequestDto.getOrderAddr();
