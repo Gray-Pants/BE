@@ -3,8 +3,6 @@ package com.poku.graypants.global.exception;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-import java.io.File;
-
 @Getter
 public enum ExceptionStatus {
 
@@ -14,11 +12,11 @@ public enum ExceptionStatus {
     // ITEM
     ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "Item Not Found"),
     LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "찜한 상품이 없습니다."),
-    INVALID_QUANTITY(HttpStatus.BAD_REQUEST, 400, "유효하지 않은 수량입니다." ),
+    INVALID_QUANTITY(HttpStatus.BAD_REQUEST, 400, "유효하지 않은 수량입니다."),
     IO_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, 500, "입출력 예외입니다."),
 
     // USER
-    USER_NOT_FOUND(HttpStatus.NOT_FOUND, 404,"유저를 조회할 수 없습니다."),
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "유저를 조회할 수 없습니다."),
     INVALID_PASSWORD(HttpStatus.FORBIDDEN, 403, "허용되지 않는 비밀번호입니다."),
     INVALID_ROLE(HttpStatus.BAD_REQUEST, 400, "허용되지 않은 역할입니다."),
 
@@ -50,7 +48,11 @@ public enum ExceptionStatus {
     ACCESS_DENIED(HttpStatus.FORBIDDEN, 403, "권한이 없습니다."),
 
     //REVIEW
-    REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, 404,  "리뷰가 존재하지 않습니다.");
+    REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "리뷰가 존재하지 않습니다."),
+
+    // CART_ITEM
+    CART_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "장바구니 상품을 찾을 수 없습니다."),
+    CART_ITEM_USER_MISMATCH(HttpStatus.FORBIDDEN, 403, "장바구니 상품의 유저 정보가 일치하지 않습니다.");
 
     private final int status;
     private final int customCode;

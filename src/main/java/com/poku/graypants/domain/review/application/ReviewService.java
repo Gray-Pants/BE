@@ -10,11 +10,10 @@ import com.poku.graypants.domain.user.application.UserService;
 import com.poku.graypants.domain.user.persistence.User;
 import com.poku.graypants.global.exception.ExceptionStatus;
 import com.poku.graypants.global.exception.GrayPantsException;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +24,8 @@ public class ReviewService {
     private final ItemService itemService;
 
     public ReviewResponseDTO createReview(ReviewRequestDTO reviewRequestDTO) {
-        User user = userService.getUserById(reviewRequestDTO.getUserId());
-        Item item = itemService.getItemById(reviewRequestDTO.getItemId());
+        User user = userService.getVerifyUserByUserId(reviewRequestDTO.getUserId());
+        Item item = itemService.getVerifyItemById(reviewRequestDTO.getItemId());
 
         Review review = Review.builder()
                 .reviewContent(reviewRequestDTO.getReviewContent())

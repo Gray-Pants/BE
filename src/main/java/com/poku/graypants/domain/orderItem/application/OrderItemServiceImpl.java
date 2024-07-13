@@ -15,66 +15,69 @@ import com.poku.graypants.domain.store.application.StoreService;
 import com.poku.graypants.domain.store.persistence.Store;
 import com.poku.graypants.global.exception.ExceptionStatus;
 import com.poku.graypants.global.exception.GrayPantsException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class OrderItemServiceImpl implements OrderItemService {
 
-  private final OrderItemRepository orderItemRepository;
-  private final OrderServiceImpl orderService;
-  private final ItemService itemService;
-  private final StoreService storeService;
+    private final OrderItemRepository orderItemRepository;
+    private final OrderServiceImpl orderService;
+    private final ItemService itemService;
+    private final StoreService storeService;
 
-  @Override
-  public OrderItemResponseDto createOrderItem(OrderCreateRequestDto orderCreateRequestDto, Long userId, OrderItemCreateRequestDto orderItemCreateRequestDto, Long itemId) {
-    OrderResponseDto createdOrder = orderService.createOrder(orderCreateRequestDto, userId);
-    Order verifyExistsOrder = orderService.getVerifyExistsOrder(createdOrder.getOrderId());
-    Item findItem = itemService.getItemById(itemId);
-    Store findStore = storeService.getVerifyStore(findItem.getStore().getStoreEmail());
+    @Override
+    public OrderItemResponseDto createOrderItem(OrderCreateRequestDto orderCreateRequestDto, Long userId,
+                                                OrderItemCreateRequestDto orderItemCreateRequestDto, Long itemId) {
+        OrderResponseDto createdOrder = orderService.createOrder(orderCreateRequestDto, userId);
+        Order verifyExistsOrder = orderService.getVerifyExistsOrder(createdOrder.getOrderId());
+        Item findItem = itemService.getVerifyItemById(itemId);
+        Store findStore = storeService.getVerifyStore(findItem.getStore().getStoreEmail());
 
 //    itemService.verifyItemAndStoreMatch(findItem, findStore);
 
-    OrderItem createOrderItem = orderItemCreateRequestDto.toEntity(verifyExistsOrder, findItem, findStore);
-    OrderItem savedOrderItem = orderItemRepository.save(createOrderItem);
-    return new OrderItemResponseDto(savedOrderItem, createdOrder);
-  }
-
-  @Override
-  public List<OrderItemResponseDto> createOrderItems(OrderCreateRequestDto orderCreateRequestDto, Long userId, List<OrderItemCreateRequestDto> orderItemCreateRequestDtos, Long itemId) {
-    OrderResponseDto createdOrder = orderService.createOrder(orderCreateRequestDto, userId);
-    Order verifyExistsOrder = orderService.getVerifyExistsOrder(createdOrder.getOrderId());
-    for (OrderItemCreateRequestDto orderItemCreateRequestDto : orderItemCreateRequestDtos) {
-      Item findItem = itemService.getItemById(itemId);
-      Store findStore = storeService.getVerifyStore(findItem.getStore().getStoreEmail());
+        OrderItem createOrderItem = orderItemCreateRequestDto.toEntity(verifyExistsOrder, findItem, findStore);
+        OrderItem savedOrderItem = orderItemRepository.save(createOrderItem);
+        return new OrderItemResponseDto(savedOrderItem, createdOrder);
     }
-    return null;
-  }
 
-  @Override
-  public OrderItemResponseDto getOrderItem(Long orderItemId, OrderResponseDto orderResponseDto) {
-    return new OrderItemResponseDto(getVerifyOrderItem(orderItemId), orderResponseDto);
-  }
+    @Override
+    public List<OrderItemResponseDto> createOrderItems(OrderCreateRequestDto orderCreateRequestDto, Long userId,
+                                                       List<OrderItemCreateRequestDto> orderItemCreateRequestDtos,
+                                                       Long itemId) {
+        OrderResponseDto createdOrder = orderService.createOrder(orderCreateRequestDto, userId);
+        Order verifyExistsOrder = orderService.getVerifyExistsOrder(createdOrder.getOrderId());
+        for (OrderItemCreateRequestDto orderItemCreateRequestDto : orderItemCreateRequestDtos) {
+            Item findItem = itemService.getVerifyItemById(itemId);
+            Store findStore = storeService.getVerifyStore(findItem.getStore().getStoreEmail());
+        }
+        return null;
+    }
 
-  @Override
-  public OrderItemResponseDto updateOrderItem(Long orderItemId, OrderItemUpdateRequestDto orderItemUpdateRequestDto) {
-    OrderItem verifyOrderItem = getVerifyOrderItem(orderItemId);
-    verifyOrderItem.updateOrderItem(orderItemUpdateRequestDto);
-    return new OrderItemResponseDto(verifyOrderItem, new OrderResponseDto(verifyOrderItem.getOrder()));
-  }
+    @Override
+    public OrderItemResponseDto getOrderItem(Long orderItemId, OrderResponseDto orderResponseDto) {
+        return new OrderItemResponseDto(getVerifyOrderItem(orderItemId), orderResponseDto);
+    }
 
-  @Override
-  public void deleteOrderItem(Long orderItemId) {
-    OrderItem verifyOrderItem = getVerifyOrderItem(orderItemId);
-    orderItemRepository.delete(verifyOrderItem);
-  }
+    @Override
+    public OrderItemResponseDto updateOrderItem(Long orderItemId, OrderItemUpdateRequestDto orderItemUpdateRequestDto) {
+        OrderItem verifyOrderItem = getVerifyOrderItem(orderItemId);
+        verifyOrderItem.updateOrderItem(orderItemUpdateRequestDto);
+        return new OrderItemResponseDto(verifyOrderItem, new OrderResponseDto(verifyOrderItem.getOrder()));
+    }
 
-  private OrderItem getVerifyOrderItem(Long orderItemId) {
-    return orderItemRepository.findById(orderItemId).orElseThrow(() -> new GrayPantsException(ExceptionStatus.ORDER_ITEM_NOT_FOUND));
-  }
+    @Override
+    public void deleteOrderItem(Long orderItemId) {
+        OrderItem verifyOrderItem = getVerifyOrderItem(orderItemId);
+        orderItemRepository.delete(verifyOrderItem);
+    }
+
+    private OrderItem getVerifyOrderItem(Long orderItemId) {
+        return orderItemRepository.findById(orderItemId)
+                .orElseThrow(() -> new GrayPantsException(ExceptionStatus.ORDER_ITEM_NOT_FOUND));
+    }
 }
