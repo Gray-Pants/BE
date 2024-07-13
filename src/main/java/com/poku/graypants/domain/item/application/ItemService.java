@@ -3,25 +3,28 @@ package com.poku.graypants.domain.item.application;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+
 import com.poku.graypants.domain.item.application.dto.ItemCreateRequestDto;
 import com.poku.graypants.domain.item.application.dto.ItemResponseDto;
 import com.poku.graypants.domain.item.application.dto.ItemUpdateRequestDto;
+import com.poku.graypants.domain.item.persistence.Category;
 import com.poku.graypants.domain.item.persistence.Item;
 import com.poku.graypants.domain.item.persistence.ItemRepository;
-import com.poku.graypants.domain.item.persistence.ItemRepositoryCustom;
 import com.poku.graypants.global.exception.ExceptionStatus;
 import com.poku.graypants.global.exception.GrayPantsException;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Slf4j
@@ -30,7 +33,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class ItemService {
 
     private final ItemRepository itemRepository;
-    private final ItemRepositoryCustom itemRepositoryCustom;
     private final AmazonS3 amazonS3;
 
     @Value("${cloud.aws.s3.bucket}")
@@ -62,19 +64,80 @@ public class ItemService {
     }
 
 
-    public List<ItemResponseDto> findByNameAll(String name) {
-        return itemRepositoryCustom.searchItemList(name);
+    public List<ItemResponseDto> findAllByName(String name, String sort) {
+        Sort sortOrder = sortBy(sort);
+        List<Item> items = itemRepository.findAllByItemNameContaining(name, sortOrder);
+        return  itemListToDtoList(items);
     }
 
-    public List<ItemResponseDto> findAll() {
-        List<Item> items = itemRepository.findAll();
+
+    public List<ItemResponseDto> findByCategory(String categoryName, String sort) {
+        Category category = stringToCategory(categoryName);
+
+        // 모든 하위 카테고리를 포함하여 검색
+        List<Category> categoriesToSearch = new ArrayList<>();
+        categoriesToSearch.add(category);
+        if (!category.isLeafCategory()) {
+            categoriesToSearch.addAll(category.getAllLeafCategories());
+        }
+
+        Sort sortOrder = sortBy(sort);
+
         List<ItemResponseDto> itemResponseDtos = new ArrayList<>();
-        for (Item item : items) {
+
+        for (Category cat : categoriesToSearch) {
+            List<Item> items = itemRepository.findAllByCategory(cat, sortOrder);
+            for(Item item : items){
+                itemResponseDtos.add(new ItemResponseDto(item));
+            }
+        }
+
+        return itemResponseDtos;
+    }
+
+    private Sort sortBy(String sort) {
+        Sort sortOrder;
+        switch (sort) {
+            case "lowPrice":
+                sortOrder = Sort.by(Sort.Order.asc("itemPrice"));
+                break;
+            case "highPrice":
+                sortOrder = Sort.by(Sort.Order.desc("itemPrice"));
+                break;
+            case "salesVolume":
+                sortOrder = Sort.by(Sort.Order.desc("salesQuantity"));
+                break;
+            case "newest":
+                sortOrder = Sort.by(Sort.Order.desc("createdAt"));
+                break;
+            default:
+                sortOrder = Sort.unsorted();
+                break;
+        }
+        return sortOrder;
+    }
+
+    private List<ItemResponseDto> itemListToDtoList(List<Item> items) {
+        List<ItemResponseDto> itemResponseDtos = new ArrayList<>();
+        for(Item item : items){
             itemResponseDtos.add(new ItemResponseDto(item));
         }
         return itemResponseDtos;
     }
 
+    private Category stringToCategory(String categoryName) {
+        for(Category category : Category.values()){
+            if (category.getTitle().equals(categoryName)){
+                return category;
+            }
+        }
+        return null;
+    }
+
+    public List<ItemResponseDto> findAll(){
+        List<Item> items = itemRepository.findAll();
+        return itemListToDtoList(items);
+    }
     public ItemResponseDto findById(Long id) {
         Item item = getVerifyItemById(id);
         return new ItemResponseDto(item);
@@ -98,12 +161,12 @@ public class ItemService {
 //        }
 //    }
 
-    private String putS3(MultipartFile multipartItemPhoto, String fileName) {
+    private String putS3(MultipartFile multipartItemPhoto, String fileName){
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentType(multipartItemPhoto.getContentType());
         objectMetadata.setContentLength(multipartItemPhoto.getSize());
         try {
-            amazonS3.putObject(new PutObjectRequest(bucket, fileName, multipartItemPhoto.getInputStream(),
+            amazonS3.putObject( new PutObjectRequest(bucket, fileName, multipartItemPhoto.getInputStream(),
                     objectMetadata));
         } catch (IOException e) {
             throw new GrayPantsException(ExceptionStatus.IO_EXCEPTION);
