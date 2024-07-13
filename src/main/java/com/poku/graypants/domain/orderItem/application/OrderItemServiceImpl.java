@@ -87,6 +87,15 @@ public class OrderItemServiceImpl implements OrderItemService {
                 .orElseThrow(() -> new GrayPantsException(ExceptionStatus.ORDER_ITEM_NOT_FOUND));
     }
 
+    @Override
+    public OrderItemResponseDto getVerifyOrderItemByOrderItemIdWithUserId(Long orderItemId, Long userId) {
+        OrderItem orderItem = getVerifyOrderItem(orderItemId);
+        if (!orderItem.getOrder().getUser().getUserId().equals(userId)) {
+            throw new GrayPantsException(ExceptionStatus.ORDER_ITEM_FORBIDDEN);
+        }
+        return new OrderItemResponseDto(orderItem);
+    }
+
 
     private OrderItem getVerifyOrderItem(Long orderItemId) {
         return orderItemRepository.findById(orderItemId)

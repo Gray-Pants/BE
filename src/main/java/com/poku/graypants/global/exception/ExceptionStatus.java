@@ -37,6 +37,7 @@ public enum ExceptionStatus {
     // ORDER_ITEM
     ORDER_ITEM_INFO_AND_STORE_INFO_MISMATCH(HttpStatus.BAD_REQUEST, 400, "상품 정보와 판매자 정보가 일치하지 않습니다."),
     ORDER_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "주문 상품을 조회할 수 없습니다."),
+    ORDER_ITEM_FORBIDDEN(HttpStatus.FORBIDDEN, 403, "주문 상품을 조회 권한이 없습니다."),
 
     // IMAGE
     FILE_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "파일을 찾을 수 없습니다."),
@@ -49,10 +50,12 @@ public enum ExceptionStatus {
 
     //REVIEW
     REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "리뷰가 존재하지 않습니다."),
+    REVIEW_ALREADY_EXISTS(HttpStatus.CONFLICT, 409, "이미 리뷰가 존재합니다."),
 
     // CART_ITEM
     CART_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "장바구니 상품을 찾을 수 없습니다."),
     CART_ITEM_USER_MISMATCH(HttpStatus.FORBIDDEN, 403, "장바구니 상품의 유저 정보가 일치하지 않습니다.");
+
 
     private final int status;
     private final int customCode;

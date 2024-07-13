@@ -19,4 +19,6 @@ public interface OrderItemService {
     void deleteOrderItem(Long orderItemId);
 
     OrderItem getVerifyOrderItemByOrderItemId(Long orderItemId);
+
+    OrderItemResponseDto getVerifyOrderItemByOrderItemIdWithUserId(Long orderItemId, Long userId);
 }
