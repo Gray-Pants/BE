@@ -6,6 +6,7 @@ import com.poku.graypants.global.util.ApiResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +20,8 @@ public class PasswordController {
     private PasswordService passwordService;
 
     @PostMapping("/password")
-    public ResponseEntity<?> changePassword(@RequestBody PasswordEditRequestDto passwordDto, Authentication authentication) {
-            boolean success = passwordService.changePassword(passwordDto, (Long) authentication.getPrincipal());
+    public ResponseEntity<?> changePassword(@RequestBody PasswordEditRequestDto passwordDto, @AuthenticationPrincipal Long userId) {
+            boolean success = passwordService.changePassword(passwordDto, userId);
             if (success) {
                 return ResponseEntity.ok(ApiResponseUtil.success("비밀번호가 성공적으로 변경되었습니다."));
             } else {
