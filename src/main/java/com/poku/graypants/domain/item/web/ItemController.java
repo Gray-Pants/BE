@@ -53,7 +53,6 @@ public class ItemController {
         return new ResponseEntity<>(success(responseDto), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_STORE')")
     @GetMapping("/{itemName}")
     public ResponseEntity<ApiResult<List<ItemResponseDto>>> getItemsByName(@PathVariable String itemName) {
         log.info("Getting items by name: {}", itemName);
