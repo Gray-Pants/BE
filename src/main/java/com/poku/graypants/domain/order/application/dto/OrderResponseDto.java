@@ -25,4 +25,13 @@ public class OrderResponseDto {
     this.created_at = order.getCreatedAt();
     this.updated_at = order.getUpdatedAt();
   }
+
+  public OrderResponseDto(Order order, String jwtToken) {
+    this.orderId = order.getOrderId();
+    this.orderAddr = order.getOrderAddr();
+    this.orderPhone = order.getOrderPhone();
+    this.userName = order.getUser().getUsername();
+    this.created_at = order.getCreatedAt();
+    this.updated_at = order.getUpdatedAt();
+  }
 }

@@ -1,22 +1,21 @@
-package com.poku.graypants.domain.orderItem.persistence;
+package com.poku.graypants.domain.order.persistence;
 
 import com.poku.graypants.domain.item.persistence.Item;
-import com.poku.graypants.domain.order.persistence.Order;
-import com.poku.graypants.domain.order.persistence.OrderItemStatus;
-import com.poku.graypants.domain.orderItem.application.dto.OrderItemUpdateRequestDto;
+import com.poku.graypants.domain.order.application.dto.OrderItemUpdateRequestDto;
 import com.poku.graypants.domain.store.persistence.Store;
 import com.poku.graypants.global.entity.BaseTime;
 import jakarta.persistence.*;
 import lombok.*;
 
 import static jakarta.persistence.GenerationType.*;
+import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Getter
 @Builder
 @Table(name = "ORDER_ITEMS")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
+@AllArgsConstructor(access = PROTECTED)
 public class OrderItem extends BaseTime {
 
   @Id
@@ -30,9 +29,25 @@ public class OrderItem extends BaseTime {
   @Column(name = "order_item_quantity", nullable = false, unique = false, updatable = true, insertable = true)
   private int orderItemQuantity;
 
+  @Column(name = "order_item_option", nullable = false, unique = false, updatable = true, insertable = true)
+  private String orderItemOption;
+
+  @Column(name = "review", nullable = false, unique = false, updatable = true, insertable = true)
+  @Builder.Default
+  private Boolean review = false; // 리뷰 작성 여부
+
   @Enumerated(EnumType.STRING)
   @Column(name = "order_item_status", nullable = false, unique = false, updatable = true, insertable = true)
   private OrderItemStatus orderItemStatus;
+
+  @Column(name = "card_number")
+  private String cardNumber;
+
+  @Column(name = "expiry")
+  private String expiry;
+
+  @Column(name = "birth")
+  private String birth;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "order_id")
@@ -50,5 +65,9 @@ public class OrderItem extends BaseTime {
   public void updateOrderItem(OrderItemUpdateRequestDto orderItemUpdateRequestDto) {
     this.orderItemQuantity = orderItemUpdateRequestDto.getOrderItemQuantity();
     this.orderItemStatus = orderItemUpdateRequestDto.getOrderItemStatus();
+  }
+
+  public void updateReview(Boolean review) {
+    this.review = review;
   }
 }

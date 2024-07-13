@@ -9,6 +9,7 @@ import com.poku.graypants.domain.item.application.dto.ItemUpdateRequestDto;
 import com.poku.graypants.domain.item.persistence.Item;
 import com.poku.graypants.domain.item.persistence.ItemRepository;
 import com.poku.graypants.domain.item.persistence.ItemRepositoryCustom;
+import com.poku.graypants.domain.store.persistence.Store;
 import com.poku.graypants.global.exception.ExceptionStatus;
 import com.poku.graypants.global.exception.GrayPantsException;
 import jakarta.transaction.Transactional;
@@ -54,7 +55,11 @@ public class ItemService {
     }
 
     public ItemResponseDto updateItem(Long id, ItemUpdateRequestDto itemUpdateRequestDto) {
+<<<<<<< Updated upstream
         Item item = getVerifyItemById(id);
+=======
+        Item item = getItemById(id);
+>>>>>>> Stashed changes
 
         return new ItemResponseDto(item.updateItem(itemUpdateRequestDto,
                 uploadItemPhotos(itemUpdateRequestDto.getItemPhotos()),
@@ -82,6 +87,7 @@ public class ItemService {
 
 
     public void deleteItem(Long id) {
+
         Item findItem = getVerifyItemById(id);
         itemRepository.delete(findItem);
     }
@@ -91,12 +97,11 @@ public class ItemService {
                 .orElseThrow(() -> new GrayPantsException(ExceptionStatus.ITEM_NOT_FOUND));
     }
 
-//
-//    public void verifyItemAndStoreMatch(Item item, Store store) {
-//        if (!item.getStoreId().equals(store.getStoreId())) {
-//            throw new GrayPantsException(ExceptionStatus.ORDER_AND_USER_MISMATCH);
-//        }
-//    }
+    public void verifyItemAndStoreMatch(Item item, Store store) {
+        if (!item.getStoreId().equals(store.getStoreId())) {
+            throw new GrayPantsException(ExceptionStatus.ORDER_AND_USER_MISMATCH);
+        }
+    }
 
     private String putS3(MultipartFile multipartItemPhoto, String fileName) {
         ObjectMetadata objectMetadata = new ObjectMetadata();

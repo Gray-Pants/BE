@@ -1,11 +1,9 @@
-package com.poku.graypants.domain.orderItem.application.dto;
+package com.poku.graypants.domain.order.application.dto;
 
-import com.poku.graypants.domain.item.application.dto.ItemResponseDto;
 import com.poku.graypants.domain.item.persistence.Item;
-import com.poku.graypants.domain.order.application.dto.OrderResponseDto;
 import com.poku.graypants.domain.order.persistence.Order;
 import com.poku.graypants.domain.order.persistence.OrderItemStatus;
-import com.poku.graypants.domain.orderItem.persistence.OrderItem;
+import com.poku.graypants.domain.order.persistence.OrderItem;
 import com.poku.graypants.domain.store.persistence.Store;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

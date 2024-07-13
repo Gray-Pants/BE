@@ -1,4 +1,4 @@
-package com.poku.graypants.domain.orderItem.persistence;
+package com.poku.graypants.domain.order.persistence;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

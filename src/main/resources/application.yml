@@ -1,6 +1,10 @@
 spring:
   application:
     name: Gray-Pants
+    portone:
+      api-key: PORTONE_API_KEY
+      api-secret: PORTONE_API_SECRET
+      user-code: PORTONE_USER_CODE
   jpa:
     show-sql: true
     properties:
@@ -33,6 +37,8 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+  session:
+    store-type: redis
 
 server:
   port: 8080

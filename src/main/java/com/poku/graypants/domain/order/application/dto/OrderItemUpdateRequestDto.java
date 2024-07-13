@@ -1,4 +1,4 @@
-package com.poku.graypants.domain.orderItem.application.dto;
+package com.poku.graypants.domain.order.application.dto;
 
 import com.poku.graypants.domain.order.persistence.OrderItemStatus;
 import lombok.Getter;

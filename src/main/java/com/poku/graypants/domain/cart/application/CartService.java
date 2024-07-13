@@ -1,5 +1,6 @@
 package com.poku.graypants.domain.cart.application;
 
+
 import com.poku.graypants.domain.cart.application.dto.CartItemAddRequestDto;
 import com.poku.graypants.domain.cart.application.dto.CartItemResponseDto;
 import com.poku.graypants.domain.cart.application.dto.CartItemUpdateRequestDto;
@@ -21,10 +22,10 @@ public class CartService {
     private final UserService userService;
     private final ItemService itemService;
 
-
     public List<CartItemResponseDto> getMyCartItems(Long principal) {
         List<CartItem> cartItems = cartItemService.getCartItemsByUserId(principal);
         return cartItems.stream().map(CartItemResponseDto::new).toList();
+
     }
 
     public void createCartItem(CartItemAddRequestDto request, Long UserId) {

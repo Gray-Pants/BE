@@ -47,6 +47,12 @@ public enum ExceptionStatus {
     // ROLE
     ACCESS_DENIED(HttpStatus.FORBIDDEN, 403, "권한이 없습니다."),
 
+    // SESSION
+    SESSION_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "세션이 존재하지 않습니다."),
+
+    // PAYMENT
+    PAYMENT_FAILED(HttpStatus.BAD_REQUEST, 400, "결제에 실패하였습니다."),
+
     //REVIEW
     REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "리뷰가 존재하지 않습니다."),
 
