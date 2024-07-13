@@ -26,7 +26,6 @@ public class ItemController {
 
     private final ItemService itemService;
 
-    @PreAuthorize("hasRole('ROLE_STORE')")
     @GetMapping("/item/{id}")
     public ResponseEntity<ApiResult<ItemResponseDto>> getItem(@PathVariable Long id) {
         ItemResponseDto responseDto = itemService.findById(id);
@@ -53,10 +52,8 @@ public class ItemController {
         return new ResponseEntity<>(success(responseDto), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_STORE')")
     @GetMapping("/{itemName}")
     public ResponseEntity<ApiResult<List<ItemResponseDto>>> getItemsByName(@PathVariable String itemName) {
-        log.info("Getting items by name: {}", itemName);
         List<ItemResponseDto> searchItemList = itemService.findByNameAll(itemName);
         return new ResponseEntity<>(success(searchItemList), new HttpHeaders(), HttpStatus.OK);
     }
@@ -64,6 +61,12 @@ public class ItemController {
     @GetMapping()
     public ResponseEntity<ApiResult<List<ItemResponseDto>>> findAll() {
         List<ItemResponseDto> itemList = itemService.findAll();
+        return new ResponseEntity<>(success(itemList), new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @GetMapping("/category/{categoryName}")
+    public ResponseEntity<ApiResult<List<ItemResponseDto>>> findByCategory(@PathVariable String categoryName) {
+        List<ItemResponseDto> itemList = itemService.findByCategory(categoryName);
         return new ResponseEntity<>(success(itemList), new HttpHeaders(), HttpStatus.OK);
     }
 

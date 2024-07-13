@@ -10,5 +10,7 @@ import java.util.Optional;
 public interface ItemRepository extends JpaRepository<Item, Long> {
     Optional<Item> findById(Long id);
 
+    List<Item> findAllByCategory(Category category);
+
     List<Item> findByStore_StoreId(Long storeId);
 }

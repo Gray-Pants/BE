@@ -1,0 +1,12 @@
+cloud:
+  aws:
+    s3:
+      bucket: ${S3_BUCKET}
+    credentials:
+      access-key: ${S3_GREYPANTS_ACCESSKEY}
+      secret-key: ${S3_GREYPANTS_SECRETKEY}
+    region:
+      static: ${S3_REGION}
+      auto: false
+    stack:
+      auto: false

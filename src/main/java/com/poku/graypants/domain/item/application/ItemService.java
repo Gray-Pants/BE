@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.poku.graypants.domain.item.application.dto.*;
+import com.poku.graypants.domain.item.persistence.Category;
 import com.poku.graypants.domain.item.persistence.Item;
 import com.poku.graypants.domain.item.persistence.ItemRepositoryCustom;
 import com.poku.graypants.domain.item.persistence.ItemRepository;
@@ -65,6 +66,28 @@ public class ItemService {
 
     public List<ItemResponseDto> findByNameAll(String name) {
         return itemRepositoryCustom.searchItemList(name);
+    }
+
+    public List<ItemResponseDto> findByCategory(String categoryName){
+        Category category = stringToCategory(categoryName);
+
+        List<Item> items = itemRepository.findAllByCategory(category);
+
+        List<ItemResponseDto> itemResponseDtos = new ArrayList<>();
+
+        for(Item item : items) {
+            itemResponseDtos.add(new ItemResponseDto(item));
+        }
+        return itemResponseDtos;
+    }
+
+    private Category stringToCategory(String categoryName) {
+        for(Category category : Category.values()){
+            if (category.getTitle().equals(categoryName)){
+                return category;
+            }
+        }
+        return null;
     }
 
     public List<ItemResponseDto> findAll(){
