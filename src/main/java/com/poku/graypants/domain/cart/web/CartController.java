@@ -1,14 +1,26 @@
 package com.poku.graypants.domain.cart.web;
 
+import static com.poku.graypants.global.util.ApiResponseUtil.success;
+
 import com.poku.graypants.domain.cart.application.CartService;
 import com.poku.graypants.domain.cart.application.dto.CartItemAddRequestDto;
-import com.poku.graypants.domain.cart.persistence.CartItem;
+import com.poku.graypants.domain.cart.application.dto.CartItemResponseDto;
 import com.poku.graypants.domain.cart.application.dto.CartItemUpdateRequestDto;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
+import com.poku.graypants.global.util.ApiResponseUtil.ApiResult;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/carts")
@@ -17,35 +29,38 @@ public class CartController {
 
     private final CartService cartService;
 
-//    @PostMapping("/items")
-//    public ResponseEntity<CartItem> addItemToCart(
-//            @RequestBody CartItemAddRequestDto request,
-//            @RequestParam String email) {
-//        CartItem cartItem = cartService.addItemToCart(request.getItemId(), request.getQuantity(), email);
-//        return ResponseEntity.ok(cartItem);
-//    }
-//
-//    @GetMapping("/items")
-//    public ResponseEntity<List<CartItem>> getCartItems(
-//            @RequestParam String email) {
-//        List<CartItem> cartItems = cartService.getCartItems(email);
-//        return ResponseEntity.ok(cartItems);
-//    }
-
-    @DeleteMapping("/items/{cartitem_id}")
-    public ResponseEntity<Void> removeItemFromCart(
-            @PathVariable Long cartitem_id,
-            @RequestParam String email) {
-        cartService.removeItemFromCart(cartitem_id, email);
-        return ResponseEntity.noContent().build();
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/myitems")
+    public ResponseEntity<ApiResult<List<CartItemResponseDto>>> getMyCartItems(
+            Authentication authentication) {
+        List<CartItemResponseDto> response = cartService.getMyCartItems((Long) authentication.getPrincipal());
+        return new ResponseEntity<>(success(response), HttpStatus.OK);
     }
 
-    @PatchMapping("/items/{cartitem_id}")
-    public ResponseEntity<Void> updateCartItemQuantity(
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PostMapping("/items")
+    public ResponseEntity<ApiResult<String>> createCartItem(
+            @RequestBody CartItemAddRequestDto request,
+            Authentication authentication) {
+        cartService.createCartItem(request, (Long) authentication.getPrincipal());
+        return new ResponseEntity<>(success("장바구니에 상품이 추가되었습니다."), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PutMapping("/items")
+    public ResponseEntity<ApiResult<List<CartItemResponseDto>>> updateCartItem(
             @RequestBody CartItemUpdateRequestDto request,
-            @RequestParam String email) {
-        cartService.updateCartItemQuantity(request.getCartItemId(), request.getNewQuantity(), email);
-        return ResponseEntity.ok().build();
+            Authentication authentication) {
+        List<CartItemResponseDto> response = cartService.updateCartItem(request, (Long) authentication.getPrincipal());
+        return new ResponseEntity<>(success(response), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @DeleteMapping("/items/{cartItemId}")
+    public ResponseEntity<ApiResult<List<CartItemResponseDto>>> deleteCartItem(@PathVariable Long cartItemId,
+            Authentication authentication) {
+        List<CartItemResponseDto> response = cartService.deleteCartItem(cartItemId, (Long) authentication.getPrincipal());
+        return new ResponseEntity<>(success(response), HttpStatus.OK);
     }
 }
 

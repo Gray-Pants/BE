@@ -12,11 +12,10 @@ import com.poku.graypants.domain.user.application.UserService;
 import com.poku.graypants.domain.user.persistence.User;
 import com.poku.graypants.global.exception.ExceptionStatus;
 import com.poku.graypants.global.exception.GrayPantsException;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -28,13 +27,14 @@ public class LikeService {
     private final LikeFactory likeFactory;
 
     public LikeResponseDto addLike(LikeRequestDto requestDto, Long userId) {
-        User user = userService.getUserById(userId);
-        Item item = itemService.getItemById(requestDto.getItemId());
+        User user = userService.getVerifyUserByUserId(userId);
+        Item item = itemService.getVerifyItemById(requestDto.getItemId());
 
         Like like = likeFactory.createLike(user, item);
         Like savedLike = likeRepository.save(like);
 
-        return new LikeResponseDto(savedLike.getLikeId(), savedLike.getUser().getUserId(), new ItemResponseDto(savedLike.getItem()));
+        return new LikeResponseDto(savedLike.getLikeId(), savedLike.getUser().getUserId(),
+                new ItemResponseDto(savedLike.getItem()));
     }
 
     public List<LikeResponseDto> getLikesByUserId(Long userId) {
@@ -48,7 +48,7 @@ public class LikeService {
 
     public LikeResponseDto findById(Long likeId) {
         Like like = getLikeById(likeId);
-        return new LikeResponseDto(like.getLikeId(), like.getUser().getUserId(),new ItemResponseDto(like.getItem()));
+        return new LikeResponseDto(like.getLikeId(), like.getUser().getUserId(), new ItemResponseDto(like.getItem()));
     }
 
     public void removeLike(Long likeId) {

@@ -1,10 +1,12 @@
 package com.poku.graypants.domain.item.application;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.poku.graypants.domain.item.application.dto.*;
+
+import com.poku.graypants.domain.item.application.dto.ItemCreateRequestDto;
+import com.poku.graypants.domain.item.application.dto.ItemResponseDto;
+import com.poku.graypants.domain.item.application.dto.ItemUpdateRequestDto;
 import com.poku.graypants.domain.item.persistence.Category;
 import com.poku.graypants.domain.item.persistence.Item;
 import com.poku.graypants.domain.item.persistence.ItemRepositoryCustom;
@@ -57,7 +59,7 @@ public class ItemService {
     }
 
     public ItemResponseDto updateItem(Long id, ItemUpdateRequestDto itemUpdateRequestDto) {
-        Item item = getItemById(id);
+        Item item = getVerifyItemById(id);
 
         return new ItemResponseDto(item.updateItem(itemUpdateRequestDto,
                 uploadItemPhotos(itemUpdateRequestDto.getItemPhotos()),
@@ -140,17 +142,17 @@ public class ItemService {
         return itemListToDtoList(items);
     }
     public ItemResponseDto findById(Long id) {
-        Item item = getItemById(id);
+        Item item = getVerifyItemById(id);
         return new ItemResponseDto(item);
     }
 
 
     public void deleteItem(Long id) {
-        Item findItem = getItemById(id);
+        Item findItem = getVerifyItemById(id);
         itemRepository.delete(findItem);
     }
 
-    public Item getItemById(Long itemId) {
+    public Item getVerifyItemById(Long itemId) {
         return itemRepository.findById(itemId)
                 .orElseThrow(() -> new GrayPantsException(ExceptionStatus.ITEM_NOT_FOUND));
     }
@@ -184,7 +186,6 @@ public class ItemService {
         String descImgName = multipartItemDesc.getOriginalFilename();
         descImgName = LocalDateTime.now() + "-" + descImgName + makeUUID();
 
-
         return putS3(multipartItemDesc, descImgName);
     }
 
@@ -192,7 +193,7 @@ public class ItemService {
 
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < multipartItemPhotos.size(); i++){
+        for (int i = 0; i < multipartItemPhotos.size(); i++) {
             String fileName = multipartItemPhotos.get(i).getOriginalFilename();
             fileName = LocalDateTime.now() + "-" + fileName + "-" + makeUUID();
 
