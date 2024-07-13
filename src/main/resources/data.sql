@@ -1,7 +1,7 @@
 -- stores 테이블에 더미 데이터 삽입
 INSERT INTO stores (store_name, store_password, store_email, created_at, updated_at) VALUES
-('store_1', 'password_1', 'store_1@example.com', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-('store_2', 'password_2', 'store_2@example.com', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+('store_1', '$2a$10$kNAsooN0ohhkwkbpieKMieYGX6VmM23mqahHueZKB6zrw/LJGKPoa', 'store_1@example.com', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('store_2', '$2a$10$kNAsooN0ohhkwkbpieKMieYGX6VmM23mqahHueZKB6zrw/LJGKPoa', 'store_2@example.com', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- items 테이블에 더미 데이터 삽입
 INSERT INTO items (category, item_price, sales_quantity, stock, view_count, created_at, store_id, updated_at, item_photos, item_desc_img, item_name) VALUES
@@ -52,8 +52,8 @@ INSERT INTO items (category, item_price, sales_quantity, stock, view_count, crea
 
 -- users 테이블에 더미 데이터 삽입
 INSERT INTO users (grade, password, user_name, email, refresh_token) VALUES
-('A', 'password_1', 'user_1', 'user_1@example.com', 'token_1'),
-('B', 'password_2', 'user_2', 'user_2@example.com', 'token_2');
+('A', '$2a$10$kNAsooN0ohhkwkbpieKMieYGX6VmM23mqahHueZKB6zrw/LJGKPoa', 'user_1', 'user_1@example.com', 'token_1'),
+('B', '$2a$10$kNAsooN0ohhkwkbpieKMieYGX6VmM23mqahHueZKB6zrw/LJGKPoa', 'user_2', 'user_2@example.com', 'token_2');
 
 -- likes 테이블에 더미 데이터 삽입
 INSERT INTO likes (item_id, user_id, created_at, updated_at) VALUES
