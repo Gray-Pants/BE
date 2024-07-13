@@ -52,7 +52,10 @@ public enum ExceptionStatus {
 
     // CART_ITEM
     CART_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "장바구니 상품을 찾을 수 없습니다."),
-    CART_ITEM_USER_MISMATCH(HttpStatus.FORBIDDEN, 403, "장바구니 상품의 유저 정보가 일치하지 않습니다.");
+    CART_ITEM_USER_MISMATCH(HttpStatus.FORBIDDEN, 403, "장바구니 상품의 유저 정보가 일치하지 않습니다."),
+
+    // USER_ADDR
+    ADDR_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "주소를 찾을 수 없습니다.");
 
     private final int status;
     private final int customCode;
