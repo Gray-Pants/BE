@@ -81,6 +81,11 @@ public class OrderItemServiceImpl implements OrderItemService {
         orderItemRepository.delete(verifyOrderItem);
     }
 
+    @Override
+    public OrderItem getVerifyOrderItemByOrderItemId(Long orderItemId) {
+        return orderItemRepository.findByOrderItemId(orderItemId)
+                .orElseThrow(() -> new GrayPantsException(ExceptionStatus.ORDER_ITEM_NOT_FOUND));
+    }
 
 
     private OrderItem getVerifyOrderItem(Long orderItemId) {

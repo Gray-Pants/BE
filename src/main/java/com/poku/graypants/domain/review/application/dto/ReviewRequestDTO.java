@@ -7,10 +7,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class ReviewRequestDTO {
-    private Long reviewId;
     private String reviewContent;
     private int reviewScore;
-    private Long userId;
-    private Long itemId;
-
+    private Long orderItemId;
 }

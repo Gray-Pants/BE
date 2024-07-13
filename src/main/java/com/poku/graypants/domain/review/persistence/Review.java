@@ -1,6 +1,7 @@
 package com.poku.graypants.domain.review.persistence;
 
 import com.poku.graypants.domain.item.persistence.Item;
+import com.poku.graypants.domain.orderItem.persistence.OrderItem;
 import com.poku.graypants.domain.user.persistence.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -31,14 +32,19 @@ public class Review {
     private User user;
 
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "order_item_id")
+    private OrderItem orderItem;
+
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "item_id")
     private Item item;
 
     @Builder
-    public Review(Long reviewId, String reviewContent, int reviewScore, User user, Item item) {
+    public Review(Long reviewId, String reviewContent, int reviewScore, OrderItem orderItem, User user, Item item) {
         this.reviewId = reviewId;
         this.reviewContent = reviewContent;
         this.reviewScore = reviewScore;
+        this.orderItem = orderItem;
         this.user = user;
         this.item = item;
     }

@@ -2,6 +2,10 @@ package com.poku.graypants.domain.review.application;
 
 import com.poku.graypants.domain.item.application.ItemService;
 import com.poku.graypants.domain.item.persistence.Item;
+import com.poku.graypants.domain.order.application.OrderService;
+import com.poku.graypants.domain.order.persistence.Order;
+import com.poku.graypants.domain.orderItem.application.OrderItemService;
+import com.poku.graypants.domain.orderItem.persistence.OrderItem;
 import com.poku.graypants.domain.review.application.dto.ReviewRequestDTO;
 import com.poku.graypants.domain.review.application.dto.ReviewResponseDTO;
 import com.poku.graypants.domain.review.persistence.Review;
@@ -21,17 +25,17 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final UserService userService;
-    private final ItemService itemService;
+    private final OrderItemService orderItemService;
 
-    public ReviewResponseDTO createReview(ReviewRequestDTO reviewRequestDTO) {
-        User user = userService.getVerifyUserByUserId(reviewRequestDTO.getUserId());
-        Item item = itemService.getVerifyItemById(reviewRequestDTO.getItemId());
+    public ReviewResponseDTO createReview(ReviewRequestDTO reviewRequestDTO, Long userId) {
+        User user = userService.getVerifyUserByUserId(userId);
+        OrderItem orderItem = orderItemService.getVerifyOrderItemByOrderItemId(reviewRequestDTO.getOrderItemId());
 
         Review review = Review.builder()
                 .reviewContent(reviewRequestDTO.getReviewContent())
                 .reviewScore(reviewRequestDTO.getReviewScore())
                 .user(user)
-                .item(item)
+                .item(orderItem.getItem())
                 .build();
 
         Review savedReview = reviewRepository.save(review);
