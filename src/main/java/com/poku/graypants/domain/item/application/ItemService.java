@@ -9,7 +9,6 @@ import com.poku.graypants.domain.item.application.dto.ItemResponseDto;
 import com.poku.graypants.domain.item.application.dto.ItemUpdateRequestDto;
 import com.poku.graypants.domain.item.persistence.Category;
 import com.poku.graypants.domain.item.persistence.Item;
-import com.poku.graypants.domain.item.persistence.ItemRepositoryCustom;
 import com.poku.graypants.domain.item.persistence.ItemRepository;
 import com.poku.graypants.global.exception.ExceptionStatus;
 import com.poku.graypants.global.exception.GrayPantsException;
@@ -21,7 +20,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,7 +33,6 @@ import java.util.UUID;
 public class ItemService {
 
     private final ItemRepository itemRepository;
-    //private final ItemRepositoryCustom itemRepositoryCustom;
     private final AmazonS3 amazonS3;
 
     @Value("${cloud.aws.s3.bucket}")
