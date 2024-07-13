@@ -98,6 +98,22 @@ public enum Category {
         return childCategories.isEmpty();
     }
 
+    public List<Category> getAllLeafCategories() {
+        List<Category> leafCategories = new ArrayList<>();
+        getAllLeafCategoriesRecursive(this, leafCategories);
+        return leafCategories;
+    }
+    private void getAllLeafCategoriesRecursive(Category category, List<Category> leafCategories) {
+        if (category.isLeafCategory()) {
+            leafCategories.add(category);
+        } else {
+            for (Category childCategory : category.getChildCategories()) {
+                getAllLeafCategoriesRecursive(childCategory, leafCategories);
+            }
+        }
+    }
+
+
     // 마지막 카테고리(상품추가 가능)들 반환
     public List<Category> getLeafCategories() {
         return Arrays.stream(Category.values())

@@ -53,20 +53,21 @@ public class ItemController {
     }
 
     @GetMapping("/{itemName}")
-    public ResponseEntity<ApiResult<List<ItemResponseDto>>> getItemsByName(@PathVariable String itemName) {
-        List<ItemResponseDto> searchItemList = itemService.findByNameAll(itemName);
+    public ResponseEntity<ApiResult<List<ItemResponseDto>>> getItemsByName(@PathVariable String itemName, @RequestParam(required = false, defaultValue = "modifiedAt") String sort) {
+        List<ItemResponseDto> searchItemList = itemService.findAllByName(itemName, sort);
         return new ResponseEntity<>(success(searchItemList), new HttpHeaders(), HttpStatus.OK);
     }
 
     @GetMapping()
-    public ResponseEntity<ApiResult<List<ItemResponseDto>>> findAll() {
+    public ResponseEntity<ApiResult<List<ItemResponseDto>>> findAll(@RequestParam(required = false, defaultValue = "modifiedAt") String sort) {
         List<ItemResponseDto> itemList = itemService.findAll();
         return new ResponseEntity<>(success(itemList), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @GetMapping("/category/{categoryName}")
-    public ResponseEntity<ApiResult<List<ItemResponseDto>>> findByCategory(@PathVariable String categoryName) {
-        List<ItemResponseDto> itemList = itemService.findByCategory(categoryName);
+    @GetMapping("/category")
+    public ResponseEntity<ApiResult<List<ItemResponseDto>>> findByCategory(@RequestParam String category, @RequestParam(required = false, defaultValue = "modifiedAt") String sort) {
+        log.info(sort);
+        List<ItemResponseDto> itemList = itemService.findByCategory(category, sort);
         return new ResponseEntity<>(success(itemList), new HttpHeaders(), HttpStatus.OK);
     }
 

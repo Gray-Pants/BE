@@ -15,6 +15,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,7 +33,7 @@ import java.util.UUID;
 public class ItemService {
 
     private final ItemRepository itemRepository;
-    private final ItemRepositoryCustom itemRepositoryCustom;
+    //private final ItemRepositoryCustom itemRepositoryCustom;
     private final AmazonS3 amazonS3;
 
     @Value("${cloud.aws.s3.bucket}")
@@ -64,18 +65,62 @@ public class ItemService {
     }
 
 
-    public List<ItemResponseDto> findByNameAll(String name) {
-        return itemRepositoryCustom.searchItemList(name);
+    public List<ItemResponseDto> findAllByName(String name, String sort) {
+        Sort sortOrder = sortBy(sort);
+        List<Item> items = itemRepository.findAllByItemNameContaining(name, sortOrder);
+        return  itemListToDtoList(items);
     }
 
-    public List<ItemResponseDto> findByCategory(String categoryName){
+
+    public List<ItemResponseDto> findByCategory(String categoryName, String sort) {
         Category category = stringToCategory(categoryName);
 
-        List<Item> items = itemRepository.findAllByCategory(category);
+        // 모든 하위 카테고리를 포함하여 검색
+        List<Category> categoriesToSearch = new ArrayList<>();
+        categoriesToSearch.add(category);
+        if (!category.isLeafCategory()) {
+            categoriesToSearch.addAll(category.getAllLeafCategories());
+        }
+
+        Sort sortOrder = sortBy(sort);
 
         List<ItemResponseDto> itemResponseDtos = new ArrayList<>();
 
-        for(Item item : items) {
+        for (Category cat : categoriesToSearch) {
+            List<Item> items = itemRepository.findAllByCategory(cat, sortOrder);
+            for(Item item : items){
+                itemResponseDtos.add(new ItemResponseDto(item));
+            }
+        }
+
+        return itemResponseDtos;
+    }
+
+    private Sort sortBy(String sort) {
+        Sort sortOrder;
+        switch (sort) {
+            case "lowPrice":
+                sortOrder = Sort.by(Sort.Order.asc("itemPrice"));
+                break;
+            case "highPrice":
+                sortOrder = Sort.by(Sort.Order.desc("itemPrice"));
+                break;
+            case "salesVolume":
+                sortOrder = Sort.by(Sort.Order.desc("salesQuantity"));
+                break;
+            case "newest":
+                sortOrder = Sort.by(Sort.Order.desc("createdAt"));
+                break;
+            default:
+                sortOrder = Sort.unsorted();
+                break;
+        }
+        return sortOrder;
+    }
+
+    private List<ItemResponseDto> itemListToDtoList(List<Item> items) {
+        List<ItemResponseDto> itemResponseDtos = new ArrayList<>();
+        for(Item item : items){
             itemResponseDtos.add(new ItemResponseDto(item));
         }
         return itemResponseDtos;
@@ -92,11 +137,7 @@ public class ItemService {
 
     public List<ItemResponseDto> findAll(){
         List<Item> items = itemRepository.findAll();
-        List<ItemResponseDto> itemResponseDtos = new ArrayList<>();
-        for(Item item : items) {
-           itemResponseDtos.add(new ItemResponseDto(item));
-        }
-        return itemResponseDtos;
+        return itemListToDtoList(items);
     }
     public ItemResponseDto findById(Long id) {
         Item item = getItemById(id);
