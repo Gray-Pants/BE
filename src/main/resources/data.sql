@@ -27,11 +27,6 @@ INSERT INTO items (category, item_price, sales_quantity, stock, view_count, crea
     ('SLIPPER', 1500, 15, 150, 75, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/2473265_1_500.jpg', 'https://greypants-img-bucket.s3.ap-northeast-2.amazonaws.com/2473265_1_500.jpg', 'slipper_4');
 
 
--- carts 테이블에 더미 데이터 삽입
-INSERT INTO carts (created_at, updated_at) VALUES
-(CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-(CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-
 -- users 테이블에 더미 데이터 삽입
 INSERT INTO users (grade, password, user_name, email, refresh_token) VALUES
 ('A', 'password_1', 'user_1', 'user_1@example.com', 'token_1'),
@@ -43,8 +38,11 @@ INSERT INTO likes (item_id, user_id, created_at, updated_at) VALUES
 (2, 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- cart_items 테이블에 더미 데이터 삽입
-INSERT INTO cart_items (cart_item_quantity, cart_id, item_id, created_at, updated_at) VALUES
+INSERT INTO cart_items (cart_item_quantity, user_id, item_id, created_at, updated_at) VALUES
 (1, 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(1, 1, 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(1, 1, 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(1, 1, 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 (2, 2, 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 
