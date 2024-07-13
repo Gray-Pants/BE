@@ -31,6 +31,6 @@ public class StoreController {
     @GetMapping("/myitems")
     public ResponseEntity<ApiResult<List<ItemResponseDto>>> getItemList(Authentication authentication) {
         List<ItemResponseDto> response = storeService.getItemByStoreId((Long) authentication.getPrincipal());
-        return new ResponseEntity(success(response), HttpStatus.OK);
+        return new ResponseEntity<>(success(response), HttpStatus.OK);
     }
 }

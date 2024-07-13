@@ -16,6 +16,7 @@ public class ReviewResponseDTO {
     private Long userId;
     private String createdAt;
     private ItemResponseDto item;
+    private String username;
 
     public static ReviewResponseDTO fromEntity(Review review) {
         return new ReviewResponseDTO(
@@ -24,7 +25,8 @@ public class ReviewResponseDTO {
                 review.getReviewScore(),
                 review.getUser().getId(),
                 review.getCreatedAt().format(DateTimeFormatter.ofPattern(("yyyy-MM-dd"))),
-                new ItemResponseDto(review.getItem())
+                new ItemResponseDto(review.getItem()),
+                review.getUser().getUsername()
         );
     }
 }
