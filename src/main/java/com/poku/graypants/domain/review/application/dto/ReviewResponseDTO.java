@@ -2,6 +2,7 @@ package com.poku.graypants.domain.review.application.dto;
 
 import com.poku.graypants.domain.item.application.dto.ItemResponseDto;
 import com.poku.graypants.domain.review.persistence.Review;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,6 +13,7 @@ public class ReviewResponseDTO {
     private String reviewContent;
     private int reviewScore;
     private Long userId;
+    private LocalDateTime createdAt;
     private ItemResponseDto item;
 
     public static ReviewResponseDTO fromEntity(Review review) {
@@ -20,6 +22,7 @@ public class ReviewResponseDTO {
                 review.getReviewContent(),
                 review.getReviewScore(),
                 review.getUser().getId(),
+                review.getCreatedAt(),
                 new ItemResponseDto(review.getItem())
         );
     }
