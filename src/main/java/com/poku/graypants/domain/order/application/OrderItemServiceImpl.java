@@ -35,7 +35,7 @@ public class OrderItemServiceImpl implements OrderItemService {
   @Override
   public OrderItemResponseDto createOrderItem(OrderCreateRequestDto orderCreateRequestDto, OrderItemCreateRequestDto orderItemCreateRequestDto, Long userId, Long itemId) {
     User findUser = userService.getUser(userId);
-    Order order = orderCreateRequestDto.toEntity(findUser.getUserId();
+    Order order = orderCreateRequestDto.toEntity(findUser);
     OrderResponseDto orderResponseDto = orderService.createOrder(orderCreateRequestDto, findUser.getUserId());
 
     Item findItem = itemService.getVerifyItemById(itemId);

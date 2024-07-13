@@ -55,11 +55,7 @@ public class ItemService {
     }
 
     public ItemResponseDto updateItem(Long id, ItemUpdateRequestDto itemUpdateRequestDto) {
-<<<<<<< Updated upstream
         Item item = getVerifyItemById(id);
-=======
-        Item item = getItemById(id);
->>>>>>> Stashed changes
 
         return new ItemResponseDto(item.updateItem(itemUpdateRequestDto,
                 uploadItemPhotos(itemUpdateRequestDto.getItemPhotos()),

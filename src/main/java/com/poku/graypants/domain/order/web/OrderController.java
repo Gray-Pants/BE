@@ -54,19 +54,19 @@ public class OrderController {
     return new ResponseEntity<>(success(createResponseDto), new HttpHeaders(), HttpStatus.ACCEPTED);
   }
 
-  @PostMapping("/{orderId}/items")
-  public ResponseEntity<ApiResult<List<OrderItemResponseDto>>> createOrderItem(
-          @PathVariable Long orderId,
-          @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader,
-          @RequestBody @Valid List<OrderItemCreateRequestDto> orderItemCreateRequestDtos) {
-
-    // JWT 토큰 검증 (생략)
-    Authentication userId = jwtTokenProvider.getAuthentication(authorizationHeader.replace("Bearer ", ""));
-    Order order = orderService.getVerifyExistsOrder(orderId);
-
-    List<OrderItemResponseDto> orderItemResponseDtoList = orderItemService.createOrderItems(order, userId, orderItemCreateRequestDtos);
-    return ResponseEntity.status(HttpStatus.CREATED).body(success(orderItemResponseDtoList));
-  }
+//  @PostMapping("/{orderId}/items")
+//  public ResponseEntity<ApiResult<List<OrderItemResponseDto>>> createOrderItem(
+//          @PathVariable Long orderId,
+//          @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader,
+//          @RequestBody @Valid List<OrderItemCreateRequestDto> orderItemCreateRequestDtos) {
+//
+//    // JWT 토큰 검증 (생략)
+//    Authentication userId = jwtTokenProvider.getAuthentication(authorizationHeader.replace("Bearer ", ""));
+//    Order order = orderService.getVerifyExistsOrder(orderId);
+//
+//    List<OrderItemResponseDto> orderItemResponseDtoList = orderItemService.createOrderItems(order, userId, orderItemCreateRequestDtos);
+//    return ResponseEntity.status(HttpStatus.CREATED).body(success(orderItemResponseDtoList));
+//  }
 
   @PostMapping("/{orderId}/payments") // 결제 엔드포인트 추가
   public ResponseEntity<ApiResult<String>> createPayment(
