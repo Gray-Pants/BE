@@ -19,7 +19,7 @@ import static com.poku.graypants.global.util.ApiResponseUtil.success;
 @RestController
 @RequestMapping("/api/addr")
 @RequiredArgsConstructor
-public class AddrContoller {
+public class AddrController {
 
     private final AddrService addrService;
 
@@ -51,7 +51,7 @@ public class AddrContoller {
             @PathVariable Long userAddrId,
             @RequestBody ApiResult<AddrRequestDto> request) {
         AddrRequestDto addrRequestDto = request.getResponse();
-        AddrResponseDto updatedAddr = addrService.updateAddr(AddrRequestDto addrRequestDto);
+        AddrResponseDto updatedAddr = addrService.updateAddr(userAddrId, addrRequestDto);
         return ResponseEntity.ok(success(updatedAddr));
     }
 }

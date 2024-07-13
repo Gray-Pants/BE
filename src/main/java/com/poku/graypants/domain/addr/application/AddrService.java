@@ -37,7 +37,7 @@ public class AddrService {
     }
 
     // 배송지 수정
-    public AddrResponseDto updateAddr(AddrRequestDto addrRequestDto) {
+    public AddrResponseDto updateAddr(Long userAddrId, AddrRequestDto addrRequestDto) {
         UserAddr existingUserAddr = addrRepository.findById(addrRequestDto.getUserAddrId())
                 .orElseThrow(() -> new GrayPantsException(ExceptionStatus.ADDR_NOT_FOUND));
 
