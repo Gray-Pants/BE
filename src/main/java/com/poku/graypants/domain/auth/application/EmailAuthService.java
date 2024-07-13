@@ -103,6 +103,6 @@ public class EmailAuthService {
 
     public boolean validationPasswordByEmail(EmailAuthenticateAble entity, String password) {
         //인코딩 로직 필요
-        return password.equals(entity.getPassword());
+        return passwordEncoder.matches(password, entity.getPassword());
     }
 }
