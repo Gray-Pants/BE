@@ -64,4 +64,8 @@ public class User implements EmailAuthenticateAble {
     public Long getId() {
         return userId;
     }
+
+    public void changePassword(String newPassword) {
+        this.password = newPassword;
+    }
 }
