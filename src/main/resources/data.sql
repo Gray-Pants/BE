@@ -102,3 +102,10 @@ INSERT INTO order_items (order_item_price, order_item_quantity, item_id, order_i
 INSERT INTO oauth (oauth_provider, oauth_provider_id, user_email, oauth_id) VALUES
 ('google', 'google_id_1', 'user_1@example.com', 'oauth_1'),
 ('facebook', 'facebook_id_2', 'user_2@example.com', 'oauth_2');
+
+INSERT INTO reviews (item_id, order_item_id, user_id, review_content, review_score, created_at) VALUES
+(1, 1, 1, '아주아주아주 좋아요', 1, CURRENT_TIMESTAMP),
+(1, 2, 1, '아주아주아주 좋아요', 2, CURRENT_TIMESTAMP),
+(1, 3, 1, '아주아주아주 좋아요', 3, CURRENT_TIMESTAMP),
+(1, 4, 1, '아주아주아주 좋아요', 4, CURRENT_TIMESTAMP),
+(2, 8, 1, '아주아주아주 좋아요', 5, CURRENT_TIMESTAMP);

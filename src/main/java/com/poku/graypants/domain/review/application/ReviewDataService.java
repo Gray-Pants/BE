@@ -16,4 +16,8 @@ public class ReviewDataService {
     public List<Review> getReviewsByUserId(Long userId) {
         return reviewRepository.findByUser_UserId(userId);
     }
+
+    public Long countByUser_UserId(Long userId) {
+        return reviewRepository.countByUser_UserId(userId);
+    }
 }

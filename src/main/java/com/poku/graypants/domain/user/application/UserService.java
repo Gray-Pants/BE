@@ -68,7 +68,7 @@ public class UserService {
 
     public MyProfileResponseDto getMyProfile(Long user_id) {
         User user = getUser(user_id);
-        Long reviewCount = 0L; // TODO: reviewCount
+        Long reviewCount = reviewDataService.countByUser_UserId(user_id); // TODO: reviewCount
         Long orderCount = orderDataService.countByUser_UserId(user_id);
         return MyProfileResponseDto.builder()
                 .username(user.getUsername())

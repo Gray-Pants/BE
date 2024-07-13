@@ -9,4 +9,6 @@ import java.util.List;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     List<Review> findByItem_ItemId(Long itemId);
     List<Review> findByUser_UserId(Long userId);
+
+    Long countByUser_UserId(Long userId);
 }

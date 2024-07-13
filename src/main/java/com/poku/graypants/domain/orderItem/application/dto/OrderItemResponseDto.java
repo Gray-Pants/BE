@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrderItemResponseDto {
 
+    private Long orderItemId;
     private int orderItemPrice;
     private int orderItemQuantity;
     private OrderItemStatus orderItemStatus;
@@ -29,6 +30,7 @@ public class OrderItemResponseDto {
     }
 
     public OrderItemResponseDto(OrderItem orderItem) {
+        this.orderItemId = orderItem.getOrderItemId();
         this.orderItemPrice = orderItem.getOrderItemPrice();
         this.orderItemQuantity = orderItem.getOrderItemQuantity();
         this.orderItemStatus = orderItem.getOrderItemStatus();
