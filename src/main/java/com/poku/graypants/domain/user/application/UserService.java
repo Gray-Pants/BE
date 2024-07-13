@@ -2,6 +2,7 @@ package com.poku.graypants.domain.user.application;
 
 import com.poku.graypants.domain.auth.persistence.EmailAuthenticateAble;
 import com.poku.graypants.domain.order.application.OrderDataService;
+import com.poku.graypants.domain.order.application.dto.OrderResponseDto;
 import com.poku.graypants.domain.review.application.ReviewDataService;
 import com.poku.graypants.domain.review.application.dto.ReviewResponseDTO;
 import com.poku.graypants.domain.user.application.dto.MyProfileResponseDto;
@@ -10,10 +11,9 @@ import com.poku.graypants.domain.user.persistence.UserRepository;
 import com.poku.graypants.global.config.oauth.info.OAuth2UserInfo;
 import com.poku.graypants.global.exception.ExceptionStatus;
 import com.poku.graypants.global.exception.GrayPantsException;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -44,7 +44,8 @@ public class UserService {
     }
 
     public User getVerifyUserByUserId(Long userId) {
-        return userRepository.findById(userId).orElseThrow(() -> new GrayPantsException(ExceptionStatus.USER_NOT_FOUND));
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new GrayPantsException(ExceptionStatus.USER_NOT_FOUND));
     }
 
     public User getUserByUserId(Long userId) {
@@ -78,5 +79,9 @@ public class UserService {
 
     public List<ReviewResponseDTO> getMyReviews(Long userId) {
         return reviewDataService.getReviewsByUserId(userId).stream().map(ReviewResponseDTO::fromEntity).toList();
+    }
+
+    public List<OrderResponseDto> getOrdersByUserId(Long userId) {
+        return orderDataService.getOrdersByUserId(userId).stream().map(OrderResponseDto::new).toList();
     }
 }
