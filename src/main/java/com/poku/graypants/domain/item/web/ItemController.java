@@ -6,6 +6,8 @@ import com.poku.graypants.domain.item.application.ItemService;
 import com.poku.graypants.domain.item.application.dto.ItemCreateRequestDto;
 import com.poku.graypants.domain.item.application.dto.ItemResponseDto;
 import com.poku.graypants.domain.item.application.dto.ItemUpdateRequestDto;
+import com.poku.graypants.domain.store.application.StoreService;
+import com.poku.graypants.domain.store.persistence.Store;
 import com.poku.graypants.global.util.ApiResponseUtil.ApiResult;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -25,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 public class ItemController {
 
     private final ItemService itemService;
+    private final StoreService storeService;
 
     @GetMapping("/item/{id}")
     public ResponseEntity<ApiResult<ItemResponseDto>> getItem(@PathVariable Long id) {
@@ -35,11 +39,15 @@ public class ItemController {
 
     @PreAuthorize("hasRole('ROLE_STORE')")
     @PostMapping("/item")
-    public ResponseEntity<ApiResult<ItemResponseDto>> createItem(@ModelAttribute ItemCreateRequestDto itemCreateRequestDto) {
+    public ResponseEntity<ApiResult<ItemResponseDto>> createItem(@AuthenticationPrincipal Long storeId,  @ModelAttribute ItemCreateRequestDto itemCreateRequestDto) {
 
-        ItemResponseDto responseDto = itemService.createItem(itemCreateRequestDto);
-
-        log.info(itemCreateRequestDto.toString());
+        Store store = storeService.getStoreById(storeId);
+        log.info("Request Data: itemName={}, itemCategory={}, itemPrice={}, stock={}",
+                itemCreateRequestDto.getItemName(),
+                itemCreateRequestDto.getCategory(),
+                itemCreateRequestDto.getItemPrice(),
+                itemCreateRequestDto.getStock());
+        ItemResponseDto responseDto = itemService.createItem(itemCreateRequestDto, store);
 
         return new ResponseEntity<>(success(responseDto), new HttpHeaders(), HttpStatus.CREATED);
     }

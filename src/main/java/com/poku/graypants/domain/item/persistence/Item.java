@@ -90,4 +90,8 @@ public class Item extends BaseTime {
         this.itemDescImg = itemDescImg;
     }
 
+    public void updateStore(Store store) {
+        this.store = store;
+    }
+
 }
