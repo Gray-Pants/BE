@@ -3,6 +3,7 @@ package com.poku.graypants.domain.user.web;
 import static com.poku.graypants.global.util.ApiResponseUtil.success;
 
 import com.poku.graypants.domain.order.application.dto.OrderResponseDto;
+import com.poku.graypants.domain.orderItem.application.dto.OrderItemResponseDto;
 import com.poku.graypants.domain.review.application.dto.ReviewResponseDTO;
 import com.poku.graypants.domain.user.application.UserService;
 import com.poku.graypants.domain.user.application.dto.MyProfileResponseDto;
@@ -16,7 +17,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,5 +46,12 @@ public class UserController {
     public ResponseEntity<ApiResult<List<OrderResponseDto>>> myOrders(@AuthenticationPrincipal Long userId) {
         List<OrderResponseDto> orderResponseDtoList = userService.getOrdersByUserId(userId);
         return new ResponseEntity<>(success(orderResponseDtoList), new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/reviews/requests")
+    public ResponseEntity<ApiResult<List<OrderItemResponseDto>>> myReviewRequests(@AuthenticationPrincipal Long userId) {
+        List<OrderItemResponseDto> response = userService.getReviewRequestsByUserId(userId);
+        return new ResponseEntity<>(success(response), new HttpHeaders(), HttpStatus.OK);
     }
 }

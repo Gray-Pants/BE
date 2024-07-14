@@ -2,6 +2,7 @@ package com.poku.graypants.domain.order.application;
 
 import com.poku.graypants.domain.order.persistence.Order;
 import com.poku.graypants.domain.order.persistence.OrderRepository;
+import com.poku.graypants.domain.orderItem.persistence.OrderItem;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

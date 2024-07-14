@@ -31,6 +31,8 @@ public class ReviewService {
         User user = userService.getVerifyUserByUserId(userId);
         OrderItem orderItem = orderItemService.getVerifyOrderItemByOrderItemId(reviewRequestDTO.getOrderItemId());
 
+        if(orderItem.getReview() != null)
+            throw new GrayPantsException(ExceptionStatus.REVIEW_ALREADY_EXISTS);
         Review review = Review.builder()
                 .reviewContent(reviewRequestDTO.getReviewContent())
                 .reviewScore(reviewRequestDTO.getReviewScore())
