@@ -3,12 +3,8 @@ package com.poku.graypants.domain.addr.web;
 import com.poku.graypants.domain.addr.application.AddrService;
 import com.poku.graypants.domain.addr.application.Dto.AddrRequestDto;
 import com.poku.graypants.domain.addr.application.Dto.AddrResponseDto;
-import com.poku.graypants.domain.addr.persistence.AddrRepository;
-import com.poku.graypants.domain.review.application.dto.ReviewRequestDTO;
-import com.poku.graypants.domain.review.application.dto.ReviewResponseDTO;
 import com.poku.graypants.global.util.ApiResponseUtil.ApiResult;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.UserDatabase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,9 +29,9 @@ public class AddrController {
 
     // 주소 조회
     @GetMapping("/{userAddrId}")
-    public ResponseEntity<ApiResult<List<AddrResponseDto>>> getAddrByUserAddrId(@PathVariable Long userAddrId) {
-        List<AddrResponseDto> addrs = (List<AddrResponseDto>) addrService.getUserById(userAddrId);
-        return ResponseEntity.ok(success(addrs));
+    public ResponseEntity<ApiResult<AddrResponseDto>> getAddrByUserAddrId(@PathVariable Long userAddrId) {
+        AddrResponseDto addr = addrService.getUserById(userAddrId);
+        return ResponseEntity.ok(success(addr));
     }
 
     // 주소 삭제
@@ -54,4 +50,5 @@ public class AddrController {
         AddrResponseDto updatedAddr = addrService.updateAddr(userAddrId, addrRequestDto);
         return ResponseEntity.ok(success(updatedAddr));
     }
+
 }

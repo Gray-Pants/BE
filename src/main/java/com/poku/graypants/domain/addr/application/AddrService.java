@@ -18,6 +18,7 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class AddrService {
+
     private final AddrRepository addrRepository;
     private final UserService userService;
 
@@ -38,18 +39,14 @@ public class AddrService {
 
     // 배송지 수정
     public AddrResponseDto updateAddr(Long userAddrId, AddrRequestDto addrRequestDto) {
-        UserAddr existingUserAddr = addrRepository.findById(addrRequestDto.getUserAddrId())
+        UserAddr existingUserAddr = addrRepository.findById(userAddrId)
                 .orElseThrow(() -> new GrayPantsException(ExceptionStatus.ADDR_NOT_FOUND));
 
-        UserAddr updateUerAddr = UserAddr.builder()
-                .userAddrId(existingUserAddr.getUserAddrId())
-                .userAddrName(existingUserAddr.getUserAddrName())
-                .userAddr(existingUserAddr.getUserAddr())
-                .userAddrPhone(existingUserAddr.getUserAddrPhone())
-                .build();
 
-        UserAddr saveAddr = addrRepository.save(updateUerAddr);
-        return AddrResponseDto.fromEntity(saveAddr);
+        existingUserAddr.update(addrRequestDto.getUserAddrName(), addrRequestDto.getUserAddr(), addrRequestDto.getUserAddrPhone());
+
+        UserAddr savedAddr = addrRepository.save(existingUserAddr);
+        return AddrResponseDto.fromEntity(savedAddr);
     }
 
     // 배송지 삭제
@@ -62,7 +59,7 @@ public class AddrService {
 
     // 배송지 이름에 따른 조회
     public AddrResponseDto getUserById(Long userAddrId) {
-        UserAddr userAddr = addrRepository.findbyId(userAddrId)
+        UserAddr userAddr = addrRepository.findById(userAddrId)
                 .orElseThrow(() -> new GrayPantsException(ExceptionStatus.ADDR_NOT_FOUND));
         return AddrResponseDto.fromEntity(userAddr);
     }

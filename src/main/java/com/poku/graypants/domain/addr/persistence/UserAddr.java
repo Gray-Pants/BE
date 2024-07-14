@@ -40,4 +40,10 @@ public class UserAddr {
         this.user = user;
         this.userAddrPhone = userAddrPhone;
     }
+
+    public void update(String userAddrName, String userAddr, String userAddrPhone) {
+        this.userAddrName = userAddrName;
+        this.userAddr = userAddr;
+        this.userAddrPhone = userAddrPhone;
+    }
 }
