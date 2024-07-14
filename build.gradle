@@ -76,6 +76,10 @@ dependencies {
     //AWS S3 추가
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
+    // JAXB 의존성 추가
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+    implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
+
     // Redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }

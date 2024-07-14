@@ -3,6 +3,9 @@ package com.poku.graypants.domain.user.application;
 import com.poku.graypants.domain.auth.persistence.EmailAuthenticateAble;
 import com.poku.graypants.domain.order.application.OrderDataService;
 import com.poku.graypants.domain.order.application.dto.OrderResponseDto;
+import com.poku.graypants.domain.order.persistence.Order;
+import com.poku.graypants.domain.orderItem.application.OrderItemDataService;
+import com.poku.graypants.domain.orderItem.application.dto.OrderItemResponseDto;
 import com.poku.graypants.domain.review.application.ReviewDataService;
 import com.poku.graypants.domain.review.application.dto.ReviewResponseDTO;
 import com.poku.graypants.domain.user.application.dto.MyProfileResponseDto;
@@ -11,6 +14,7 @@ import com.poku.graypants.domain.user.persistence.UserRepository;
 import com.poku.graypants.global.config.oauth.info.OAuth2UserInfo;
 import com.poku.graypants.global.exception.ExceptionStatus;
 import com.poku.graypants.global.exception.GrayPantsException;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +27,8 @@ public class UserService {
     private final ReviewDataService reviewDataService;
 
     private final OrderDataService orderDataService;
+
+    private final OrderItemDataService orderItemDataService;
 
     private final String DEFAULT_ROLE = "ROLE_DEFAULT";
 
@@ -83,5 +89,9 @@ public class UserService {
 
     public List<OrderResponseDto> getOrdersByUserId(Long userId) {
         return orderDataService.getOrdersByUserId(userId).stream().map(OrderResponseDto::new).toList();
+    }
+
+    public List<OrderItemResponseDto> getReviewRequestsByUserId(Long userId) {
+        return orderItemDataService.getReviewRequestsByUserId(userId).stream().map(OrderItemResponseDto::new).toList();
     }
 }

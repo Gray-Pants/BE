@@ -33,7 +33,7 @@ public class Review extends BaseTime {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = LAZY)
+    @OneToOne(fetch = LAZY)
     @JoinColumn(name = "order_item_id")
     private OrderItem orderItem;
 

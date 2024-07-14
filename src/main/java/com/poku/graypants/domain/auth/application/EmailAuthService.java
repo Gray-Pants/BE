@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,6 +30,7 @@ public class EmailAuthService {
     private final UserService userService;
     private final JwtService jwtService;
     private final StoreService storeService;
+    private final PasswordEncoder passwordEncoder;
 
     public String signup(HttpServletRequest httpRequest, HttpServletResponse httpResponse,
                          EmailSignupRequestDto request) {
@@ -43,10 +45,11 @@ public class EmailAuthService {
 
         //유저생성
         EmailAuthenticateAble entity = null;
+        String password = passwordEncoder.encode(request.getPassword());
         if (request.getRole().equals("user")) {
-            entity = userService.saveEmailUser(request.getEmail(), request.getName(), request.getPassword());
+            entity = userService.saveEmailUser(request.getEmail(), request.getName(), password);
         } else if (request.getRole().equals("store")) {
-            entity = storeService.saveStore(request.getEmail(), request.getName(), request.getPassword());
+            entity = storeService.saveStore(request.getEmail(), request.getName(), password);
         } else {
             throw new GrayPantsException(ExceptionStatus.INVALID_ROLE);
         }
@@ -100,6 +103,6 @@ public class EmailAuthService {
 
     public boolean validationPasswordByEmail(EmailAuthenticateAble entity, String password) {
         //인코딩 로직 필요
-        return password.equals(entity.getPassword());
+        return passwordEncoder.matches(password, entity.getPassword());
     }
 }

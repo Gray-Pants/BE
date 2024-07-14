@@ -10,6 +10,7 @@ import com.poku.graypants.domain.item.application.dto.ItemUpdateRequestDto;
 import com.poku.graypants.domain.item.persistence.Category;
 import com.poku.graypants.domain.item.persistence.Item;
 import com.poku.graypants.domain.item.persistence.ItemRepository;
+import com.poku.graypants.domain.store.persistence.Store;
 import com.poku.graypants.global.exception.ExceptionStatus;
 import com.poku.graypants.global.exception.GrayPantsException;
 import jakarta.transaction.Transactional;
@@ -38,17 +39,15 @@ public class ItemService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public ItemResponseDto createItem(ItemCreateRequestDto itemCreateRequestDto) {
-        // USER email 을 통한 STORE 받아오기
-        // authenticator.
+    public ItemResponseDto createItem(ItemCreateRequestDto itemCreateRequestDto, Store store) {
 
         List<MultipartFile> multipartItemPhotos = itemCreateRequestDto.getItemPhotos();
-        log.info("Creating new item: {}", multipartItemPhotos);
         MultipartFile multipartItemDesc = itemCreateRequestDto.getItemDescImg();
 
         Item item = itemCreateRequestDto.toEntity();
         item.updateItemPhotos(uploadItemPhotos(multipartItemPhotos));
         item.updateItemDescImg(uploadDescPhoto(multipartItemDesc));
+        item.updateStore(store);
 
         Item savedItem = itemRepository.save(item);
 
