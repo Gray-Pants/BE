@@ -4,6 +4,7 @@ import com.poku.graypants.domain.addr.application.Dto.AddrRequestDto;
 import com.poku.graypants.domain.addr.application.Dto.AddrResponseDto;
 import com.poku.graypants.domain.addr.persistence.AddrRepository;
 import com.poku.graypants.domain.addr.persistence.UserAddr;
+import com.poku.graypants.domain.user.application.UserDataService;
 import com.poku.graypants.domain.user.application.UserService;
 import com.poku.graypants.global.exception.ExceptionStatus;
 import com.poku.graypants.global.exception.GrayPantsException;
@@ -12,19 +13,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.poku.graypants.domain.user.persistence.User;
 
-import java.util.List;
-
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class AddrService {
 
     private final AddrRepository addrRepository;
-    private final UserService userService;
+    private final UserDataService userDataService;
 
     // 배송지 추가
     public AddrResponseDto createAddr(AddrRequestDto addrRequestDto) {
-        User user = userService.getVerifyUserByUserId(addrRequestDto.getUserId());
+        User user = userDataService.getVerifyUserByUserId(addrRequestDto.getUserId());
 
         UserAddr userAddr = UserAddr.builder()
                 .userAddrName(addrRequestDto.getUserAddrName())
@@ -34,7 +33,7 @@ public class AddrService {
                 .build();
 
         UserAddr savedAddr = addrRepository.save(userAddr);
-        return AddrResponseDto.fromEntity(savedAddr);
+        return AddrResponseDto.toDto(savedAddr);
     }
 
     // 배송지 수정
@@ -45,7 +44,7 @@ public class AddrService {
         existingUserAddr.update(addrRequestDto.getUserAddrName(), addrRequestDto.getUserAddr(), addrRequestDto.getUserAddrPhone());
 
         UserAddr savedAddr = addrRepository.save(existingUserAddr);
-        return AddrResponseDto.fromEntity(savedAddr);
+        return AddrResponseDto.toDto(savedAddr);
     }
 
     // 배송지 삭제
@@ -60,6 +59,6 @@ public class AddrService {
     public AddrResponseDto getUserById(Long userAddrId) {
         UserAddr userAddr = addrRepository.findById(userAddrId)
                 .orElseThrow(() -> new GrayPantsException(ExceptionStatus.ADDR_NOT_FOUND));
-        return AddrResponseDto.fromEntity(userAddr);
+        return AddrResponseDto.toDto(userAddr);
     }
 }
