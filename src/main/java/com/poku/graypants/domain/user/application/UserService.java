@@ -1,20 +1,23 @@
 package com.poku.graypants.domain.user.application;
 
+import com.poku.graypants.domain.addr.application.AddrService;
+import com.poku.graypants.domain.addr.application.Dto.AddrRequestDto;
+import com.poku.graypants.domain.addr.application.Dto.AddrResponseDto;
 import com.poku.graypants.domain.auth.persistence.EmailAuthenticateAble;
 import com.poku.graypants.domain.order.application.OrderDataService;
 import com.poku.graypants.domain.order.application.dto.OrderResponseDto;
-import com.poku.graypants.domain.order.persistence.Order;
 import com.poku.graypants.domain.orderItem.application.OrderItemDataService;
 import com.poku.graypants.domain.orderItem.application.dto.OrderItemResponseDto;
 import com.poku.graypants.domain.review.application.ReviewDataService;
 import com.poku.graypants.domain.review.application.dto.ReviewResponseDTO;
+import com.poku.graypants.domain.user.application.dto.ChangeUserNameResponseDto;
+import com.poku.graypants.domain.user.application.dto.MemberInformationResponseDto;
 import com.poku.graypants.domain.user.application.dto.MyProfileResponseDto;
 import com.poku.graypants.domain.user.persistence.User;
 import com.poku.graypants.domain.user.persistence.UserRepository;
 import com.poku.graypants.global.config.oauth.info.OAuth2UserInfo;
 import com.poku.graypants.global.exception.ExceptionStatus;
 import com.poku.graypants.global.exception.GrayPantsException;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,6 +32,9 @@ public class UserService {
     private final OrderDataService orderDataService;
 
     private final OrderItemDataService orderItemDataService;
+
+    private final AddrService addrService;
+
 
     private final String DEFAULT_ROLE = "ROLE_DEFAULT";
 
@@ -93,5 +99,21 @@ public class UserService {
 
     public List<OrderItemResponseDto> getReviewRequestsByUserId(Long userId) {
         return orderItemDataService.getReviewRequestsByUserId(userId).stream().map(OrderItemResponseDto::new).toList();
+    }
+
+    public MemberInformationResponseDto getMyInfo(Long userId) {
+        User user = getVerifyUserByUserId(userId);
+        return new MemberInformationResponseDto(user);
+    }
+
+    public void changeUserName(ChangeUserNameResponseDto request, Long userId) {
+        User user = getVerifyUserByUserId(userId);
+        user.changeUsername(request.getChangeName());
+        userRepository.save(user);
+    }
+
+    public AddrResponseDto addNewAddr(AddrRequestDto request, Long userId) {
+        request.setUserId(userId);
+        return addrService.createAddr(request);
     }
 }

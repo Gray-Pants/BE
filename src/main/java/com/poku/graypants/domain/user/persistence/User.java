@@ -71,4 +71,8 @@ public class User implements EmailAuthenticateAble {
     public void changePassword(String newPassword) {
         this.password = newPassword;
     }
+
+    public void changeUsername(String changeName) {
+        this.username = changeName;
+    }
 }
