@@ -8,6 +8,7 @@ import com.poku.graypants.global.util.RedisUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,9 @@ import java.util.Map;
 public class KakaoPayService {
 
         static final String cid = "TC0ONETIME"; // 가맹점 테스트 코드
-        static final String admin_Key = "DEVF8C8EE60B36736D708419C1A23553B4D0E704";
+
+        @Value("${payments.kakaoPay.admin-key}")
+        static String admin_Key;
 
         private final OrderService orderService;
         private final RedisUtil redisUtil;

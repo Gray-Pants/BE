@@ -23,20 +23,20 @@ public class KakaoPayController {
     private final KakaoPayService kakaoPayService;
     private final OrderService orderService;
 
-    @PreAuthorize("hasRole('ROLE_STORE')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/ready")
     public ResponseEntity<ApiResult<KakaoPayReadyResponseDto>> kakaoPayReady(@RequestBody KakaoPayClientReadyRequestDto kakaoPayClientReadyRequestDto, @AuthenticationPrincipal Long userId) {
         return new ResponseEntity<>(success(kakaoPayService.kakaoPayReady(kakaoPayClientReadyRequestDto, userId)), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_STORE')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/approve")
     public ResponseEntity<Void> kakaoPayApprove(@RequestBody KakaoPayClientApproveRequestDto kakaoPayClientApproveRequestDto, @AuthenticationPrincipal Long userId) {
         KakaoPayApproveResponseDto kakaoPayApproveResponseDto = kakaoPayService.kakaoPayApprove(kakaoPayClientApproveRequestDto, userId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_STORE')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/cancel")
     public KakaoPayCancelResponseDto kakaoPayCancel(KakaoPayClientCancelRequestDto kakaoPayClientCancelRequestDto) {
         return kakaoPayService.kakaoPayCancel(kakaoPayClientCancelRequestDto);

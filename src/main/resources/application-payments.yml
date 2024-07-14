@@ -1,0 +1,4 @@
+payments:
+  kakaoPay:
+    admin-key: ${KAKAOPAY_GREYPANTS_ADMIN}
+
