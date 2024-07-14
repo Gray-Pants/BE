@@ -23,6 +23,9 @@ public class Order extends BaseTime {
     @Column(name = "order_id", nullable = false, unique = true, updatable = false, insertable = false)
     private Long orderId;
 
+    @Column(name = "tid", nullable = false)
+    private String tid;
+
     @Column(name = "order_addr", nullable = false, unique = false, updatable = true, length = 100)
     private String orderAddr;
 
@@ -38,6 +41,12 @@ public class Order extends BaseTime {
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
     private List<OrderItem> orderItems;
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
+
+    @Column(name = "total_amount", nullable = false)
+    private Integer totalAmount;
 
     public void updateOrder(OrderUpdateRequestDto orderUpdateRequestDto) {
         this.orderAddr = orderUpdateRequestDto.getOrderAddr();

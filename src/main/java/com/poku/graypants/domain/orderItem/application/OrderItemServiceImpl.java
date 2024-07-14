@@ -38,36 +38,16 @@ public class OrderItemServiceImpl implements OrderItemService {
         Item findItem = itemService.getVerifyItemById(itemId);
         Store findStore = storeService.getVerifyStore(findItem.getStore().getStoreEmail());
 
-//    itemService.verifyItemAndStoreMatch(findItem, findStore);
-
         OrderItem createOrderItem = orderItemCreateRequestDto.toEntity(verifyExistsOrder, findItem, findStore);
         OrderItem savedOrderItem = orderItemRepository.save(createOrderItem);
-        return new OrderItemResponseDto(savedOrderItem, createdOrder);
-    }
-
-    @Override
-    public List<OrderItemResponseDto> createOrderItems(OrderCreateRequestDto orderCreateRequestDto, Long userId,
-                                                       List<OrderItemCreateRequestDto> orderItemCreateRequestDtos,
-                                                       Long itemId) {
-        OrderResponseDto createdOrder = orderService.createOrder(orderCreateRequestDto, userId);
-        Order verifyExistsOrder = orderService.getVerifyExistsOrder(createdOrder.getOrderId());
-        for (OrderItemCreateRequestDto orderItemCreateRequestDto : orderItemCreateRequestDtos) {
-            Item findItem = itemService.getVerifyItemById(itemId);
-            Store findStore = storeService.getVerifyStore(findItem.getStore().getStoreEmail());
-        }
-        return null;
-    }
-
-    @Override
-    public OrderItemResponseDto getOrderItem(Long orderItemId, OrderResponseDto orderResponseDto) {
-        return new OrderItemResponseDto(getVerifyOrderItem(orderItemId), orderResponseDto);
+        return new OrderItemResponseDto(savedOrderItem);
     }
 
     @Override
     public OrderItemResponseDto updateOrderItem(Long orderItemId, OrderItemUpdateRequestDto orderItemUpdateRequestDto) {
         OrderItem verifyOrderItem = getVerifyOrderItem(orderItemId);
         verifyOrderItem.updateOrderItem(orderItemUpdateRequestDto);
-        return new OrderItemResponseDto(verifyOrderItem, new OrderResponseDto(verifyOrderItem.getOrder()));
+        return new OrderItemResponseDto(verifyOrderItem);
     }
 
     @Override

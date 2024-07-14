@@ -12,8 +12,6 @@ import java.util.List;
 
 public interface OrderItemService {
     OrderItemResponseDto createOrderItem(OrderCreateRequestDto orderCreateRequestDto, Long userId, OrderItemCreateRequestDto orderItemCreateRequestDto, Long itemId);
-    List<OrderItemResponseDto> createOrderItems(OrderCreateRequestDto orderCreateRequestDto, Long userId, List<OrderItemCreateRequestDto> orderItemCreateRequestDtos, Long itemId);
-    OrderItemResponseDto getOrderItem(Long orderItemId, OrderResponseDto orderResponseDto);
     OrderItemResponseDto updateOrderItem(Long orderItemId, OrderItemUpdateRequestDto orderItemUpdateRequestDto);
     List<OrderItemResponseDto> getOrderItemsByOrder(Order order);
     void deleteOrderItem(Long orderItemId);
