@@ -14,7 +14,7 @@ public class OrderResponseDto {
     private final String orderAddr;
     private final String orderPhone;
     private final String userName;
-    //private final List<OrderItemResponseDto> orderItems;
+    private final List<OrderItemResponseDto> orderItems;
     private final LocalDateTime created_at;
     private final LocalDateTime updated_at;
     private final String tid;
@@ -26,7 +26,7 @@ public class OrderResponseDto {
         this.orderAddr = order.getOrderAddr();
         this.orderPhone = order.getOrderPhone();
         this.userName = order.getUser().getUsername();
-        //this.orderItems = order.getOrderItems().stream().map(OrderItemResponseDto::new).toList();
+        this.orderItems = order.getOrderItems().stream().map(OrderItemResponseDto::new).toList();
         this.created_at = order.getCreatedAt();
         this.updated_at = order.getUpdatedAt();
     }
