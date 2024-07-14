@@ -19,7 +19,7 @@ spring:
     console:
       enabled: true
   profiles:
-    include: oauth, mail
+    include: oauth, mail, s3
   data:
     redis:
       host: localhost

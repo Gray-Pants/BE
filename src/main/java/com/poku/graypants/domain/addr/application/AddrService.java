@@ -34,7 +34,7 @@ public class AddrService {
                 .build();
 
         UserAddr savedAddr = addrRepository.save(userAddr);
-        return AddrResponseDto.fromEntity(savedAddr);
+        return AddrResponseDto.toDto(savedAddr);
     }
 
     // 배송지 수정
@@ -46,7 +46,7 @@ public class AddrService {
         existingUserAddr.update(addrRequestDto.getUserAddrName(), addrRequestDto.getUserAddr(), addrRequestDto.getUserAddrPhone());
 
         UserAddr savedAddr = addrRepository.save(existingUserAddr);
-        return AddrResponseDto.fromEntity(savedAddr);
+        return AddrResponseDto.toDto(savedAddr);
     }
 
     // 배송지 삭제
@@ -61,7 +61,7 @@ public class AddrService {
     public AddrResponseDto getUserById(Long userAddrId) {
         UserAddr userAddr = addrRepository.findById(userAddrId)
                 .orElseThrow(() -> new GrayPantsException(ExceptionStatus.ADDR_NOT_FOUND));
-        return AddrResponseDto.fromEntity(userAddr);
+        return AddrResponseDto.toDto(userAddr);
     }
 
 }

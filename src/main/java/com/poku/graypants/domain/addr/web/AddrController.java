@@ -21,9 +21,8 @@ public class AddrController {
 
     // 주소 생성
     @PostMapping
-    public ResponseEntity<ApiResult<AddrResponseDto>> createAddr(@RequestBody ApiResult<AddrRequestDto> request) {
-        AddrRequestDto addrRequestDto = request.getResponse();
-        AddrResponseDto createdAddr = addrService.createAddr(addrRequestDto);
+    public ResponseEntity<ApiResult<AddrResponseDto>> createAddr(@RequestBody AddrRequestDto request) {
+        AddrResponseDto createdAddr = addrService.createAddr(request);
         return ResponseEntity.ok(success(createdAddr));
     }
 
