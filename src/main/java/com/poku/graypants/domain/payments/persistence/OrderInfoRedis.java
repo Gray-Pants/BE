@@ -7,26 +7,22 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Getter
-public class KakaoPayClientReadyRequestDto {
+public class OrderInfoRedis {
 
     private String orderAddr;
     private String orderPhone;
     private List<OrderItem> orderItems = new ArrayList<>();
     private Long userId;
     private Integer totalAmount;
-    private String itemName;
-    private int quantity;
-
 
     @Builder
-    public KakaoPayClientReadyRequestDto(String orderAddr, String orderPhone, List<OrderItem> orderItems, Long userId, Integer totalAmount, String itemName, int quantity) {
+    public OrderInfoRedis(String orderAddr, String orderPhone, List<OrderItem> orderItems, Long userId, Integer totalAmount) {
         this.orderAddr = orderAddr;
         this.orderPhone = orderPhone;
         this.orderItems = orderItems;
         this.userId = userId;
         this.totalAmount = totalAmount;
-        this.itemName = itemName;
-        this.quantity = quantity;
     }
 }

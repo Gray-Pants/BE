@@ -5,6 +5,8 @@ import com.poku.graypants.domain.orderItem.persistence.OrderItem;
 import com.poku.graypants.domain.user.persistence.User;
 import com.poku.graypants.global.entity.BaseTime;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import lombok.*;
 
@@ -36,11 +38,11 @@ public class Order extends BaseTime {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> orderItems = new ArrayList<>();
+
     @Column(name = "user_id", insertable = false, updatable = false)
     private Long userId;
-
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-    private List<OrderItem> orderItems;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;

@@ -1,6 +1,10 @@
 package com.poku.graypants.domain.payments.application;
 
+import com.poku.graypants.domain.order.application.OrderService;
+import com.poku.graypants.domain.order.application.dto.OrderCreateRequestDto;
+import com.poku.graypants.domain.order.persistence.OrderStatus;
 import com.poku.graypants.domain.payments.persistence.*;
+import com.poku.graypants.global.util.RedisUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,9 +25,12 @@ public class KakaoPayService {
         static final String cid = "TC0ONETIME"; // 가맹점 테스트 코드
         static final String admin_Key = "DEVF8C8EE60B36736D708419C1A23553B4D0E704";
 
-        private KakaoPayReadyResponseDto kakaoResponseReady;
+        private final OrderService orderService;
+        private final RedisUtil redisUtil;
 
-        public KakaoPayReadyResponseDto kakaoPayReady(KakaoPayClientReadyRequestDto clientDto) {
+        public KakaoPayReadyResponseDto kakaoPayReady(KakaoPayClientReadyRequestDto clientDto, Long userId) {
+
+            redisUtil.setData(userId.toString(), clientDto, Duration.ofMinutes(10));
 
             KakaoPayReadyRequestDto kakaoPayReadyRequestDto = KakaoPayReadyRequestDto.builder()
                     .cid(cid)
@@ -40,12 +48,11 @@ public class KakaoPayService {
             HttpEntity<KakaoPayReadyRequestDto> request = new HttpEntity<>(kakaoPayReadyRequestDto, this.getHeaders());
 
             RestTemplate restTemplate = new RestTemplate();
-            kakaoResponseReady = restTemplate.postForObject("https://open-api.kakaopay.com/online/v1/payment/ready", request, KakaoPayReadyResponseDto.class);
 
-            return kakaoResponseReady;
+            return restTemplate.postForObject("https://open-api.kakaopay.com/online/v1/payment/ready", request, KakaoPayReadyResponseDto.class);
         }
 
-        public KakaoPayApproveResponseDto kakaoPayApprove(KakaoPayClientApproveRequestDto clientDto){
+        public KakaoPayApproveResponseDto kakaoPayApprove(KakaoPayClientApproveRequestDto clientDto,  Long userId){
             Map<String, String> params = new HashMap<>();
             params.put("cid", cid);
             params.put("tid", clientDto.getTid());
@@ -57,14 +64,28 @@ public class KakaoPayService {
 
             RestTemplate restTemplate = new RestTemplate();
 
-            return restTemplate.postForObject("https://open-api.kakaopay.com/online/v1/payment/approve", request, KakaoPayApproveResponseDto.class);
+            KakaoPayApproveResponseDto kakaoPayApproveResponseDto = restTemplate.postForObject("https://open-api.kakaopay.com/online/v1/payment/approve", request, KakaoPayApproveResponseDto.class);
+
+            KakaoPayClientReadyRequestDto clientInfo = (KakaoPayClientReadyRequestDto) redisUtil.getData(userId.toString());
+
+            OrderCreateRequestDto orderCreateRequestDto = OrderCreateRequestDto.builder()
+                    .tid(clientDto.getTid())
+                    .orderAddr(clientInfo.getOrderAddr())
+                    .orderStatus(OrderStatus.COMPLETE)
+                    .totalAmount(clientInfo.getTotalAmount())
+                    .orderPhone(clientInfo.getOrderPhone())
+                    .build();
+
+            orderService.createOrder(orderCreateRequestDto, userId);
+
+            return kakaoPayApproveResponseDto;
         }
 
 
         public KakaoPayCancelResponseDto kakaoPayCancel(KakaoPayClientCancelRequestDto kakaoPayClientCancelRequestDto) {
             KakaoPayCancelRequestDto kakaoPayCancelRequestDto = KakaoPayCancelRequestDto.builder()
                     .cid(cid)
-                    .tid(kakaoResponseReady.getTid())
+                    .tid(orderService.getOrder(kakaoPayClientCancelRequestDto.getOrderId()).getTid())
                     .cancelAmount(kakaoPayClientCancelRequestDto.getCancelAmount())
                     .cancelTaxFreeAmount(0)
                     .build();

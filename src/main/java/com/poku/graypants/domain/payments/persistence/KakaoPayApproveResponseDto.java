@@ -9,8 +9,9 @@ public class KakaoPayApproveResponseDto {
 
     //결제 고유 번호, 20자
     private String tid;
-    private String next_redirect_mobile_url;
-    private String next_redirect_pc_url;
+    private Integer amount;
+    private String itemName;
+    private String paymentMethodType;
 
     private LocalDateTime created_at;
 }

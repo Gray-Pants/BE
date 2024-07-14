@@ -52,7 +52,8 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     @Override
     public List<OrderItemResponseDto> getOrderItemsByOrder(Order order) {
-        return order.getOrderItems().stream().map(OrderItemResponseDto::new).toList();
+        return null;
+        //return order.getOrderItems().stream().map(OrderItemResponseDto::new).toList();
     }
 
     @Override
