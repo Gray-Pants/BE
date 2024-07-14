@@ -1,5 +1,6 @@
 package com.poku.graypants.domain.user.persistence;
 
+import com.poku.graypants.domain.addr.persistence.UserAddr;
 import com.poku.graypants.domain.auth.persistence.EmailAuthenticateAble;
 import com.poku.graypants.domain.like.persistence.Like;
 import com.poku.graypants.domain.order.persistence.Order;
@@ -43,6 +44,8 @@ public class User implements EmailAuthenticateAble {
     @OneToMany(mappedBy = "user")
     private List<Order> orders = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<UserAddr> userAddrs;
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
@@ -67,5 +70,9 @@ public class User implements EmailAuthenticateAble {
 
     public void changePassword(String newPassword) {
         this.password = newPassword;
+    }
+
+    public void changeUsername(String changeName) {
+        this.username = changeName;
     }
 }

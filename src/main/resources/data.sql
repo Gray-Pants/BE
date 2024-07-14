@@ -111,3 +111,8 @@ INSERT INTO reviews (item_id, order_item_id, user_id, review_content, review_sco
 (1, 3, 1, '아주아주아주 좋아요', 3, CURRENT_TIMESTAMP),
 (1, 4, 1, '아주아주아주 좋아요', 4, CURRENT_TIMESTAMP),
 (2, 8, 1, '아주아주아주 좋아요', 5, CURRENT_TIMESTAMP);
+
+INSERT INTO user_addrs (user_id, user_addr_name, user_addr, user_addr_phone) VALUES
+(1, '집', '충북 충주시', '010-1234-1234'),
+(1, '직장', '서울특별시', '010-1234-1234'),
+(1, '학교', '동진IT빌딩', '010-1234-1234');
