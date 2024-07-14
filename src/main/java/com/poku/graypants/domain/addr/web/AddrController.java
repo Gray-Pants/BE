@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 import static com.poku.graypants.global.util.ApiResponseUtil.success;
 
@@ -25,6 +24,7 @@ public class AddrController {
         AddrResponseDto createdAddr = addrService.createAddr(request);
         return ResponseEntity.ok(success(createdAddr));
     }
+
 
     // 주소 조회
     @GetMapping("/{userAddrId}")
@@ -49,5 +49,4 @@ public class AddrController {
         AddrResponseDto updatedAddr = addrService.updateAddr(userAddrId, addrRequestDto);
         return ResponseEntity.ok(success(updatedAddr));
     }
-
 }
