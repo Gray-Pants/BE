@@ -49,6 +49,7 @@ cloud:
 server:
   port: 8080
 
+
 springdoc:
   packages-to-scan: com.poku.graypants
   default-consumes-media-type: application/json;charset=UTF-8
@@ -58,4 +59,3 @@ springdoc:
     disable-swagger-default-url: true
     display-request-duration: true
     operations-sorter: alpha
-
