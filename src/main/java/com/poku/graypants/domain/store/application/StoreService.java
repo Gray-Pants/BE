@@ -37,6 +37,12 @@ public class StoreService {
         return getVerifyStore(email);
     }
 
+    public Store getStoreById(Long id) {
+        return storeRepository.findById(id).orElseThrow(
+                () -> new GrayPantsException(ExceptionStatus.STORE_NOT_FOUND)
+        );
+    }
+
     public Store getVerifyStore(String email) {
         return storeRepository.findByStoreEmail(email)
                 .orElseThrow(() -> new GrayPantsException(ExceptionStatus.STORE_NOT_FOUND));

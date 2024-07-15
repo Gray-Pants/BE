@@ -19,7 +19,6 @@ public class ItemCreateRequestDto {
     private int itemPrice;
     private List<MultipartFile> itemPhotos;
     private MultipartFile itemDescImg;
-    //private Store store;
     private int stock;
     private Category category;
 
@@ -28,10 +27,10 @@ public class ItemCreateRequestDto {
         return Item.builder()
                 .itemName(itemName)
                 .itemPrice(itemPrice)
-                //.store(store)
                 .stock(stock)
                 .category(category)
                 .build();
     }
+
 
 }

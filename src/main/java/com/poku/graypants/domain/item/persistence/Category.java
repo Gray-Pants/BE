@@ -1,19 +1,14 @@
 package com.poku.graypants.domain.item.persistence;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.poku.graypants.global.exception.ExceptionStatus;
 import com.poku.graypants.global.exception.GrayPantsException;
-import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static jakarta.persistence.FetchType.*;
 
 public enum Category {
 
@@ -63,16 +58,6 @@ public enum Category {
         if(Objects.nonNull(parentCategory)) {
             parentCategory.childCategories.add(this);
         }
-    }
-
-    @JsonCreator
-    public Category from(String value) {
-        for (Category category : Category.values()) {
-            if (category.getTitle().equals(value)) {
-                return category;
-            }
-        }
-        return null;
     }
 
     @JsonValue
