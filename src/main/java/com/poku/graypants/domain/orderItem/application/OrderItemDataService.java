@@ -18,4 +18,9 @@ public class OrderItemDataService {
     public List<OrderItem> getReviewRequestsByUserId(Long userId) {
         return orderItemRepository.findAllOrderItemWithNoReviewByUserId(userId);
     }
+
+
+    public List<OrderItem> getSortedByDateOrderItemsByStoreId(Long storeId) {
+        return orderItemRepository.findByItem_Store_StoreIdOrderByCreatedAtAsc(storeId);
+    }
 }

@@ -6,11 +6,20 @@ import com.poku.graypants.domain.item.application.ItemService;
 import com.poku.graypants.domain.item.application.dto.ItemResponseDto;
 import com.poku.graypants.domain.item.persistence.Item;
 import com.poku.graypants.domain.like.application.dto.LikeResponseDto;
+import com.poku.graypants.domain.orderItem.application.OrderItemDataService;
+import com.poku.graypants.domain.orderItem.application.OrderItemService;
+import com.poku.graypants.domain.orderItem.application.dto.OrderItemResponseDto;
+import com.poku.graypants.domain.orderItem.persistence.OrderItem;
 import com.poku.graypants.domain.store.persistence.Store;
 import com.poku.graypants.domain.store.persistence.StoreRepository;
 import com.poku.graypants.domain.user.persistence.User;
 import com.poku.graypants.global.exception.ExceptionStatus;
 import com.poku.graypants.global.exception.GrayPantsException;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +31,7 @@ import java.util.stream.Collectors;
 public class StoreService {
     private final StoreRepository storeRepository;
     private final ItemDataService itemDataService;
+    private final OrderItemDataService orderItemDataService;
 
     public Store getStoreByEmail(String email) {
         return getVerifyStore(email);
@@ -53,7 +63,21 @@ public class StoreService {
         List<Item> items = itemDataService.getItemsByStoreId(storeId);
 
         return items.stream()
-                .map(item -> new ItemResponseDto(item))
+                .map(ItemResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    public MyOrderItemsResponseDto getMyOrderItems(Long storeId) {
+        List<OrderItem> orderItems = orderItemDataService.getSortedByDateOrderItemsByStoreId(storeId);
+        Map<String,List<OrderItemResponseDto>> map = new HashMap<>();
+        for(OrderItem orderItem : orderItems) {
+            String date = orderItem.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            if(map.containsKey(date)) {
+                map.get(date).add(new OrderItemResponseDto(orderItem));
+            } else {
+                map.put(date, new ArrayList<>(List.of(new OrderItemResponseDto(orderItem))));
+            }
+        }
+        return new MyOrderItemsResponseDto(map);
     }
 }
