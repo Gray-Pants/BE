@@ -13,6 +13,7 @@ import com.poku.graypants.domain.user.persistence.User;
 import com.poku.graypants.global.exception.ExceptionStatus;
 import com.poku.graypants.global.exception.GrayPantsException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,15 +27,19 @@ public class LikeService {
     private final ItemService itemService;
     private final LikeFactory likeFactory;
 
-    public LikeResponseDto addLike(LikeRequestDto requestDto, Long userId) {
+    public Like addLike(LikeRequestDto requestDto, Long userId) {
         User user = userService.getVerifyUserByUserId(userId);
         Item item = itemService.getVerifyItemById(requestDto.getItemId());
 
         Like like = likeFactory.createLike(user, item);
-        Like savedLike = likeRepository.save(like);
-
-        return new LikeResponseDto(savedLike.getLikeId(), savedLike.getUser().getUserId(),
-                new ItemResponseDto(savedLike.getItem()));
+        return likeRepository.save(like);
+    }
+    public void changeLike(LikeRequestDto requestDto, Long userId) {
+        Optional<Like> like = likeRepository.findByUser_UserIdAndItem_ItemId(userId, requestDto.getItemId());
+        if(like.isEmpty())
+            addLike(requestDto, userId);
+        else
+            removeLike(like.get().getLikeId());
     }
 
     public List<LikeResponseDto> getLikesByUserId(Long userId) {

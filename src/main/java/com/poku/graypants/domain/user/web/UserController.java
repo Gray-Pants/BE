@@ -22,6 +22,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -83,6 +84,13 @@ public class UserController {
     public ResponseEntity<ApiResult<AddrResponseDto>> addNewAddr(@RequestBody AddrRequestDto request,
                                                                  @AuthenticationPrincipal Long userId) {
         AddrResponseDto response = userService.addNewAddr(request, userId);
+        return new ResponseEntity<>(success(response), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/mylikes/{itemId}")
+    public ResponseEntity<ApiResult<Boolean>> isLikedItem(@AuthenticationPrincipal Long userId,@PathVariable Long itemId) {
+        Boolean response = userService.isLikedItem(userId, itemId);
         return new ResponseEntity<>(success(response), HttpStatus.OK);
     }
 }

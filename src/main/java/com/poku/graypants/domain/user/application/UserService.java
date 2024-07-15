@@ -4,6 +4,7 @@ import com.poku.graypants.domain.addr.application.AddrService;
 import com.poku.graypants.domain.addr.application.Dto.AddrRequestDto;
 import com.poku.graypants.domain.addr.application.Dto.AddrResponseDto;
 import com.poku.graypants.domain.auth.persistence.EmailAuthenticateAble;
+import com.poku.graypants.domain.like.application.LikeDataService;
 import com.poku.graypants.domain.order.application.OrderDataService;
 import com.poku.graypants.domain.order.application.dto.OrderResponseDto;
 import com.poku.graypants.domain.orderItem.application.OrderItemDataService;
@@ -32,6 +33,8 @@ public class UserService {
     private final OrderDataService orderDataService;
 
     private final OrderItemDataService orderItemDataService;
+
+    private final LikeDataService likeDataService;
 
     private final AddrService addrService;
 
@@ -115,5 +118,9 @@ public class UserService {
     public AddrResponseDto addNewAddr(AddrRequestDto request, Long userId) {
         request.setUserId(userId);
         return addrService.createAddr(request);
+    }
+
+    public Boolean isLikedItem(Long userId, Long itemId) {
+        return likeDataService.isLikedItem(userId, itemId);
     }
 }

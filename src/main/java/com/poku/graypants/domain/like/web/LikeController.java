@@ -23,10 +23,10 @@ public class LikeController {
 
     private final LikeService likeService;
 
-    @PostMapping
-    public ResponseEntity<ApiResult<LikeResponseDto>> addLike(Authentication authentication, @RequestBody LikeRequestDto requestDto) {
-        LikeResponseDto responseDto = likeService.addLike(requestDto, (Long) authentication.getPrincipal());
-        return new ResponseEntity<>(success(responseDto), new HttpHeaders(), HttpStatus.CREATED);
+    @PatchMapping
+    public ResponseEntity<?> changeLike(Authentication authentication, @RequestBody LikeRequestDto requestDto) {
+        likeService.changeLike(requestDto, (Long) authentication.getPrincipal());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/my")

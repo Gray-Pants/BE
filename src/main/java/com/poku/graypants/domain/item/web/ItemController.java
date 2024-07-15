@@ -4,6 +4,7 @@ import static com.poku.graypants.global.util.ApiResponseUtil.success;
 
 import com.poku.graypants.domain.item.application.ItemService;
 import com.poku.graypants.domain.item.application.dto.ItemCreateRequestDto;
+import com.poku.graypants.domain.item.application.dto.ItemLikesResponseDto;
 import com.poku.graypants.domain.item.application.dto.ItemResponseDto;
 import com.poku.graypants.domain.item.application.dto.ItemUpdateRequestDto;
 import com.poku.graypants.domain.store.application.StoreService;
@@ -87,5 +88,9 @@ public class ItemController {
         return new ResponseEntity<>(new HttpHeaders(), HttpStatus.NO_CONTENT);
     }
 
-
+    @GetMapping("{itemId}/likes/count")
+    public ResponseEntity<ApiResult<ItemLikesResponseDto>> getLikeCounts(@PathVariable Long itemId) {
+        ItemLikesResponseDto responseDto = itemService.getLikesCount(itemId);
+        return new ResponseEntity<>(success(responseDto), new HttpHeaders(), HttpStatus.OK);
+    }
 }

@@ -5,11 +5,13 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
 import com.poku.graypants.domain.item.application.dto.ItemCreateRequestDto;
+import com.poku.graypants.domain.item.application.dto.ItemLikesResponseDto;
 import com.poku.graypants.domain.item.application.dto.ItemResponseDto;
 import com.poku.graypants.domain.item.application.dto.ItemUpdateRequestDto;
 import com.poku.graypants.domain.item.persistence.Category;
 import com.poku.graypants.domain.item.persistence.Item;
 import com.poku.graypants.domain.item.persistence.ItemRepository;
+import com.poku.graypants.domain.like.application.LikeDataService;
 import com.poku.graypants.domain.store.persistence.Store;
 import com.poku.graypants.global.exception.ExceptionStatus;
 import com.poku.graypants.global.exception.GrayPantsException;
@@ -35,6 +37,7 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
     private final AmazonS3 amazonS3;
+    private final LikeDataService likeDataService;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -204,5 +207,10 @@ public class ItemService {
         }
 
         return sb.toString();
+    }
+
+    public ItemLikesResponseDto getLikesCount(Long itemId) {
+        Long counts = likeDataService.getLikesCountByItemId(itemId);
+        return new ItemLikesResponseDto(itemId, counts);
     }
 }
