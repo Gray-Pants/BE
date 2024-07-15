@@ -19,7 +19,7 @@ spring:
     console:
       enabled: true
   profiles:
-    include: oauth, mail, s3
+    include: oauth, mail, s3, payments
   data:
     redis:
       host: localhost
@@ -47,3 +47,4 @@ springdoc:
     disable-swagger-default-url: true
     display-request-duration: true
     operations-sorter: alpha
+

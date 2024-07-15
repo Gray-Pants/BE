@@ -17,9 +17,11 @@ public class OrderResponseDto {
     private final List<OrderItemResponseDto> orderItems;
     private final LocalDateTime created_at;
     private final LocalDateTime updated_at;
+    private final String tid;
 
     @Builder
     public OrderResponseDto(Order order) {
+        this.tid = order.getTid();
         this.orderId = order.getOrderId();
         this.orderAddr = order.getOrderAddr();
         this.orderPhone = order.getOrderPhone();

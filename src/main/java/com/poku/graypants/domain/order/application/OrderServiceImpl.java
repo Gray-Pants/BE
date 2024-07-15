@@ -12,6 +12,7 @@ import com.poku.graypants.global.exception.GrayPantsException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,7 +33,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderResponseDto createOrder(OrderCreateRequestDto orderCreateRequestDto, Long userId) {
-        Order savedOrder = orderRepository.save(orderCreateRequestDto.toEntity(userService.getUser(userId)));
+        Order savedOrder = orderRepository.save(orderCreateRequestDto.toEntity(userId));
         return new OrderResponseDto(savedOrder);
     }
 
