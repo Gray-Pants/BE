@@ -7,7 +7,6 @@ import com.poku.graypants.domain.payments.persistence.dto.*;
 import com.poku.graypants.global.util.RedisUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,7 +17,6 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -34,8 +32,7 @@ public class KakaoPayService {
 
         public KakaoPayReadyResponseDto kakaoPayReady(KakaoPayClientReadyRequestDto clientDto, Long userId) {
 
-            redisUtil.setData("KAKAO_PAY" +userId.toString(), clientDto, Duration.ofMinutes(10));
-
+            clientDto.updateUserId(userId);
             KakaoPayReadyRequestDto kakaoPayReadyRequestDto = KakaoPayReadyRequestDto.builder()
                     .cid(cid)
                     .partnerOrderId("partner_order_id")
@@ -53,10 +50,14 @@ public class KakaoPayService {
 
             RestTemplate restTemplate = new RestTemplate();
 
-            return restTemplate.postForObject("https://open-api.kakaopay.com/online/v1/payment/ready", request, KakaoPayReadyResponseDto.class);
+            KakaoPayReadyResponseDto kakaoPayReadyResponseDto =  restTemplate.postForObject("https://open-api.kakaopay.com/online/v1/payment/ready", request, KakaoPayReadyResponseDto.class);
+
+            redisUtil.setData("KAKAO_PAY" + kakaoPayReadyResponseDto.getTid(), clientDto, Duration.ofMinutes(10));
+
+            return kakaoPayReadyResponseDto;
         }
 
-        public KakaoPayApproveResponseDto kakaoPayApprove(KakaoPayClientApproveRequestDto clientDto, Long userId){
+        public KakaoPayApproveResponseDto kakaoPayApprove(KakaoPayClientApproveRequestDto clientDto){
             Map<String, String> params = new HashMap<>();
             params.put("cid", cid);
             params.put("tid", clientDto.getTid());
@@ -70,7 +71,7 @@ public class KakaoPayService {
 
             KakaoPayApproveResponseDto kakaoPayApproveResponseDto = restTemplate.postForObject("https://open-api.kakaopay.com/online/v1/payment/approve", request, KakaoPayApproveResponseDto.class);
 
-            KakaoPayClientReadyRequestDto clientInfo = (KakaoPayClientReadyRequestDto) redisUtil.getData("KAKAO_PAY"+ userId.toString());
+            KakaoPayClientReadyRequestDto clientInfo = (KakaoPayClientReadyRequestDto) redisUtil.getData("KAKAO_PAY"+ clientDto.getTid());
 
             OrderCreateRequestDto orderCreateRequestDto = OrderCreateRequestDto.builder()
                     .tid(clientDto.getTid())
@@ -78,9 +79,11 @@ public class KakaoPayService {
                     .orderStatus(OrderStatus.COMPLETE)
                     .totalAmount(clientInfo.getTotalAmount())
                     .orderPhone(clientInfo.getOrderPhone())
+                    .itemQuantityList(clientInfo.getItemQuantityList())
+                    .itemIdList(clientInfo.getItemIdList())
                     .build();
 
-            orderService.createOrder(orderCreateRequestDto, userId);
+            orderService.createOrder(orderCreateRequestDto, clientInfo.getUserId());
 
             return kakaoPayApproveResponseDto;
         }
@@ -103,7 +106,6 @@ public class KakaoPayService {
         private HttpHeaders getHeaders() {
             HttpHeaders httpHeaders = new HttpHeaders();
 
-            log.info(ADMIN_KEY);
             String auth = "SECRET_KEY " + ADMIN_KEY;
 
             httpHeaders.set("Authorization", auth);

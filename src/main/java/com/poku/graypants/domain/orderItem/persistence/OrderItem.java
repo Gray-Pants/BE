@@ -13,7 +13,6 @@ import static jakarta.persistence.GenerationType.*;
 
 @Entity
 @Getter
-@Builder
 @Table(name = "ORDER_ITEMS")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,7 +23,7 @@ public class OrderItem extends BaseTime {
   @Column(name = "order_item_id", nullable = false, unique = true, updatable = false, insertable = false)
   private Long orderItemId;
 
-  @Column(name = "order_item_price", nullable = false, unique = false, updatable = true, insertable = false)
+  @Column(name = "order_item_price", nullable = false)
   private int orderItemPrice;
 
   @Column(name = "order_item_quantity", nullable = false, unique = false, updatable = true, insertable = true)
@@ -50,7 +49,20 @@ public class OrderItem extends BaseTime {
   private Review review;
 
 
-  public void updateOrderItem(OrderItemUpdateRequestDto orderItemUpdateRequestDto) {
+  public void updateOrderItemStatus(OrderItemUpdateRequestDto orderItemUpdateRequestDto) {
     this.orderItemStatus = orderItemUpdateRequestDto.getOrderItemStatus();
+  }
+
+  public void updateReview(Review review) {
+    this.review = review;
+  }
+
+  @Builder
+  public OrderItem(int orderItemPrice, int orderItemQuantity, OrderItemStatus orderItemStatus, Order order, Item item, Store store, Review review) {
+    this.orderItemPrice = orderItemPrice;
+    this.orderItemQuantity = orderItemQuantity;
+    this.orderItemStatus = orderItemStatus;
+    this.order = order;
+    this.item = item;
   }
 }

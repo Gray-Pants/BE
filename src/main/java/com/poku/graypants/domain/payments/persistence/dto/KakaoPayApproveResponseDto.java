@@ -9,7 +9,7 @@ public class KakaoPayApproveResponseDto {
 
     //결제 고유 번호, 20자
     private String tid;
-    private Integer amount;
+    private Amount amount;
     private String itemName;
     private String paymentMethodType;
 

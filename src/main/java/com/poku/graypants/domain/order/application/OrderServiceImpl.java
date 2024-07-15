@@ -1,17 +1,26 @@
 package com.poku.graypants.domain.order.application;
 
+import com.poku.graypants.domain.item.application.ItemService;
 import com.poku.graypants.domain.order.application.dto.OrderCreateRequestDto;
 import com.poku.graypants.domain.order.application.dto.OrderResponseDto;
 import com.poku.graypants.domain.order.application.dto.OrderUpdateRequestDto;
 import com.poku.graypants.domain.order.persistence.Order;
 import com.poku.graypants.domain.order.persistence.OrderRepository;
+import com.poku.graypants.domain.orderItem.application.OrderItemDataService;
+import com.poku.graypants.domain.orderItem.application.OrderItemService;
+import com.poku.graypants.domain.orderItem.persistence.OrderItem;
+import com.poku.graypants.domain.orderItem.persistence.OrderItemRepository;
+import com.poku.graypants.domain.orderItem.persistence.OrderItemStatus;
 import com.poku.graypants.domain.user.application.UserService;
 import com.poku.graypants.domain.user.persistence.User;
 import com.poku.graypants.global.exception.ExceptionStatus;
 import com.poku.graypants.global.exception.GrayPantsException;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,18 +32,26 @@ import org.springframework.transaction.annotation.Transactional;
  * @Author Jgone2
  * @see OrderService
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderItemService orderItemService;
+    private final OrderItemDataService orderItemDataService;
     private final UserService userService;
+    private final ItemService itemService;
+
 
     @Override
     @Transactional
-    public OrderResponseDto createOrder(OrderCreateRequestDto orderCreateRequestDto, Long userId) {
-        Order savedOrder = orderRepository.save(orderCreateRequestDto.toEntity(userId));
-        return new OrderResponseDto(savedOrder);
+    public void createOrder(OrderCreateRequestDto orderCreateRequestDto, Long userId) {
+        Order savedOrder = orderRepository.save(orderCreateRequestDto.toEntity(userService.getUserByUserId(userId)));
+        List<OrderItem> orderItems = new ArrayList<>();
+        for(int i = 0; i < orderCreateRequestDto.getItemIdList().size(); i++) {
+            orderItems.add(orderItemDataService.createOrderItem(savedOrder, itemService.findEntityById(orderCreateRequestDto.getItemIdList().get(i)), orderCreateRequestDto.getItemQuantityList().get(i), OrderItemStatus.COMPLETE));
+        }
     }
 
     @Override

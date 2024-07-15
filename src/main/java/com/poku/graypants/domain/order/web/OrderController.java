@@ -37,14 +37,6 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @PostMapping("/create")
-    public ResponseEntity<ApiResult<OrderResponseDto>> createOrder(
-            @RequestBody @Valid OrderCreateRequestDto orderCreateRequestDto,
-            @AuthenticationPrincipal Long userId) {
-        OrderResponseDto orderResponseDto = orderService.createOrder(orderCreateRequestDto, userId);
-        return new ResponseEntity<>(success(orderResponseDto), new HttpHeaders(), HttpStatus.CREATED);
-    }
-
     @GetMapping("/{orderId}")
     public ResponseEntity<ApiResult<OrderResponseDto>> getOrder(@PathVariable Long orderId) {
         OrderResponseDto orderResponseDto = orderService.getOrder(orderId);

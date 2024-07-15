@@ -12,18 +12,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrderItemCreateRequestDto {
 
-  private int orderItemPrice;
-  private int orderItemQuantity;
-  private OrderItemStatus orderItemStatus;
-
-  public OrderItem toEntity(Order order, Item item, Store store) {
-    return OrderItem.builder()
-        .orderItemPrice(orderItemPrice)
-        .orderItemQuantity(orderItemQuantity)
-        .orderItemStatus(orderItemStatus)
-        .order(order)
-        .item(item)
-        .store(store)
-        .build();
-  }
+//  private int orderItemPrice;
+//  private int orderItemQuantity;
+//  private OrderItemStatus orderItemStatus;
+//
+//  public OrderItem toEntity(Order order, Item item, Store store) {
+//    return OrderItem.builder()
+//        .orderItemPrice(orderItemPrice)
+//        .orderItemQuantity(orderItemQuantity)
+//        .orderItemStatus(orderItemStatus)
+//        .order(order)
+//        .item(item)
+//        .store(store)
+//        .build();
+//  }
 }

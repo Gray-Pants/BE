@@ -142,6 +142,10 @@ public class ItemService {
         return new ItemResponseDto(item);
     }
 
+    public Item findEntityById(Long id) {
+        return getVerifyItemById(id);
+    }
+
 
     public void deleteItem(Long id) {
         Item findItem = getVerifyItemById(id);

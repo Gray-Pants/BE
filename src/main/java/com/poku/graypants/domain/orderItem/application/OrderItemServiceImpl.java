@@ -11,6 +11,7 @@ import com.poku.graypants.domain.orderItem.application.dto.OrderItemResponseDto;
 import com.poku.graypants.domain.orderItem.application.dto.OrderItemUpdateRequestDto;
 import com.poku.graypants.domain.orderItem.persistence.OrderItem;
 import com.poku.graypants.domain.orderItem.persistence.OrderItemRepository;
+import com.poku.graypants.domain.orderItem.persistence.OrderItemStatus;
 import com.poku.graypants.domain.store.application.StoreService;
 import com.poku.graypants.domain.store.persistence.Store;
 import com.poku.graypants.global.exception.ExceptionStatus;
@@ -26,33 +27,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrderItemServiceImpl implements OrderItemService {
 
     private final OrderItemRepository orderItemRepository;
-    private final OrderServiceImpl orderService;
-    private final ItemService itemService;
-    private final StoreService storeService;
 
     @Override
-    public OrderItemResponseDto createOrderItem(OrderCreateRequestDto orderCreateRequestDto, Long userId,
-                                                OrderItemCreateRequestDto orderItemCreateRequestDto, Long itemId) {
-        OrderResponseDto createdOrder = orderService.createOrder(orderCreateRequestDto, userId);
-        Order verifyExistsOrder = orderService.getVerifyExistsOrder(createdOrder.getOrderId());
-        Item findItem = itemService.getVerifyItemById(itemId);
-        Store findStore = storeService.getVerifyStore(findItem.getStore().getStoreEmail());
-
-        OrderItem createOrderItem = orderItemCreateRequestDto.toEntity(verifyExistsOrder, findItem, findStore);
-        OrderItem savedOrderItem = orderItemRepository.save(createOrderItem);
-        return new OrderItemResponseDto(savedOrderItem);
-    }
-
-    @Override
-    public OrderItemResponseDto updateOrderItem(Long orderItemId, OrderItemUpdateRequestDto orderItemUpdateRequestDto) {
+    public OrderItemResponseDto updateOrderItemStatus(Long orderItemId, OrderItemUpdateRequestDto orderItemUpdateRequestDto) {
         OrderItem verifyOrderItem = getVerifyOrderItem(orderItemId);
-        verifyOrderItem.updateOrderItem(orderItemUpdateRequestDto);
+        verifyOrderItem.updateOrderItemStatus(orderItemUpdateRequestDto);
         return new OrderItemResponseDto(verifyOrderItem);
-    }
-
-    @Override
-    public List<OrderItemResponseDto> getOrderItemsByOrder(Order order) {
-        return order.getOrderItems().stream().map(OrderItemResponseDto::new).toList();
     }
 
     @Override

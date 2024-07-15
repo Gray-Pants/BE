@@ -3,15 +3,18 @@ package com.poku.graypants.domain.payments.persistence.dto;
 import com.poku.graypants.domain.orderItem.persistence.OrderItem;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
 public class KakaoPayClientReadyRequestDto {
 
     private String orderAddr;
     private String orderPhone;
-    private List<OrderItem> orderItems;
+    private List<Long> itemIdList;
+    private List<Integer> itemQuantityList;
     private Long userId;
     private Integer totalAmount;
     private String itemName;
@@ -19,13 +22,17 @@ public class KakaoPayClientReadyRequestDto {
 
 
     @Builder
-    public KakaoPayClientReadyRequestDto(String orderAddr, String orderPhone, List<OrderItem> orderItems, Long userId, Integer totalAmount, String itemName, int quantity) {
+    public KakaoPayClientReadyRequestDto(List<Long> itemIdList, List<Integer> itemQuantityList, String orderAddr, String orderPhone, Integer totalAmount, String itemName, int quantity) {
+        this.itemIdList = itemIdList;
+        this.itemQuantityList = itemQuantityList;
         this.orderAddr = orderAddr;
         this.orderPhone = orderPhone;
-        this.orderItems = orderItems;
-        this.userId = userId;
         this.totalAmount = totalAmount;
         this.itemName = itemName;
         this.quantity = quantity;
+    }
+
+    public void updateUserId(Long userId) {
+        this.userId = userId;
     }
 }
