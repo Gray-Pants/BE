@@ -8,20 +8,16 @@ import com.poku.graypants.domain.order.persistence.Order;
 import com.poku.graypants.domain.order.persistence.OrderRepository;
 import com.poku.graypants.domain.orderItem.application.OrderItemDataService;
 import com.poku.graypants.domain.orderItem.application.OrderItemService;
-import com.poku.graypants.domain.orderItem.persistence.OrderItem;
-import com.poku.graypants.domain.orderItem.persistence.OrderItemRepository;
 import com.poku.graypants.domain.orderItem.persistence.OrderItemStatus;
 import com.poku.graypants.domain.user.application.UserService;
 import com.poku.graypants.domain.user.persistence.User;
 import com.poku.graypants.global.exception.ExceptionStatus;
 import com.poku.graypants.global.exception.GrayPantsException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,7 +45,7 @@ public class OrderServiceImpl implements OrderService {
     public void createOrder(OrderCreateRequestDto orderCreateRequestDto, Long userId) {
         Order savedOrder = orderRepository.save(orderCreateRequestDto.toEntity(userService.getUserByUserId(userId)));
         for(int i = 0; i < orderCreateRequestDto.getItemIdList().size(); i++) {
-            orderItemDataService.createOrderItem(savedOrder, itemService.findEntityById(orderCreateRequestDto.getItemIdList().get(i)), orderCreateRequestDto.getItemQuantityList().get(i), OrderItemStatus.COMPLETE);
+            orderItemDataService.createOrderItem(savedOrder, itemService.getVerifyItemById(orderCreateRequestDto.getItemIdList().get(i)), orderCreateRequestDto.getItemQuantityList().get(i), OrderItemStatus.COMPLETE);
         }
     }
 
