@@ -8,7 +8,7 @@ import com.poku.graypants.domain.order.persistence.Order;
 import java.util.List;
 
 public interface OrderService {
-    OrderResponseDto createOrder(OrderCreateRequestDto orderCreateRequestDto, Long userId);
+    void createOrder(OrderCreateRequestDto orderCreateRequestDto, Long userId);
     OrderResponseDto getOrder(Long orderId);
 
     Order getVerifyOrderByOrderId(Long orderId);

@@ -54,4 +54,8 @@ public class Order extends BaseTime {
         this.orderAddr = orderUpdateRequestDto.getOrderAddr();
         this.orderPhone = orderUpdateRequestDto.getOrderPhone();
     }
+
+    public void updateOrderItemList(List<OrderItem> orderItem) {
+        this.orderItems = orderItem;
+    }
 }

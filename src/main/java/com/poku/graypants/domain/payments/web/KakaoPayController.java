@@ -29,10 +29,9 @@ public class KakaoPayController {
         return new ResponseEntity<>(success(kakaoPayService.kakaoPayReady(kakaoPayClientReadyRequestDto, userId)), new HttpHeaders(), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/approve")
-    public ResponseEntity<Void> kakaoPayApprove(@RequestBody KakaoPayClientApproveRequestDto kakaoPayClientApproveRequestDto, @AuthenticationPrincipal Long userId) {
-        KakaoPayApproveResponseDto kakaoPayApproveResponseDto = kakaoPayService.kakaoPayApprove(kakaoPayClientApproveRequestDto, userId);
+    public ResponseEntity<Void> kakaoPayApprove(@RequestBody KakaoPayClientApproveRequestDto kakaoPayClientApproveRequestDto) {
+        KakaoPayApproveResponseDto kakaoPayApproveResponseDto = kakaoPayService.kakaoPayApprove(kakaoPayClientApproveRequestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

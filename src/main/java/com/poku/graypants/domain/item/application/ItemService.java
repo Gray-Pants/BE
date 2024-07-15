@@ -142,7 +142,6 @@ public class ItemService {
         return new ItemResponseDto(item);
     }
 
-
     public void deleteItem(Long id) {
         Item findItem = getVerifyItemById(id);
         itemRepository.delete(findItem);
