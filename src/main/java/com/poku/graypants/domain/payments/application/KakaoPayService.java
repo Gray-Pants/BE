@@ -7,6 +7,7 @@ import com.poku.graypants.domain.payments.persistence.dto.*;
 import com.poku.graypants.global.util.RedisUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +18,7 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -81,6 +83,7 @@ public class KakaoPayService {
                     .orderPhone(clientInfo.getOrderPhone())
                     .itemQuantityList(clientInfo.getItemQuantityList())
                     .itemIdList(clientInfo.getItemIdList())
+                    .storeNameList(clientInfo.getStoreNameList())
                     .build();
 
             orderService.createOrder(orderCreateRequestDto, clientInfo.getUserId());

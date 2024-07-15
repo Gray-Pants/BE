@@ -2,6 +2,7 @@ package com.poku.graypants.domain.order.application.dto;
 
 import com.poku.graypants.domain.order.persistence.Order;
 import com.poku.graypants.domain.order.persistence.OrderStatus;
+import com.poku.graypants.domain.store.persistence.Store;
 import com.poku.graypants.domain.user.persistence.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,9 +21,11 @@ public class OrderCreateRequestDto {
   private Integer totalAmount;
   private List<Long> itemIdList;
   private List<Integer> itemQuantityList;
+  private List<String> storeNameList;
 
   @Builder
-  public OrderCreateRequestDto(List<Long> itemIdList, List<Integer> itemQuantityList, String tid, String orderAddr, String orderPhone, OrderStatus orderStatus, Integer totalAmount) {
+  public OrderCreateRequestDto(List<String> storeNameList, List<Long> itemIdList, List<Integer> itemQuantityList, String tid, String orderAddr, String orderPhone, OrderStatus orderStatus, Integer totalAmount) {
+    this.storeNameList = storeNameList;
     this.itemIdList = itemIdList;
     this.itemQuantityList = itemQuantityList;
     this.tid = tid;

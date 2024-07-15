@@ -19,10 +19,11 @@ public class KakaoPayClientReadyRequestDto {
     private Integer totalAmount;
     private String itemName;
     private int quantity;
+    private List<String> storeNameList;
 
 
     @Builder
-    public KakaoPayClientReadyRequestDto(List<Long> itemIdList, List<Integer> itemQuantityList, String orderAddr, String orderPhone, Integer totalAmount, String itemName, int quantity) {
+    public KakaoPayClientReadyRequestDto(List<String> storeNameList, List<Long> itemIdList, List<Integer> itemQuantityList, String orderAddr, String orderPhone, Integer totalAmount, String itemName, int quantity) {
         this.itemIdList = itemIdList;
         this.itemQuantityList = itemQuantityList;
         this.orderAddr = orderAddr;
@@ -30,6 +31,7 @@ public class KakaoPayClientReadyRequestDto {
         this.totalAmount = totalAmount;
         this.itemName = itemName;
         this.quantity = quantity;
+        this.storeNameList = storeNameList;
     }
 
     public void updateUserId(Long userId) {
