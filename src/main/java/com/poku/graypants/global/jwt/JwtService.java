@@ -65,7 +65,6 @@ public class JwtService {
         for(Cookie cookie : cookies) {
             if(cookie.getName().equals(REFRESH_TOKEN_COOKIE_NAME)) {
                 String refreshToken = cookie.getValue();
-                System.out.println("refreshToken = " + refreshToken);
                 Optional<User> user = userRepository.findByRefreshToken(refreshToken);
                 if(user.isPresent()) {
                     String accessToken = generateToken(user.get(), ACCESS_TOKEN_DURATION);

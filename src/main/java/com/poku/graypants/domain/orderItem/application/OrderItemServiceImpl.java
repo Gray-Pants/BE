@@ -57,6 +57,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
 
+
     private OrderItem getVerifyOrderItem(Long orderItemId) {
         return orderItemRepository.findById(orderItemId)
                 .orElseThrow(() -> new GrayPantsException(ExceptionStatus.ORDER_ITEM_NOT_FOUND));
