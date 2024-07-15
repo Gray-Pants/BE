@@ -48,9 +48,8 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public void createOrder(OrderCreateRequestDto orderCreateRequestDto, Long userId) {
         Order savedOrder = orderRepository.save(orderCreateRequestDto.toEntity(userService.getUserByUserId(userId)));
-        List<OrderItem> orderItems = new ArrayList<>();
         for(int i = 0; i < orderCreateRequestDto.getItemIdList().size(); i++) {
-            orderItems.add(orderItemDataService.createOrderItem(savedOrder, itemService.findEntityById(orderCreateRequestDto.getItemIdList().get(i)), orderCreateRequestDto.getItemQuantityList().get(i), OrderItemStatus.COMPLETE));
+            orderItemDataService.createOrderItem(savedOrder, itemService.findEntityById(orderCreateRequestDto.getItemIdList().get(i)), orderCreateRequestDto.getItemQuantityList().get(i), OrderItemStatus.COMPLETE);
         }
     }
 
