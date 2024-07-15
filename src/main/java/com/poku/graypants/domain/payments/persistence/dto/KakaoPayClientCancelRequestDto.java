@@ -1,4 +1,4 @@
-package com.poku.graypants.domain.payments.persistence;
+package com.poku.graypants.domain.payments.persistence.dto;
 
 import lombok.Builder;
 import lombok.Getter;

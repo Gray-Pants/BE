@@ -3,7 +3,7 @@ package com.poku.graypants.domain.payments.web;
 
 import com.poku.graypants.domain.order.application.OrderService;
 import com.poku.graypants.domain.payments.application.KakaoPayService;
-import com.poku.graypants.domain.payments.persistence.*;
+import com.poku.graypants.domain.payments.persistence.dto.*;
 import com.poku.graypants.global.util.ApiResponseUtil.ApiResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -38,7 +38,7 @@ public class KakaoPayController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/cancel")
-    public KakaoPayCancelResponseDto kakaoPayCancel(KakaoPayClientCancelRequestDto kakaoPayClientCancelRequestDto) {
-        return kakaoPayService.kakaoPayCancel(kakaoPayClientCancelRequestDto);
+    public ResponseEntity<ApiResult<KakaoPayCancelResponseDto>> kakaoPayCancel(KakaoPayClientCancelRequestDto kakaoPayClientCancelRequestDto) {
+        return new ResponseEntity<>(success(kakaoPayService.kakaoPayCancel(kakaoPayClientCancelRequestDto)), HttpStatus.OK);
     }
 }

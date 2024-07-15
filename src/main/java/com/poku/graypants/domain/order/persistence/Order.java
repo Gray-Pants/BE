@@ -39,7 +39,7 @@ public class Order extends BaseTime {
     private User user;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderItem> orderItems = new ArrayList<>();
+    private List<OrderItem> orderItems;
 
     @Column(name = "user_id", insertable = false, updatable = false)
     private Long userId;

@@ -1,10 +1,9 @@
-package com.poku.graypants.domain.payments.persistence;
+package com.poku.graypants.domain.payments.persistence.dto;
 
 import com.poku.graypants.domain.orderItem.persistence.OrderItem;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -12,7 +11,7 @@ public class KakaoPayClientReadyRequestDto {
 
     private String orderAddr;
     private String orderPhone;
-    private List<OrderItem> orderItems = new ArrayList<>();
+    private List<OrderItem> orderItems;
     private Long userId;
     private Integer totalAmount;
     private String itemName;

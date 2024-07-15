@@ -13,7 +13,7 @@ public class OrderInfoRedis {
 
     private String orderAddr;
     private String orderPhone;
-    private List<OrderItem> orderItems = new ArrayList<>();
+    private List<OrderItem> orderItems;
     private Long userId;
     private Integer totalAmount;
 

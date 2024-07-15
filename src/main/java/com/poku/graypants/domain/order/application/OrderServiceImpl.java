@@ -32,7 +32,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public OrderResponseDto createOrder(OrderCreateRequestDto orderCreateRequestDto, @AuthenticationPrincipal Long userId) {
+    public OrderResponseDto createOrder(OrderCreateRequestDto orderCreateRequestDto, Long userId) {
         Order savedOrder = orderRepository.save(orderCreateRequestDto.toEntity(userId));
         return new OrderResponseDto(savedOrder);
     }

@@ -1,4 +1,4 @@
-package com.poku.graypants.domain.payments.persistence;
+package com.poku.graypants.domain.payments.persistence.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
