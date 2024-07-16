@@ -35,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Security ###
+application-oauth.yml
+application-mail.yml
+application-s3.yml
+application-payments.yml
