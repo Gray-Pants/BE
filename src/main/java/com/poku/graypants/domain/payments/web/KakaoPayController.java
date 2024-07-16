@@ -30,8 +30,6 @@ public class KakaoPayController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/ready")
     public ResponseEntity<ApiResult<KakaoPayReadyResponseDto>> kakaoPayReady(@RequestBody KakaoPayClientReadyRequestDto kakaoPayClientReadyRequestDto, @AuthenticationPrincipal Long userId) {
-
-        List<String> storeNameList= kakaoPayClientReadyRequestDto.getStoreNameList();
         return new ResponseEntity<>(success(kakaoPayService.kakaoPayReady(kakaoPayClientReadyRequestDto, userId)), new HttpHeaders(), HttpStatus.OK);
     }
 

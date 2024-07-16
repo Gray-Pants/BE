@@ -21,11 +21,9 @@ public class OrderCreateRequestDto {
   private Integer totalAmount;
   private List<Long> itemIdList;
   private List<Integer> itemQuantityList;
-  private List<String> storeNameList;
 
   @Builder
-  public OrderCreateRequestDto(List<String> storeNameList, List<Long> itemIdList, List<Integer> itemQuantityList, String tid, String orderAddr, String orderPhone, OrderStatus orderStatus, Integer totalAmount) {
-    this.storeNameList = storeNameList;
+  public OrderCreateRequestDto(List<Long> itemIdList, List<Integer> itemQuantityList, String tid, String orderAddr, String orderPhone, OrderStatus orderStatus, Integer totalAmount) {
     this.itemIdList = itemIdList;
     this.itemQuantityList = itemQuantityList;
     this.tid = tid;

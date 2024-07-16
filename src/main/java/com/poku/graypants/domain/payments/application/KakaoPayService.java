@@ -83,7 +83,6 @@ public class KakaoPayService {
                     .orderPhone(clientInfo.getOrderPhone())
                     .itemQuantityList(clientInfo.getItemQuantityList())
                     .itemIdList(clientInfo.getItemIdList())
-                    .storeNameList(clientInfo.getStoreNameList())
                     .build();
 
             orderService.createOrder(orderCreateRequestDto, clientInfo.getUserId());

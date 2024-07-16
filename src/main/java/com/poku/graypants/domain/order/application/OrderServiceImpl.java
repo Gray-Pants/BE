@@ -36,7 +36,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final StoreService storeService;
-    private final OrderItemDataService orderItemDataService;
+    private final OrderItemService orderItemService;
     private final UserService userService;
     private final ItemService itemService;
 
@@ -46,10 +46,8 @@ public class OrderServiceImpl implements OrderService {
     public void createOrder(OrderCreateRequestDto orderCreateRequestDto, Long userId) {
         Order savedOrder = orderRepository.save(orderCreateRequestDto.toEntity(userService.getUserByUserId(userId)));
         for(int i = 0; i < orderCreateRequestDto.getItemIdList().size(); i++) {
-            log.info("find store.... {}", orderCreateRequestDto.getStoreNameList().get(i));
-            orderItemDataService.createOrderItem(savedOrder, itemService.getVerifyItemById(orderCreateRequestDto.getItemIdList().get(i)),
+            orderItemService.createOrderItem(savedOrder, itemService.getVerifyItemById(orderCreateRequestDto.getItemIdList().get(i)),
                     orderCreateRequestDto.getItemQuantityList().get(i),
-                    storeService.getStoreByName(orderCreateRequestDto.getStoreNameList().get(i)),
                     OrderItemStatus.COMPLETE);
         }
     }

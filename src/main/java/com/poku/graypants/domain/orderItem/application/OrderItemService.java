@@ -10,12 +10,15 @@ import com.poku.graypants.domain.orderItem.application.dto.OrderItemUpdateReques
 
 import com.poku.graypants.domain.orderItem.persistence.OrderItem;
 import com.poku.graypants.domain.orderItem.persistence.OrderItemStatus;
+import com.poku.graypants.domain.store.persistence.Store;
 
 import java.util.List;
 
 public interface OrderItemService {
     OrderItemResponseDto updateOrderItemStatus(Long orderItemId, OrderItemUpdateRequestDto orderItemUpdateRequestDto);
     void deleteOrderItem(Long orderItemId);
+
+    OrderItem createOrderItem(Order order, Item item, int orderItemQuantity, OrderItemStatus orderItemStatus);
 
     OrderItem getVerifyOrderItemByOrderItemId(Long orderItemId);
 

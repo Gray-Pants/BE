@@ -28,15 +28,4 @@ public class OrderItemDataService {
         return orderItemRepository.findByItem_Store_StoreIdOrderByCreatedAtAsc(storeId);
     }
 
-    public OrderItem createOrderItem(Order order, Item item, int orderItemQuantity, Store store, OrderItemStatus orderItemStatus) {
-
-        return orderItemRepository.save(OrderItem.builder()
-                .store(store)
-                .order(order)
-                .item(item)
-                .orderItemPrice(item.getItemPrice())
-                .orderItemQuantity(orderItemQuantity)
-                .orderItemStatus(orderItemStatus)
-                .build());
-    }
 }
