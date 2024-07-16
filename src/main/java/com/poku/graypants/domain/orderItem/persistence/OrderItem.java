@@ -62,6 +62,7 @@ public class OrderItem extends BaseTime {
     this.orderItemPrice = orderItemPrice;
     this.orderItemQuantity = orderItemQuantity;
     this.orderItemStatus = orderItemStatus;
+    this.store = store;
     this.order = order;
     this.item = item;
   }

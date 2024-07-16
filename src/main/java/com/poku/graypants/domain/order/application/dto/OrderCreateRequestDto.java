@@ -2,6 +2,7 @@ package com.poku.graypants.domain.order.application.dto;
 
 import com.poku.graypants.domain.order.persistence.Order;
 import com.poku.graypants.domain.order.persistence.OrderStatus;
+import com.poku.graypants.domain.store.persistence.Store;
 import com.poku.graypants.domain.user.persistence.User;
 import lombok.Builder;
 import lombok.Getter;

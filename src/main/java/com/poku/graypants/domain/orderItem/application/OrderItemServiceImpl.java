@@ -29,6 +29,19 @@ public class OrderItemServiceImpl implements OrderItemService {
     private final OrderItemRepository orderItemRepository;
 
     @Override
+    public OrderItem createOrderItem(Order order, Item item, int orderItemQuantity, OrderItemStatus orderItemStatus) {
+
+        return orderItemRepository.save(OrderItem.builder()
+                .store(item.getStore())
+                .order(order)
+                .item(item)
+                .orderItemPrice(item.getItemPrice())
+                .orderItemQuantity(orderItemQuantity)
+                .orderItemStatus(orderItemStatus)
+                .build());
+    }
+
+    @Override
     public OrderItemResponseDto updateOrderItemStatus(Long orderItemId, OrderItemUpdateRequestDto orderItemUpdateRequestDto) {
         OrderItem verifyOrderItem = getVerifyOrderItem(orderItemId);
         verifyOrderItem.updateOrderItemStatus(orderItemUpdateRequestDto);

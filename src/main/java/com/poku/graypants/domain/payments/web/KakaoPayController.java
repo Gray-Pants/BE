@@ -6,6 +6,7 @@ import com.poku.graypants.domain.payments.application.KakaoPayService;
 import com.poku.graypants.domain.payments.persistence.dto.*;
 import com.poku.graypants.global.util.ApiResponseUtil.ApiResult;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +14,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static com.poku.graypants.global.util.ApiResponseUtil.success;
 
+@Slf4j
 @RestController
 @RequestMapping("api/payments/kakaoPay")
 @RequiredArgsConstructor

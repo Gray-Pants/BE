@@ -21,11 +21,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class StoreService {
@@ -41,6 +43,10 @@ public class StoreService {
         return storeRepository.findById(id).orElseThrow(
                 () -> new GrayPantsException(ExceptionStatus.STORE_NOT_FOUND)
         );
+    }
+
+    public Store getStoreByName(String name) {
+        return storeRepository.findByStoreName(name);
     }
 
     public Store getVerifyStore(String email) {

@@ -20,7 +20,6 @@ public class KakaoPayClientReadyRequestDto {
     private String itemName;
     private int quantity;
 
-
     @Builder
     public KakaoPayClientReadyRequestDto(List<Long> itemIdList, List<Integer> itemQuantityList, String orderAddr, String orderPhone, Integer totalAmount, String itemName, int quantity) {
         this.itemIdList = itemIdList;

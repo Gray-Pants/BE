@@ -9,6 +9,7 @@ import com.poku.graypants.domain.order.persistence.OrderRepository;
 import com.poku.graypants.domain.orderItem.application.OrderItemDataService;
 import com.poku.graypants.domain.orderItem.application.OrderItemService;
 import com.poku.graypants.domain.orderItem.persistence.OrderItemStatus;
+import com.poku.graypants.domain.store.application.StoreService;
 import com.poku.graypants.domain.user.application.UserService;
 import com.poku.graypants.domain.user.persistence.User;
 import com.poku.graypants.global.exception.ExceptionStatus;
@@ -34,8 +35,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final StoreService storeService;
     private final OrderItemService orderItemService;
-    private final OrderItemDataService orderItemDataService;
     private final UserService userService;
     private final ItemService itemService;
 
@@ -45,7 +46,9 @@ public class OrderServiceImpl implements OrderService {
     public void createOrder(OrderCreateRequestDto orderCreateRequestDto, Long userId) {
         Order savedOrder = orderRepository.save(orderCreateRequestDto.toEntity(userService.getUserByUserId(userId)));
         for(int i = 0; i < orderCreateRequestDto.getItemIdList().size(); i++) {
-            orderItemDataService.createOrderItem(savedOrder, itemService.getVerifyItemById(orderCreateRequestDto.getItemIdList().get(i)), orderCreateRequestDto.getItemQuantityList().get(i), OrderItemStatus.COMPLETE);
+            orderItemService.createOrderItem(savedOrder, itemService.getVerifyItemById(orderCreateRequestDto.getItemIdList().get(i)),
+                    orderCreateRequestDto.getItemQuantityList().get(i),
+                    OrderItemStatus.COMPLETE);
         }
     }
 
